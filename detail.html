@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Detail Lowongan | Sea Marine Job</title>
+
+  <style>
+    :root {
+      --navy: #081b31;
+      --navy-light: #12395c;
+      --blue: #1877b9;
+      --blue-dark: #0e5d98;
+      --gold: #f4b72c;
+      --bg: #f4f7fb;
+      --white: #ffffff;
+      --text: #1c2d42;
+      --muted: #718096;
+      --border: #e1e8f0;
+      --success: #1d9b62;
+      --shadow: 0 10px 30px rgba(15, 40, 70, .08);
+      --radius: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1250px, 92%);
+      margin: auto;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+      height: 76px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    .logo-icon {
+      font-size: 34px;
+      color: var(--gold);
+    }
+
+    .logo strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: .5px;
+    }
+
+    .logo small {
+      color: #aebed0;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 22px;
+    }
+
+    .nav-menu a {
+      color: #c9d4df;
+      font-size: 14px;
+      font-weight: bold;
+      transition: .3s;
+    }
+
+    .nav-menu a:hover {
+      color: white;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-login {
+      padding: 10px 17px;
+      border-radius: 9px;
+      border: 1px solid #718096;
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .btn-register {
+      padding: 11px 20px;
+      border-radius: 9px;
+      background: var(--gold);
+      color: #1c2d42;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(40, 137, 205, .25), transparent 28%),
+        linear-gradient(135deg, var(--navy), var(--navy-light));
+
+      color: white;
+      padding: 45px 0 95px;
+    }
+
+    .breadcrumb {
+      color: #a9bfd1;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    .breadcrumb a {
+      color: white;
+    }
+
+    .job-hero {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .company-logo {
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1877b9, #5baee5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+
+    .job-hero-company {
+      color: #b8c9d8;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .job-hero h1 {
+      font-size: 40px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .job-meta span {
+      padding: 7px 12px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #dce8f1;
+    }
+
+    /* ================= CONTENT ================= */
+
+    .detail-section {
+      padding: 0 0 80px;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 30px;
+      align-items: start;
+      margin-top: -45px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .main-content {
+      display: grid;
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card p {
+      color: #566779;
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      color: #566779;
+    }
+
+    .card li {
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .card li::marker {
+      color: var(--blue);
+    }
+
+    /* ================= JOB INFO ================= */
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .info-item {
+      padding: 17px;
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .info-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--text);
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+      display: grid;
+      gap: 20px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .apply-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .deadline {
+      background: #fff8e6;
+      border: 1px solid #f8dfa0;
+      padding: 13px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #80631b;
+    }
+
+    .btn-apply {
+      width: 100%;
+      border: none;
+      background: var(--blue);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      transition: .3s;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-apply:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    .apply-note {
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+      margin-top: 13px;
+    }
+
+    .share-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 22px;
+    }
+
+    .share-card h3 {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .share-buttons button {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      font-size: 13px;
+    }
+
+    /* ================= COMPANY ================= */
+
+    .company-info {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .company-small-logo {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1877b9, #5baee5);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .company-info h3 {
+      font-size: 17px;
+      margin-bottom: 3px;
+    }
+
+    .company-info p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* ================= RELATED JOBS ================= */
+
+    .related-section {
+      padding: 20px 0 80px;
+    }
+
+    .section-heading {
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .related-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      transition: .3s;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .related-company {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .related-card h3 {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .related-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .related-meta span {
+      background: #f2f6f9;
+      color: #637589;
+      padding: 6px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+    }
+
+    .related-link {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      background: #061424;
+      color: #91a6bb;
+      padding: 45px 0 20px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .footer-content h3 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .footer-content p {
+      font-size: 13px;
+      max-width: 500px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+    }
+
+    .copyright {
+      text-align: center;
+      font-size: 12px;
+      padding-top: 20px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1000px) {
+
+      .nav-menu {
+        display: none;
+      }
+
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .navbar {
+        height: 68px;
+      }
+
+      .nav-actions {
+        display: none;
+      }
+
+      .hero {
+        padding: 35px 0 75px;
+      }
+
+      .job-hero {
+        align-items: flex-start;
+      }
+
+      .company-logo {
+        width: 70px;
+        height: 70px;
+        font-size: 22px;
+      }
+
+      .job-hero h1 {
+        font-size: 28px;
+      }
+
+      .detail-layout {
+        margin-top: -30px;
+      }
+
+      .card {
+        padding: 23px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+
+    <div class="container nav-wrapper">
+
+      <a href="index.html" class="logo">
+
+        <div class="logo-icon">⚓</div>
+
+        <div>
+          <strong>SEA MARINE JOB</strong>
+          <small>PORTAL KARIER MARITIM</small>
+        </div>
+
+      </a>
+
+      <div class="nav-menu">
+        <a href="index.html">Beranda</a>
+        <a href="kapal.html">Lowongan Kapal</a>
+        <a href="darat.html">Lowongan Darat</a>
+        <a href="index.html#perusahaan">Perusahaan</a>
+        <a href="index.html#artikel">Artikel</a>
+        <a href="index.html#tentang">Tentang Kami</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="index.html#lowongan" class="btn-login">
+          🔍 Cari Lowongan
+        </a>
+
+        <a href="daftar.html" class="btn-login">
+          ♙ Masuk
+        </a>
+
+        <a href="daftar.html" class="btn-register">
+          Daftar
+        </a>
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <div class="breadcrumb">
+
+        <a href="index.html">Beranda</a>
+        /
+        <a href="darat.html">Lowongan</a>
+        /
+        Detail Lowongan
+
+      </div>
+
+
+      <div class="job-hero">
+
+        <div class="company-logo">
+          SI
+        </div>
+
+
+        <div>
+
+          <div class="job-hero-company">
+            PT Samudera Indonesia
+          </div>
+
+          <h1 id="jobTitle">
+            Port Captain
+          </h1>
+
+
+          <div class="job-meta">
+
+            <span>📍 Jakarta</span>
+
+            <span>⚓ Operational</span>
+
+            <span>💼 Full Time</span>
+
+            <span>📈 Minimal 5 Tahun</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DETAIL CONTENT -->
+
+  <section class="detail-section">
+
+    <div class="container">
+
+      <div class="detail-layout">
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+
+          <!-- JOB DESCRIPTION -->
+
+          <div class="card">
+
+            <h2>
+              Deskripsi Pekerjaan
+            </h2>
+
+            <p>
+              PT Samudera Indonesia membuka kesempatan bagi
+              profesional maritim yang berpengalaman untuk bergabung
+              sebagai Port Captain.
+            </p>
+
+            <p>
+              Posisi ini bertanggung jawab dalam pengawasan kegiatan
+              operasional kapal, koordinasi dengan pihak pelabuhan,
+              monitoring keselamatan, serta memastikan seluruh kegiatan
+              berjalan sesuai standar perusahaan dan regulasi yang berlaku.
+            </p>
+
+          </div>
+
+
+          <!-- RESPONSIBILITIES -->
+
+          <div class="card">
+
+            <h2>
+              Tanggung Jawab
+            </h2>
+
+            <ul>
+
+              <li>
+                Mengawasi kegiatan operasional kapal di area pelabuhan.
+              </li>
+
+              <li>
+                Berkoordinasi dengan Captain, Chief Officer,
+                agen pelabuhan dan pihak terkait.
+              </li>
+
+              <li>
+                Memastikan kegiatan operasional berjalan sesuai
+                prosedur keselamatan.
+              </li>
+
+              <li>
+                Membuat laporan operasional dan evaluasi kegiatan kapal.
+              </li>
+
+              <li>
+                Memastikan kepatuhan terhadap regulasi maritim
+                dan kebijakan perusahaan.
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          <!-- REQUIREMENTS -->
+
+          <div class="card">
+
+            <h2>
+              Persyaratan
+            </h2>
+
+            <ul>
+
+              <li>
+                Memiliki pengalaman kerja minimal 5 tahun
+                di industri maritim atau pelayaran.
+              </li>
+
+              <li>
+                Memahami operasional kapal dan kegiatan pelabuhan.
+              </li>
+
+              <li>
+                Memiliki kemampuan komunikasi dan koordinasi yang baik.
+              </li>
+
+              <li>
+                Mampu bekerja secara mandiri maupun dalam tim.
+              </li>
+
+              <li>
+                Memahami regulasi keselamatan dan standar operasional kapal.
+              </li>
+
+              <li>
+                Bersedia ditempatkan sesuai kebutuhan perusahaan.
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          <!-- JOB INFORMATION -->
+
+          <div class="card">
+
+            <h2>
+              Informasi Pekerjaan
+            </h2>
+
+
+            <div class="info-grid">
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Posisi
+                </div>
+
+                <div class="info-value">
+                  Port Captain
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Lokasi
+                </div>
+
+                <div class="info-value">
+                  Jakarta
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Jenis Pekerjaan
+                </div>
+
+                <div class="info-value">
+                  Full Time
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Bidang
+                </div>
+
+                <div class="info-value">
+                  Marine Operation
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Pengalaman
+                </div>
+
+                <div class="info-value">
+                  Minimal 5 Tahun
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Gaji
+                </div>
+
+                <div class="info-value">
+                  Negotiable
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- COMPANY -->
+
+          <div class="card">
+
+            <h2>
+              Tentang Perusahaan
+            </h2>
+
+
+            <div class="company-info">
+
+              <div class="company-small-logo">
+                SI
+              </div>
+
+
+              <div>
+
+                <h3>
+                  PT Samudera Indonesia
+                </h3>
+
+                <p>
+                  Perusahaan yang bergerak di bidang pelayaran,
+                  logistik dan layanan maritim di Indonesia.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <p style="margin-top:20px;">
+
+              PT Samudera Indonesia merupakan salah satu perusahaan
+              yang bergerak dalam industri transportasi laut dan logistik,
+              dengan berbagai layanan yang mendukung aktivitas perdagangan
+              dan industri maritim.
+
+            </p>
+
+          </div>
+
+
+        </main>
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+          <div class="apply-card">
+
+            <div class="deadline">
+              ⏳ Batas pendaftaran:
+              <strong>30 September 2026</strong>
+            </div>
+
+
+            <a href="daftar.html" class="btn-apply">
+
+              Lamar Sekarang →
+
+            </a>
+
+
+            <p class="apply-note">
+
+              Pastikan profil dan CV Anda sudah lengkap
+              sebelum melamar.
+
+            </p>
+
+          </div>
+
+
+          <div class="share-card">
+
+            <h3>
+              Bagikan Lowongan
+            </h3>
+
+
+            <div class="share-buttons">
+
+              <button onclick="shareJob()">
+                🔗 Bagikan
+              </button>
+
+              <button onclick="copyLink()">
+                📋 Salin Link
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="share-card">
+
+            <h3>
+              Status Lowongan
+            </h3>
+
+            <p style="color: var(--success); font-weight: bold;">
+
+              ● Masih Dibuka
+
+            </p>
+
+          </div>
+
+
+        </aside>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RELATED JOBS -->
+
+  <section class="related-section">
+
+    <div class="container">
+
+
+      <div class="section-heading">
+
+        <h2>
+          Lowongan Terkait
+        </h2>
+
+        <p>
+          Temukan peluang karier lainnya di industri maritim.
+        </p>
+
+      </div>
+
+
+      <div class="related-grid">
+
+
+        <article class="related-card">
+
+          <div class="related-company">
+            Ocean Pacific Marine
+          </div>
+
+          <h3>
+            Marine Superintendent
+          </h3>
+
+
+          <div class="related-meta">
+
+            <span>📍 Surabaya</span>
+
+            <span>💼 Full Time</span>
+
+          </div>
+
+
+          <a href="detail.html" class="related-link">
+            Lihat Detail →
+          </a>
+
+        </article>
+
+
+        <article class="related-card">
+
+          <div class="related-company">
+            Pacific Marine Indonesia
+          </div>
+
+          <h3>
+            Technical Superintendent
+          </h3>
+
+
+          <div class="related-meta">
+
+            <span>📍 Batam</span>
+
+            <span>💼 Full Time</span>
+
+          </div>
+
+
+          <a href="detail.html" class="related-link">
+            Lihat Detail →
+          </a>
+
+        </article>
+
+
+        <article class="related-card">
+
+          <div class="related-company">
+            Sea Marine Logistics
+          </div>
+
+          <h3>
+            Logistics Officer
+          </h3>
+
+
+          <div class="related-meta">
+
+            <span>📍 Jakarta</span>
+
+            <span>💼 Full Time</span>
+
+          </div>
+
+
+          <a href="detail.html" class="related-link">
+            Lihat Detail →
+          </a>
+
+        </article>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer id="tentang">
+
+    <div class="container">
+
+
+      <div class="footer-content">
+
+        <div>
+
+          <h3>
+            ⚓ SEA MARINE JOB
+          </h3>
+
+          <p>
+            Portal lowongan kerja dan informasi karier
+            untuk pelaut dan profesional maritim Indonesia.
+          </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+          <a href="index.html">
+            Beranda
+          </a>
+
+          <a href="kapal.html">
+            Lowongan Kapal
+          </a>
+
+          <a href="darat.html">
+            Lowongan Darat
+          </a>
+
+          <a href="index.html#tentang">
+            Tentang Kami
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="copyright">
+
+        © 2026 Sea Marine Job. All Rights Reserved.
+
+      </div>
+
+
+    </div>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    function shareJob() {
+
+      if (navigator.share) {
+
+        navigator.share({
+          title: document.getElementById("jobTitle").innerText,
+          text: "Lihat lowongan pekerjaan di Sea Marine Job",
+          url: window.location.href
+        });
+
+      } else {
+
+        alert("Fitur share tidak didukung. Silakan gunakan tombol Salin Link.");
+
+      }
+
+    }
+
+
+    function copyLink() {
+
+      navigator.clipboard.writeText(window.location.href);
+
+      alert("Link lowongan berhasil disalin!");
+
+    }
+
+  </script>
+
+</body>
+</html>
