@@ -941,10 +941,23 @@
 
     </div>
 
-  </section>
+</section>
 
 
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://vkohnzfibdmzupmoutkd.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_k_BCbFBatbtK13B7cMjYhw_GwBRQ6PM";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let selectedAccount = "jobseeker";
 
     let selectedAccount = "jobseeker";
 
