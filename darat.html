@@ -1,52 +1,1354 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lowongan Darat (Ashore) - Sea Marine Job</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
-        header { background: linear-gradient(135deg, #0b2545, #134074); color: white; padding: 2rem 1rem; text-align: center; }
-        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-        .job-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border-left: 5px solid #134074; }
-        .job-card h3 { color: #0b2545; margin-bottom: 0.5rem; }
-        .job-info { color: #666; font-size: 0.95rem; margin-bottom: 1rem; }
-        .btn-apply { display: inline-block; background-color: #134074; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: 600; font-size: 0.9rem; transition: background 0.3s; }
-        .btn-apply:hover { background-color: #0b2545; }
-        .back-link { display: inline-block; margin-bottom: 1.5rem; color: #134074; text-decoration: none; font-weight: 600; }
-        .back-link:hover { text-decoration: underline; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lowongan Kerja Darat | Sea Marine Job</title>
+
+  <style>
+    :root {
+      --navy: #081b31;
+      --blue: #1877b9;
+      --blue-dark: #0e5d98;
+      --gold: #f4b72c;
+      --bg: #f4f7fb;
+      --white: #ffffff;
+      --text: #1c2d42;
+      --muted: #718096;
+      --border: #e1e8f0;
+      --shadow: 0 10px 30px rgba(15, 40, 70, .08);
+      --radius: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1400px, 92%);
+      margin: auto;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+      height: 76px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    .logo-icon {
+      font-size: 34px;
+      color: var(--gold);
+    }
+
+    .logo strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: .5px;
+    }
+
+    .logo small {
+      color: #aebed0;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 26px;
+    }
+
+    .nav-menu a {
+      color: #c9d4df;
+      font-size: 14px;
+      font-weight: bold;
+      transition: .3s;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu .active {
+      color: white;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-login {
+      padding: 10px 18px;
+      border-radius: 9px;
+      background: transparent;
+      border: 1px solid #718096;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-register {
+      padding: 11px 20px;
+      border-radius: 9px;
+      background: var(--gold);
+      border: none;
+      color: #1c2d42;
+      font-weight: bold;
+    }
+
+    /* ================= HERO ================= */
+
+    .page-hero {
+      background:
+        radial-gradient(circle at 80% 10%, rgba(33, 132, 199, .25), transparent 30%),
+        linear-gradient(135deg, var(--navy), #12395c);
+
+      color: white;
+      padding: 65px 0 90px;
+    }
+
+    .breadcrumb {
+      color: #9db4c8;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .breadcrumb a {
+      color: white;
+    }
+
+    .page-hero h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .page-hero p {
+      color: #c3d2df;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-wrapper {
+      margin-top: -38px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .search-box {
+      background: white;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 160px;
+      gap: 10px;
+    }
+
+    .search-field {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      min-height: 54px;
+      gap: 10px;
+    }
+
+    .search-field input,
+    .search-field select {
+      border: none;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-search {
+      border: none;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-weight: bold;
+      transition: .3s;
+    }
+
+    .btn-search:hover {
+      background: var(--blue-dark);
+    }
+
+    /* ================= CONTENT ================= */
+
+    .content {
+      padding: 60px 0 80px;
+    }
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ================= FILTER ================= */
+
+    .filter-box {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 22px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .filter-header h3 {
+      font-size: 19px;
+    }
+
+    .reset-filter {
+      border: none;
+      background: none;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .filter-group {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .filter-group:last-child {
+      border-bottom: none;
+    }
+
+    .filter-group h4 {
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 11px;
+      color: #5f6f81;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .filter-option input {
+      accent-color: var(--blue);
+    }
+
+    /* ================= RESULT ================= */
+
+    .result-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .result-top h2 {
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .result-top p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sort-select {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      outline: none;
+    }
+
+    /* ================= JOB CARD ================= */
+
+    .job-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .job-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 65px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      transition: .3s;
+    }
+
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: #c8d8e7;
+    }
+
+    .company-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      background: linear-gradient(135deg, #0e5d98, #5baee5);
+    }
+
+    .company-logo.orange {
+      background: linear-gradient(135deg, #d47718, #f4b72c);
+    }
+
+    .company-logo.green {
+      background: linear-gradient(135deg, #1d8a5a, #60c58c);
+    }
+
+    .company-logo.red {
+      background: linear-gradient(135deg, #c13a3a, #ee7171);
+    }
+
+    .company-logo.purple {
+      background: linear-gradient(135deg, #6741b5, #a582e8);
+    }
+
+    .job-company {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .job-title {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .job-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .job-tags span {
+      background: #f3f7fa;
+      color: #617286;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 7px;
+    }
+
+    .job-date {
+      text-align: right;
+    }
+
+    .job-date small {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 12px;
+      font-size: 11px;
+    }
+
+    .btn-detail {
+      display: inline-block;
+      padding: 10px 17px;
+      background: #edf6fc;
+      color: var(--blue-dark);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      transition: .3s;
+    }
+
+    .btn-detail:hover {
+      background: var(--blue);
+      color: white;
+    }
+
+    /* ================= PAGINATION ================= */
+
+    .pagination {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .pagination button {
+      width: 42px;
+      height: 42px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      font-weight: bold;
+    }
+
+    .pagination button.active {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    /* ================= CTA ================= */
+
+    .bottom-info {
+      margin-top: 60px;
+      background: var(--navy);
+      border-radius: 20px;
+      padding: 45px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .bottom-info h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .bottom-info p {
+      color: #b8c7d6;
+      max-width: 650px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .bottom-info a {
+      white-space: nowrap;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      background: #061424;
+      color: #91a6bb;
+      padding: 45px 0 20px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .footer-content h3 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .footer-content p {
+      font-size: 13px;
+      max-width: 500px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+    }
+
+    .copyright {
+      text-align: center;
+      font-size: 12px;
+      padding-top: 20px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1000px) {
+      .nav-menu {
+        display: none;
+      }
+
+      .search-box {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-box {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .filter-header {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+      }
+
+      .filter-group {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        height: 68px;
+      }
+
+      .nav-actions {
+        display: none;
+      }
+
+      .page-hero {
+        padding: 45px 0 75px;
+      }
+
+      .page-hero h1 {
+        font-size: 32px;
+      }
+
+      .search-box {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-box {
+        grid-template-columns: 1fr;
+      }
+
+      .job-card {
+        grid-template-columns: 55px 1fr;
+      }
+
+      .job-date {
+        grid-column: 1 / -1;
+        text-align: left;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+      }
+
+      .result-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .bottom-info {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 30px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>SEA MARINE JOB</h1>
-        <p>Peluang Karier & Lowongan Kerja Darat (Ashore / Office)</p>
-    </header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-wrapper">
 
-    <div class="container">
-        <a href="index.html" class="back-link">&larr; Kembali ke Beranda</a>
+      <a href="index.html" class="logo">
+        <div class="logo-icon">⚓</div>
 
-        <!-- Contoh Lowongan 1 -->
-        <div class="job-card">
-            <h3>Port Captain</h3>
-            <p class="job-info"><strong>Lokasi:</strong> Jakarta | <strong>Perusahaan:</strong> PT Pelayaran Nusantara Utama</p>
-            <p>Bertanggung jawab atas keselamatan operasional kapal di pelabuhan, koordinasi dengan agen, serta pengawasan bongkar muat.</p>
-            <br>
-            <a href="daftar.html" class="btn-apply">Lamar Posisi Ini</a>
+        <div>
+          <strong>SEA MARINE JOB</strong>
+          <small>PORTAL KARIER MARITIM</small>
         </div>
+      </a>
 
-        <!-- Contoh Lowongan 2 -->
-        <div class="job-card">
-            <h3>Crewing Officer</h3>
-            <p class="job-info"><strong>Lokasi:</strong> Surabaya | <strong>Perusahaan:</strong> PT Samudra Logistik Indonesia</p>
-            <p>Mengelola administrasi sertifikat kru, mengatur pergantian awak kapal (crew change), dan proses rekrutmen pelaut.</p>
-            <br>
-            <a href="daftar.html" class="btn-apply">Lamar Posisi Ini</a>
-        </div>
+      <div class="nav-menu">
+        <a href="index.html">Beranda</a>
+        <a href="kapal.html">Lowongan Kapal</a>
+        <a href="darat.html" class="active">Lowongan Darat</a>
+        <a href="index.html#perusahaan">Perusahaan</a>
+        <a href="#">Artikel</a>
+        <a href="index.html#tentang">Tentang Kami</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="index.html#lowongan" class="btn-login">
+          🔍 Cari Lowongan
+        </a>
+
+        <a href="daftar.html" class="btn-login">
+          ♙ Masuk
+        </a>
+
+        <a href="daftar.html" class="btn-register">
+          Daftar
+        </a>
+      </div>
 
     </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="page-hero">
+
+    <div class="container">
+
+      <div class="breadcrumb">
+        <a href="index.html">Beranda</a> / Lowongan Darat
+      </div>
+
+      <h1>Lowongan Kerja Darat</h1>
+
+      <p>
+        Temukan peluang karier ashore di perusahaan pelayaran,
+        pelabuhan, logistik, offshore, ship management, dan industri maritim.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- SEARCH -->
+  <div class="container search-wrapper">
+
+    <div class="search-box">
+
+      <div class="search-field">
+        🔍
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Cari posisi atau nama perusahaan..."
+        >
+      </div>
+
+      <div class="search-field">
+        💼
+        <select id="categoryFilter">
+          <option value="">Semua Bidang</option>
+          <option value="operational">Operational</option>
+          <option value="technical">Technical</option>
+          <option value="logistics">Logistics</option>
+          <option value="management">Management</option>
+          <option value="finance">Finance</option>
+        </select>
+      </div>
+
+      <div class="search-field">
+        📍
+        <select id="locationFilter">
+          <option value="">Semua Lokasi</option>
+          <option value="jakarta">Jakarta</option>
+          <option value="surabaya">Surabaya</option>
+          <option value="batam">Batam</option>
+          <option value="balikpapan">Balikpapan</option>
+          <option value="other">Lainnya</option>
+        </select>
+      </div>
+
+      <button class="btn-search" onclick="searchJobs()">
+        Cari Lowongan
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- CONTENT -->
+  <section class="content">
+
+    <div class="container">
+
+      <div class="content-layout">
+
+
+        <!-- FILTER -->
+        <aside class="filter-box">
+
+          <div class="filter-header">
+            <h3>⚙ Filter</h3>
+
+            <button
+              class="reset-filter"
+              onclick="resetFilter()"
+            >
+              Reset
+            </button>
+          </div>
+
+
+          <div class="filter-group">
+
+            <h4>Bidang Pekerjaan</h4>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Operational
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Technical
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Logistics
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Management
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Finance & Accounting
+            </label>
+
+          </div>
+
+
+          <div class="filter-group">
+
+            <h4>Lokasi</h4>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Jakarta
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Surabaya
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Batam
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Balikpapan
+            </label>
+
+          </div>
+
+
+          <div class="filter-group">
+
+            <h4>Pengalaman</h4>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Fresh Graduate
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              1 - 3 Tahun
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              3 - 5 Tahun
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              5+ Tahun
+            </label>
+
+          </div>
+
+
+          <div class="filter-group">
+
+            <h4>Jenis Pekerjaan</h4>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Full Time
+            </label>
+
+            <label class="filter-option">
+              <input type="checkbox">
+              Contract
+            </label>
+
+          </div>
+
+        </aside>
+
+
+        <!-- JOB RESULT -->
+        <main>
+
+          <div class="result-top">
+
+            <div>
+              <h2>Lowongan Darat Tersedia</h2>
+
+              <p id="resultCount">
+                Menampilkan 6 lowongan pekerjaan
+              </p>
+            </div>
+
+            <select class="sort-select">
+              <option>Terbaru</option>
+              <option>Terlama</option>
+              <option>Posisi A - Z</option>
+            </select>
+
+          </div>
+
+
+          <div class="job-list" id="jobList">
+
+
+            <!-- JOB 1 -->
+            <article
+              class="job-card"
+              data-title="Port Captain"
+              data-company="Samudera Indonesia"
+              data-category="operational"
+              data-location="jakarta"
+            >
+
+              <div class="company-logo">
+                SI
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  PT Samudera Indonesia
+                </div>
+
+                <h3 class="job-title">
+                  Port Captain
+                </h3>
+
+                <div class="job-tags">
+                  <span>⚓ Operational</span>
+                  <span>📍 Jakarta</span>
+                  <span>💼 Full Time</span>
+                  <span>📈 5+ Tahun</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 2 jam lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+
+            <!-- JOB 2 -->
+            <article
+              class="job-card"
+              data-title="Marine Superintendent"
+              data-company="Ocean Pacific"
+              data-category="management"
+              data-location="surabaya"
+            >
+
+              <div class="company-logo purple">
+                OP
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  Ocean Pacific Marine
+                </div>
+
+                <h3 class="job-title">
+                  Marine Superintendent
+                </h3>
+
+                <div class="job-tags">
+                  <span>👔 Management</span>
+                  <span>📍 Surabaya</span>
+                  <span>💼 Full Time</span>
+                  <span>📈 5+ Tahun</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 4 jam lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+
+            <!-- JOB 3 -->
+            <article
+              class="job-card"
+              data-title="Logistics Officer"
+              data-company="Sea Marine Logistics"
+              data-category="logistics"
+              data-location="jakarta"
+            >
+
+              <div class="company-logo green">
+                SM
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  Sea Marine Logistics
+                </div>
+
+                <h3 class="job-title">
+                  Logistics Officer
+                </h3>
+
+                <div class="job-tags">
+                  <span>🚚 Logistics</span>
+                  <span>📍 Jakarta</span>
+                  <span>💼 Full Time</span>
+                  <span>📈 1-3 Tahun</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 6 jam lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+
+            <!-- JOB 4 -->
+            <article
+              class="job-card"
+              data-title="Technical Superintendent"
+              data-company="Pacific Marine"
+              data-category="technical"
+              data-location="batam"
+            >
+
+              <div class="company-logo orange">
+                PM
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  Pacific Marine Indonesia
+                </div>
+
+                <h3 class="job-title">
+                  Technical Superintendent
+                </h3>
+
+                <div class="job-tags">
+                  <span>🛠 Technical</span>
+                  <span>📍 Batam</span>
+                  <span>💼 Full Time</span>
+                  <span>📈 5+ Tahun</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 8 jam lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+
+            <!-- JOB 5 -->
+            <article
+              class="job-card"
+              data-title="Finance Staff"
+              data-company="Maritime Nusantara"
+              data-category="finance"
+              data-location="surabaya"
+            >
+
+              <div class="company-logo red">
+                MN
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  Maritime Nusantara
+                </div>
+
+                <h3 class="job-title">
+                  Finance Staff
+                </h3>
+
+                <div class="job-tags">
+                  <span>💰 Finance</span>
+                  <span>📍 Surabaya</span>
+                  <span>💼 Full Time</span>
+                  <span>🎓 Fresh Graduate</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 1 hari lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+
+            <!-- JOB 6 -->
+            <article
+              class="job-card"
+              data-title="Operation Coordinator"
+              data-company="Borneo Offshore"
+              data-category="operational"
+              data-location="balikpapan"
+            >
+
+              <div class="company-logo">
+                BO
+              </div>
+
+              <div>
+
+                <div class="job-company">
+                  Borneo Offshore Services
+                </div>
+
+                <h3 class="job-title">
+                  Operation Coordinator
+                </h3>
+
+                <div class="job-tags">
+                  <span>⚓ Operational</span>
+                  <span>📍 Balikpapan</span>
+                  <span>💼 Contract</span>
+                  <span>📈 3-5 Tahun</span>
+                </div>
+
+              </div>
+
+              <div class="job-date">
+
+                <small>Diposting 1 hari lalu</small>
+
+                <a href="#" class="btn-detail">
+                  Lihat Detail →
+                </a>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- PAGINATION -->
+
+          <div class="pagination">
+
+            <button>←</button>
+
+            <button class="active">1</button>
+
+            <button>2</button>
+
+            <button>3</button>
+
+            <button>→</button>
+
+          </div>
+
+        </main>
+
+      </div>
+
+
+      <!-- CTA -->
+
+      <div class="bottom-info">
+
+        <div>
+
+          <h2>
+            Belum menemukan pekerjaan yang cocok?
+          </h2>
+
+          <p>
+            Buat profil profesional Anda dan tingkatkan peluang
+            untuk ditemukan oleh perusahaan maritim dan logistik.
+          </p>
+
+        </div>
+
+        <a href="daftar.html" class="btn-register">
+          Buat Profil →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-content">
+
+        <div>
+
+          <h3>⚓ SEA MARINE JOB</h3>
+
+          <p>
+            Portal lowongan kerja dan informasi karier
+            untuk pelaut dan profesional maritim Indonesia.
+          </p>
+
+        </div>
+
+        <div class="footer-links">
+
+          <a href="index.html">Beranda</a>
+          <a href="kapal.html">Lowongan Kapal</a>
+          <a href="darat.html">Lowongan Darat</a>
+          <a href="index.html#tentang">Tentang Kami</a>
+
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © 2026 Sea Marine Job. All Rights Reserved.
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    function searchJobs() {
+
+      const keyword =
+        document
+          .getElementById("searchInput")
+          .value
+          .toLowerCase();
+
+      const category =
+        document
+          .getElementById("categoryFilter")
+          .value;
+
+      const location =
+        document
+          .getElementById("locationFilter")
+          .value;
+
+      const jobs =
+        document.querySelectorAll(".job-card");
+
+      let visible = 0;
+
+      jobs.forEach(function(job) {
+
+        const title =
+          job.dataset.title.toLowerCase();
+
+        const company =
+          job.dataset.company.toLowerCase();
+
+        const jobCategory =
+          job.dataset.category;
+
+        const jobLocation =
+          job.dataset.location;
+
+        const keywordMatch =
+          title.includes(keyword) ||
+          company.includes(keyword);
+
+        const categoryMatch =
+          category === "" ||
+          jobCategory === category;
+
+        const locationMatch =
+          location === "" ||
+          jobLocation === location;
+
+        if (
+          keywordMatch &&
+          categoryMatch &&
+          locationMatch
+        ) {
+
+          job.style.display = "grid";
+
+          visible++;
+
+        } else {
+
+          job.style.display = "none";
+
+        }
+
+      });
+
+      document
+        .getElementById("resultCount")
+        .textContent =
+        "Menampilkan " +
+        visible +
+        " lowongan pekerjaan";
+
+    }
+
+
+    function resetFilter() {
+
+      document
+        .getElementById("searchInput")
+        .value = "";
+
+      document
+        .getElementById("categoryFilter")
+        .value = "";
+
+      document
+        .getElementById("locationFilter")
+        .value = "";
+
+      document
+        .querySelectorAll(".filter-option input")
+        .forEach(function(box) {
+          box.checked = false;
+        });
+
+      searchJobs();
+
+    }
+
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "keyup",
+        searchJobs
+      );
+
+  </script>
 
 </body>
 </html>
