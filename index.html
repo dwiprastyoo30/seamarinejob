@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea Marine Job - Portal Lowongan Kerja Maritim & Pelaut</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #0b2545, #134074);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        header p {
+            font-size: 1rem;
+            color: #c5d3e8;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .hero-banner {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .hero-banner h2 {
+            color: #0b2545;
+            margin-bottom: 1rem;
+        }
+        .hero-banner p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .grid-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media(max-width: 768px) {
+            .grid-menu {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 4px solid #134074;
+        }
+        .card h3 {
+            color: #0b2545;
+            margin-bottom: 1rem;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #134074;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: #0b2545;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #0b2545;
+            color: white;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SEA MARINE JOB</h1>
+        <p>Pusat Informasi Lowongan Kerja Kapal & Tenaga Darat Maritim Indonesia</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="hero-banner">
+            <h2>Selamat Datang di Portal Karier Maritim Profesional</h2>
+            <p>Menghubungkan perwira, awak kapal, dan tenaga profesional darat dengan perusahaan pelayaran terkemuka.</p>
+        </div>
+
+        <div class="grid-menu">
+            <!-- Menu 1: Lowongan Kapal -->
+            <div class="card">
+                <h3>⚓ Lowongan Kapal (On Board)</h3>
+                <p>Temukan informasi lowongan posisi Deck, Engine, dan Catering untuk berbagai jenis kapal (Tugboat, Tanker, Bulk Carrier, dll).</p>
+                <a href="#" class="btn">Lihat Loker Kapal</a>
+            </div>
+
+            <!-- Menu 2: Lowongan Darat -->
+            <div class="card">
+                <h3>🏢 Lowongan Darat (Ashore)</h3>
+                <p>Informasi peluang karier di perkantoran maritim seperti Port Captain, Port Engineer, Crewing Officer, dan Staf Operasional.</p>
+                <a href="#" class="btn">Lihat Loker Darat</a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Sea Marine Job. Dibangun khusus untuk kemajuan SDM Maritim Indonesia.</p>
+    </footer>
+
+</body>
+</html>
