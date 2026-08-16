@@ -1023,41 +1023,109 @@ let selectedAccount = "jobseeker";
 
     function register(event) {
 
-      event.preventDefault();
+  event.preventDefault();
+
+  const name =
+    document.getElementById("registerName").value;
+
+  const phone =
+    document.getElementById("registerPhone").value;
+
+  const email =
+    document.getElementById("registerEmail").value;
+
+  const password =
+    document.getElementById("registerPassword").value;
+
+  const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+  const message =
+    document.getElementById("registerMessage");
 
 
-      const password =
-        document.getElementById("registerPassword").value;
+  // Cek password
 
-      const confirmPassword =
-        document.getElementById("confirmPassword").value;
+  if (password !== confirmPassword) {
 
-      const message =
-        document.getElementById("registerMessage");
+    message.className = "message error";
+
+    message.textContent =
+      "Password dan konfirmasi password tidak sama.";
+
+    return;
+
+  }
 
 
-      if (password !== confirmPassword) {
+  // Status loading
 
-        message.className =
-          "message error";
+  message.className = "message success";
 
-        message.textContent =
-          "Password dan konfirmasi password tidak sama.";
+  message.textContent =
+    "Sedang membuat akun...";
 
-        return;
+
+  // Daftar ke Supabase
+
+  supabaseClient.auth.signUp({
+
+    email: email,
+
+    password: password,
+
+    options: {
+
+      data: {
+
+        full_name: name,
+
+        phone: phone,
+
+        account_type: selectedAccount
 
       }
 
+    }
 
-      message.className =
-        "message success";
+  })
+
+  .then(function(response) {
+
+    const data = response.data;
+
+    const error = response.error;
+
+
+    if (error) {
+
+      message.className = "message error";
 
       message.textContent =
-        "Pendaftaran berhasil! Akun " +
-        selectedAccount +
-        " telah dibuat.";
+        error.message;
+
+      return;
 
     }
+
+
+    message.className = "message success";
+
+    message.textContent =
+      "Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun.";
+
+  })
+
+  .catch(function(error) {
+
+    message.className = "message error";
+
+    message.textContent =
+      "Terjadi kesalahan: " + error.message;
+
+  });
+
+}
 
 
     function login(event) {
