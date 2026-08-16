@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirim CV - Sea Marine Job</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #0b2545, #134074); color: white; padding: 2rem 1rem; text-align: center; }
+        .container { max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+        .form-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .form-card h2 { color: #0b2545; margin-bottom: 1.5rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #0b2545; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;
+        }
+        .btn-submit {
+            display: block; width: 100%; background-color: #134074; color: white; padding: 12px;
+            border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s;
+        }
+        .btn-submit:hover { background-color: #0b2545; }
+        .back-link { display: block; text-align: center; margin-top: 1rem; color: #134074; text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SEA MARINE JOB</h1>
+        <p>Formulir Pendaftaran & Pengiriman CV Kandidat</p>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <h2>Kirim Data Diri Anda</h2>
+            <form>
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap & Gelar</label>
+                    <input type="text" id="nama" name="nama" placeholder="Contoh: Capt. Budi Santoso" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="kategori">Pilih Kategori Lamaran</label>
+                    <select id="kategori" name="kategori">
+                        <option value="kapal">Lowongan Kapal (On Board)</option>
+                        <option value="darat">Lowongan Darat (Ashore / Office)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="posisi">Posisi yang Dilamar / Keahlian</label>
+                    <input type="text" id="posisi" name="posisi" placeholder="Contoh: Chief Officer / Port Captain" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">Nomor WhatsApp Aktif</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="catatan">Pengalaman Singkat / Link CV (Google Drive)</label>
+                    <textarea id="catatan" name="catatan" rows="4" placeholder="Tuliskan pengalaman singkat atau tautan Google Drive CV Anda di sini..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Kirim CV Sekarang</button>
+            </form>
+            <a href="index.html" class="back-link">&larr; Kembali ke Beranda</a>
+        </div>
+    </div>
+
+</body>
+</html>
