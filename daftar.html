@@ -1130,30 +1130,81 @@ let selectedAccount = "jobseeker";
 
     function login(event) {
 
-      event.preventDefault();
+  event.preventDefault();
+
+  const email =
+    document.getElementById("loginEmail").value;
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const message =
+    document.getElementById("loginMessage");
 
 
-      const email =
-        document.getElementById("loginEmail").value;
+  // Status loading
 
-      const password =
-        document.getElementById("loginPassword").value;
+  message.className = "message success";
 
-      const message =
-        document.getElementById("loginMessage");
+  message.textContent =
+    "Sedang masuk ke akun...";
 
 
-      if (email && password) {
+  // Login menggunakan Supabase
 
-        message.className =
-          "message success";
+  supabaseClient.auth.signInWithPassword({
 
-        message.textContent =
-          "Login berhasil! Selamat datang di Sea Marine Job.";
+    email: email,
 
-      }
+    password: password
+
+  })
+
+  .then(function(response) {
+
+    const data = response.data;
+
+    const error = response.error;
+
+
+    if (error) {
+
+      message.className = "message error";
+
+      message.textContent =
+        "Email atau password salah.";
+
+      return;
 
     }
+
+
+    message.className = "message success";
+
+    message.textContent =
+      "Login berhasil! Selamat datang di Sea Marine Job.";
+
+    
+    // Pindah ke halaman utama setelah 1,5 detik
+
+    setTimeout(function() {
+
+      window.location.href = "index.html";
+
+    }, 1500);
+
+  })
+
+  .catch(function(error) {
+
+    message.className = "message error";
+
+    message.textContent =
+      "Terjadi kesalahan: " + error.message;
+
+  });
+
+}
 
   </script>
 
