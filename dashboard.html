@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Dashboard | Sea Marine Job
+  </title>
+
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    :root {
+      --navy: #102a43;
+      --blue: #1877b9;
+      --blue-dark: #0f5f94;
+      --light: #f4f7fb;
+      --white: #ffffff;
+      --text: #243b53;
+      --muted: #627d98;
+      --border: #d9e2ec;
+      --success: #22a06b;
+      --danger: #d64545;
+    }
+
+
+    body {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        var(--light);
+
+      color:
+        var(--text);
+    }
+
+
+    /* NAVBAR */
+
+    .navbar {
+
+      height: 75px;
+
+      background:
+        var(--navy);
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      padding:
+        0 7%;
+
+      color:
+        white;
+
+    }
+
+
+    .logo {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      text-decoration:
+        none;
+
+      color:
+        white;
+
+    }
+
+
+    .logo-icon {
+
+      font-size:
+        34px;
+
+    }
+
+
+    .logo-text {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+    }
+
+
+    .logo-text strong {
+
+      font-size:
+        20px;
+
+      letter-spacing:
+        .5px;
+
+    }
+
+
+    .logo-text span {
+
+      font-size:
+        10px;
+
+      letter-spacing:
+        2px;
+
+      opacity:
+        .7;
+
+      margin-top:
+        4px;
+
+    }
+
+
+    .nav-right {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        20px;
+
+    }
+
+
+    .user-info {
+
+      text-align:
+        right;
+
+    }
+
+
+    .user-info strong {
+
+      display:
+        block;
+
+      font-size:
+        14px;
+
+    }
+
+
+    .user-info span {
+
+      font-size:
+        11px;
+
+      opacity:
+        .7;
+
+    }
+
+
+    .logout-btn {
+
+      border:
+        none;
+
+      background:
+        #d64545;
+
+      color:
+        white;
+
+      padding:
+        10px 18px;
+
+      border-radius:
+        8px;
+
+      cursor:
+        pointer;
+
+      font-weight:
+        bold;
+
+    }
+
+
+    .logout-btn:hover {
+
+      opacity:
+        .9;
+
+    }
+
+
+    /* LAYOUT */
+
+    .dashboard {
+
+      max-width:
+        1250px;
+
+      margin:
+        35px auto;
+
+      padding:
+        0 20px;
+
+    }
+
+
+    /* WELCOME */
+
+    .welcome-card {
+
+      background:
+        linear-gradient(
+          135deg,
+          #1877b9,
+          #102a43
+        );
+
+      color:
+        white;
+
+      padding:
+        35px;
+
+      border-radius:
+        18px;
+
+      margin-bottom:
+        30px;
+
+    }
+
+
+    .welcome-card h1 {
+
+      font-size:
+        30px;
+
+      margin-bottom:
+        10px;
+
+    }
+
+
+    .welcome-card p {
+
+      opacity:
+        .85;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    /* STATS */
+
+    .stats {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap:
+        20px;
+
+      margin-bottom:
+        30px;
+
+    }
+
+
+    .stat-card {
+
+      background:
+        white;
+
+      padding:
+        22px;
+
+      border-radius:
+        15px;
+
+      border:
+        1px solid var(--border);
+
+    }
+
+
+    .stat-card span {
+
+      font-size:
+        25px;
+
+    }
+
+
+    .stat-card h3 {
+
+      font-size:
+        26px;
+
+      margin:
+        10px 0 5px;
+
+    }
+
+
+    .stat-card p {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+    }
+
+
+    /* MAIN GRID */
+
+    .main-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        2fr 1fr;
+
+      gap:
+        25px;
+
+    }
+
+
+    .card {
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        16px;
+
+      padding:
+        25px;
+
+    }
+
+
+    .card-header {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      margin-bottom:
+        20px;
+
+    }
+
+
+    .card-header h2 {
+
+      font-size:
+        20px;
+
+    }
+
+
+    .view-all {
+
+      color:
+        var(--blue);
+
+      text-decoration:
+        none;
+
+      font-size:
+        13px;
+
+      font-weight:
+        bold;
+
+    }
+
+
+    /* JOB */
+
+    .job-item {
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        12px;
+
+      padding:
+        18px;
+
+      margin-bottom:
+        15px;
+
+      transition:
+        .3s;
+
+    }
+
+
+    .job-item:hover {
+
+      border-color:
+        var(--blue);
+
+      transform:
+        translateY(-2px);
+
+    }
+
+
+    .job-top {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+    }
+
+
+    .job-title {
+
+      font-weight:
+        bold;
+
+      font-size:
+        16px;
+
+      margin-bottom:
+        7px;
+
+    }
+
+
+    .company {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+    }
+
+
+    .job-tag {
+
+      background:
+        #e8f4fc;
+
+      color:
+        var(--blue);
+
+      padding:
+        6px 10px;
+
+      border-radius:
+        20px;
+
+      font-size:
+        11px;
+
+      height:
+        fit-content;
+
+    }
+
+
+    .job-detail {
+
+      display:
+        flex;
+
+      gap:
+        15px;
+
+      margin-top:
+        15px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+    }
+
+
+    /* PROFILE */
+
+    .profile-box {
+
+      text-align:
+        center;
+
+    }
+
+
+    .profile-avatar {
+
+      width:
+        75px;
+
+      height:
+        75px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--blue);
+
+      color:
+        white;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        28px;
+
+      margin:
+        auto;
+
+      margin-bottom:
+        15px;
+
+    }
+
+
+    .profile-box h3 {
+
+      margin-bottom:
+        5px;
+
+    }
+
+
+    .profile-box p {
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      margin-bottom:
+        20px;
+
+    }
+
+
+    .profile-progress {
+
+      text-align:
+        left;
+
+      margin-top:
+        20px;
+
+    }
+
+
+    .progress-bar {
+
+      height:
+        9px;
+
+      background:
+        #e9eef3;
+
+      border-radius:
+        20px;
+
+      overflow:
+        hidden;
+
+      margin:
+        10px 0;
+
+    }
+
+
+    .progress {
+
+      width:
+        60%;
+
+      height:
+        100%;
+
+      background:
+        var(--blue);
+
+    }
+
+
+    .btn {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      text-align:
+        center;
+
+      text-decoration:
+        none;
+
+      background:
+        var(--blue);
+
+      color:
+        white;
+
+      padding:
+        12px;
+
+      border-radius:
+        8px;
+
+      font-weight:
+        bold;
+
+      margin-top:
+        20px;
+
+    }
+
+
+    .btn:hover {
+
+      background:
+        var(--blue-dark);
+
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (
+      max-width: 900px
+    ) {
+
+      .stats {
+
+        grid-template-columns:
+          1fr 1fr;
+
+      }
+
+
+      .main-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
+
+
+    @media (
+      max-width: 600px
+    ) {
+
+      .navbar {
+
+        padding:
+          0 20px;
+
+      }
+
+
+      .logo-text strong {
+
+        font-size:
+          15px;
+
+      }
+
+
+      .logo-text span {
+
+        font-size:
+          8px;
+
+      }
+
+
+      .user-info {
+
+        display:
+          none;
+
+      }
+
+
+      .welcome-card {
+
+        padding:
+          25px;
+
+      }
+
+
+      .welcome-card h1 {
+
+        font-size:
+          23px;
+
+      }
+
+
+      .stats {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .job-top {
+
+        flex-direction:
+          column;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+
+    <a
+      href="index.html"
+      class="logo"
+    >
+
+      <div class="logo-icon">
+        ⚓
+      </div>
+
+
+      <div class="logo-text">
+
+        <strong>
+          SEA MARINE JOB
+        </strong>
+
+        <span>
+          PORTAL KARIER MARITIM
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <div class="nav-right">
+
+
+      <div class="user-info">
+
+        <strong
+          id="userName"
+        >
+          Memuat...
+        </strong>
+
+        <span>
+          Pencari Kerja
+        </span>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+
+        Keluar
+
+      </button>
+
+
+    </div>
+
+
+  </nav>
+
+
+
+  <!-- DASHBOARD -->
+
+  <main class="dashboard">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome-card">
+
+      <h1>
+
+        Selamat Datang,
+        <span id="welcomeName">
+          Pelaut
+        </span>
+        👋
+
+      </h1>
+
+
+      <p>
+
+        Temukan peluang karier terbaik
+        di industri maritim, pelayaran,
+        offshore, dan logistik.
+
+      </p>
+
+    </section>
+
+
+
+    <!-- STATISTIK -->
+
+    <section class="stats">
+
+
+      <div class="stat-card">
+
+        <span>
+          ⚓
+        </span>
+
+        <h3>
+          0
+        </h3>
+
+        <p>
+          Lowongan Dilamar
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          📄
+        </span>
+
+        <h3>
+          0
+        </h3>
+
+        <p>
+          Lamaran Diproses
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          ⭐
+        </span>
+
+        <h3>
+          0
+        </h3>
+
+        <p>
+          Lowongan Disimpan
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          🔔
+        </span>
+
+        <h3>
+          0
+        </h3>
+
+        <p>
+          Notifikasi Baru
+        </p>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <section class="main-grid">
+
+
+      <!-- LOWONGAN -->
+
+      <div class="card">
+
+
+        <div class="card-header">
+
+          <h2>
+            Lowongan Rekomendasi
+          </h2>
+
+
+          <a
+            href="kapal.html"
+            class="view-all"
+          >
+
+            Lihat Semua →
+
+          </a>
+
+        </div>
+
+
+
+        <div class="job-item">
+
+
+          <div class="job-top">
+
+            <div>
+
+              <div class="job-title">
+
+                Chief Officer
+
+              </div>
+
+
+              <div class="company">
+
+                PT Samudera Nusantara
+
+              </div>
+
+            </div>
+
+
+            <div class="job-tag">
+
+              Kapal
+
+            </div>
+
+          </div>
+
+
+          <div class="job-detail">
+
+            <span>
+              ⚓ Cargo Ship
+            </span>
+
+            <span>
+              🌍 International
+            </span>
+
+            <span>
+              💼 Full Time
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+
+        <div class="job-item">
+
+
+          <div class="job-top">
+
+            <div>
+
+              <div class="job-title">
+
+                Second Engineer
+
+              </div>
+
+
+              <div class="company">
+
+                PT Ocean Marine Indonesia
+
+              </div>
+
+            </div>
+
+
+            <div class="job-tag">
+
+              Kapal
+
+            </div>
+
+          </div>
+
+
+          <div class="job-detail">
+
+            <span>
+              ⚙ Engine Department
+            </span>
+
+            <span>
+              🌍 International
+            </span>
+
+            <span>
+              💼 Full Time
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+
+        <div class="job-item">
+
+
+          <div class="job-top">
+
+            <div>
+
+              <div class="job-title">
+
+                Port Captain
+
+              </div>
+
+
+              <div class="company">
+
+                PT Maritime Logistic
+
+              </div>
+
+            </div>
+
+
+            <div class="job-tag">
+
+              Darat
+
+            </div>
+
+          </div>
+
+
+          <div class="job-detail">
+
+            <span>
+              📍 Jakarta
+            </span>
+
+            <span>
+              ⚓ Maritime
+            </span>
+
+            <span>
+              💼 Full Time
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- PROFILE -->
+
+      <div class="card">
+
+
+        <div class="profile-box">
+
+
+          <div class="profile-avatar">
+
+            👨‍✈️
+
+          </div>
+
+
+          <h3
+            id="profileName"
+          >
+
+            Memuat...
+
+          </h3>
+
+
+          <p
+            id="profileEmail"
+          >
+
+            Memuat email...
+
+          </p>
+
+
+        </div>
+
+
+
+        <div class="profile-progress">
+
+          <strong>
+            Kelengkapan Profil
+          </strong>
+
+
+          <div class="progress-bar">
+
+            <div
+              class="progress"
+            ></div>
+
+          </div>
+
+
+          <p>
+
+            60% Profil Lengkap
+
+          </p>
+
+        </div>
+
+
+        <a
+          href="#"
+          class="btn"
+        >
+
+          Lengkapi Profil
+
+        </a>
+
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+
+    const SUPABASE_URL =
+      "https://vkohnzfibdmzupmoutkd.supabase.co";
+
+
+    const SUPABASE_KEY =
+      "sb_publishable_k_BCbFBatbtK13B7cMjYhw_GwBRQ6PM";
+
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+
+    async function loadUser() {
+
+
+      const response =
+        await supabaseClient.auth.getUser();
+
+
+      const user =
+        response.data.user;
+
+
+      if (!user) {
+
+        window.location.href =
+          "daftar.html";
+
+        return;
+
+      }
+
+
+      const fullName =
+        user.user_metadata.full_name
+        || "Pelaut";
+
+
+      document.getElementById(
+        "userName"
+      ).textContent =
+        fullName;
+
+
+      document.getElementById(
+        "welcomeName"
+      ).textContent =
+        fullName;
+
+
+      document.getElementById(
+        "profileName"
+      ).textContent =
+        fullName;
+
+
+      document.getElementById(
+        "profileEmail"
+      ).textContent =
+        user.email;
+
+
+    }
+
+
+
+    async function logout() {
+
+
+      await supabaseClient.auth.signOut();
+
+
+      window.location.href =
+        "index.html";
+
+    }
+
+
+
+    loadUser();
+
+
+  </script>
+
+
+</body>
+
+</html>
