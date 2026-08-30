@@ -801,7 +801,7 @@
           await supabaseClient
             .from("profiles")
             .select("*")
-            .eq("id", user.id)
+            .eq("user_id", user.id)
             .maybeSingle();
 
 
@@ -1068,52 +1068,54 @@
 
         // Simpan ke Supabase
 
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("profiles")
-            .upsert({
+const {
+  error
+} =
+  await supabaseClient
+    .from("profiles")
+    .upsert({
+      
+      user_id: user.id,
 
-              id: user.id,
+      full_name: fullName,
 
-              full_name: fullName,
+      phone: phone,
 
-              phone: phone,
+      email: user.email,
 
-              email: user.email,
+      city: city,
 
-              city: city,
+      address: address,
 
-              address: address,
+      education: education,
 
-              education: education,
+      position: position,
 
-              position: position,
+      experience: experience
 
-              experience: experience
+    }, {
+      onConflict: "user_id"
+    });
 
-            });
 
+if (error) {
 
-        if (error) {
+  console.error(error);
 
-          console.error(error);
+  showMessage(
+    "error",
+    "Gagal menyimpan profil: " +
+    error.message
+  );
 
-          showMessage(
-            "error",
-            "Gagal menyimpan profil: " +
-            error.message
-          );
+  saveButton.disabled = false;
 
-          saveButton.disabled = false;
+  saveButton.textContent =
+    "💾 Simpan Profil";
 
-          saveButton.textContent =
-            "💾 Simpan Profil";
+  return;
 
-          return;
-
-        }
+}
 
 
         // Berhasil
