@@ -113,6 +113,71 @@
       font-size: 14px;
     }
 
+    /* ==========================================
+       KELENGKAPAN PROFIL
+       ========================================== */
+
+    .completeness-card {
+      background: white;
+      border: 1px solid #e1e8ee;
+      border-radius: 14px;
+      padding: 22px 25px;
+      box-shadow: 0 5px 20px rgba(20, 50, 70, 0.05);
+      margin-bottom: 25px;
+    }
+
+    .completeness-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .completeness-info strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #172b3a;
+    }
+
+    .completeness-info p {
+      color: #71808f;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .completeness-percent {
+      min-width: 60px;
+      text-align: right;
+      font-size: 22px;
+      font-weight: bold;
+      color: #1877b9;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e8eef3;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: #1877b9;
+      border-radius: 20px;
+      transition: width 0.5s ease;
+    }
+
+    .completeness-status {
+      margin-top: 10px;
+      color: #526779;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
     .profile-card {
       background: white;
       border: 1px solid #e1e8ee;
@@ -358,6 +423,10 @@
         padding: 22px;
       }
 
+      .completeness-card {
+        padding: 20px;
+      }
+
       .page-title h1 {
         font-size: 25px;
       }
@@ -385,15 +454,21 @@
         align-items: flex-start;
       }
 
+      .completeness-header {
+        align-items: flex-start;
+      }
+
+      .completeness-percent {
+        font-size: 20px;
+      }
+
     }
 
   </style>
 
 </head>
 
-
 <body>
-
 
   <!-- NAVBAR -->
 
@@ -409,7 +484,6 @@
 
       </a>
 
-
       <div class="nav-actions">
 
         <a
@@ -418,7 +492,6 @@
         >
           ← Beranda
         </a>
-
 
         <button
           type="button"
@@ -435,13 +508,11 @@
   </nav>
 
 
-
   <!-- PROFILE -->
 
   <section class="profile-section">
 
     <div class="container">
-
 
       <div class="page-title">
 
@@ -454,7 +525,6 @@
       </div>
 
 
-
       <!-- MESSAGE -->
 
       <div
@@ -463,6 +533,51 @@
       ></div>
 
 
+      <!-- KELENGKAPAN PROFIL -->
+
+      <div class="completeness-card">
+
+        <div class="completeness-header">
+
+          <div class="completeness-info">
+
+            <strong>
+              Kelengkapan Profil
+            </strong>
+
+            <p id="completenessText">
+              Lengkapi profil Anda agar lebih mudah dilirik perusahaan.
+            </p>
+
+          </div>
+
+          <div
+            class="completeness-percent"
+            id="completenessPercent"
+          >
+            0%
+          </div>
+
+        </div>
+
+        <div class="progress-track">
+
+          <div
+            class="progress-fill"
+            id="progressFill"
+          ></div>
+
+        </div>
+
+        <div
+          class="completeness-status"
+          id="completenessStatus"
+        >
+          Profil sedang diperiksa...
+        </div>
+
+      </div>
+
 
       <!-- DATA PRIBADI -->
 
@@ -470,14 +585,15 @@
 
         <div class="card-title">
 
-          <h2>Data Pribadi</h2>
+          <h2>
+            Data Pribadi
+          </h2>
 
           <p>
             Informasi dasar mengenai diri Anda.
           </p>
 
         </div>
-
 
 
         <!-- FOTO -->
@@ -491,10 +607,11 @@
             👤
           </div>
 
-
           <div class="photo-info">
 
-            <strong>Foto Profil</strong>
+            <strong>
+              Foto Profil
+            </strong>
 
             <small>
               Gunakan foto yang jelas dan profesional.
@@ -515,12 +632,9 @@
         </div>
 
 
-
         <form id="profileForm">
 
-
           <div class="form-row">
-
 
             <div class="form-group">
 
@@ -537,7 +651,6 @@
               >
 
             </div>
-
 
 
             <div class="form-group">
@@ -559,9 +672,7 @@
           </div>
 
 
-
           <div class="form-row">
-
 
             <div class="form-group">
 
@@ -584,7 +695,6 @@
             </div>
 
 
-
             <div class="form-group">
 
               <label>
@@ -603,7 +713,6 @@
           </div>
 
 
-
           <div class="form-group">
 
             <label>
@@ -618,11 +727,9 @@
 
           </div>
 
-
         </form>
 
       </div>
-
 
 
       <!-- PENDIDIKAN & PENGALAMAN -->
@@ -642,9 +749,7 @@
         </div>
 
 
-
         <div class="form-row">
-
 
           <div class="form-group">
 
@@ -662,7 +767,6 @@
           </div>
 
 
-
           <div class="form-group">
 
             <label>
@@ -678,9 +782,7 @@
 
           </div>
 
-
         </div>
-
 
 
         <div class="form-group">
@@ -700,7 +802,6 @@
       </div>
 
 
-
       <!-- CV -->
 
       <div class="profile-card">
@@ -716,7 +817,6 @@
           </p>
 
         </div>
-
 
 
         <div class="cv-box">
@@ -738,6 +838,7 @@
             id="cvFile"
             accept=".pdf,application/pdf"
           >
+
 
           <div
             class="cv-status"
@@ -775,7 +876,6 @@
       </div>
 
 
-
       <!-- SAVE -->
 
       <button
@@ -787,11 +887,9 @@
         💾 Simpan Profil
       </button>
 
-
     </div>
 
   </section>
-
 
 
   <!-- SUPABASE -->
@@ -826,9 +924,11 @@
     let currentPhotoUrl = null;
     let currentCVPath = null;
 
+    const MAX_PHOTO_SIZE =
+      2 * 1024 * 1024;
 
-    const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
-    const MAX_CV_SIZE = 5 * 1024 * 1024;
+    const MAX_CV_SIZE =
+      5 * 1024 * 1024;
 
 
     // ==========================================
@@ -838,7 +938,9 @@
     function showMessage(type, text) {
 
       const message =
-        document.getElementById("profileMessage");
+        document.getElementById(
+          "profileMessage"
+        );
 
       message.className =
         "message " + type;
@@ -861,12 +963,192 @@
     function resetSaveButton() {
 
       const saveButton =
-        document.getElementById("saveButton");
+        document.getElementById(
+          "saveButton"
+        );
 
       saveButton.disabled = false;
 
       saveButton.textContent =
         "💾 Simpan Profil";
+
+    }
+
+
+    // ==========================================
+    // HITUNG KELENGKAPAN PROFIL
+    // ==========================================
+
+    function updateProfileCompleteness(
+      profile
+    ) {
+
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+      const city =
+        document
+          .getElementById("city")
+          .value
+          .trim();
+
+      const address =
+        document
+          .getElementById("address")
+          .value
+          .trim();
+
+      const education =
+        document
+          .getElementById("education")
+          .value
+          .trim();
+
+      const position =
+        document
+          .getElementById("position")
+          .value
+          .trim();
+
+      const experience =
+        document
+          .getElementById("experience")
+          .value
+          .trim();
+
+
+      const fields = [
+
+        {
+          name: "Nama lengkap",
+          complete: !!fullName
+        },
+
+        {
+          name: "Nomor WhatsApp",
+          complete: !!phone
+        },
+
+        {
+          name: "Kota domisili",
+          complete: !!city
+        },
+
+        {
+          name: "Alamat",
+          complete: !!address
+        },
+
+        {
+          name: "Pendidikan",
+          complete: !!education
+        },
+
+        {
+          name: "Posisi yang diminati",
+          complete: !!position
+        },
+
+        {
+          name: "Pengalaman kerja",
+          complete: !!experience
+        },
+
+        {
+          name: "Foto profil",
+          complete: !!(
+            profile &&
+            profile.photo_url
+          )
+        },
+
+        {
+          name: "CV",
+          complete: !!(
+            profile &&
+            profile.cv_path
+          )
+        }
+
+      ];
+
+
+      const total =
+        fields.length;
+
+      const completed =
+        fields.filter(
+          field => field.complete
+        ).length;
+
+
+      const percent =
+        Math.round(
+          (completed / total) * 100
+        );
+
+
+      document.getElementById(
+        "completenessPercent"
+      ).textContent =
+        percent + "%";
+
+
+      document.getElementById(
+        "progressFill"
+      ).style.width =
+        percent + "%";
+
+
+      const status =
+        document.getElementById(
+          "completenessStatus"
+        );
+
+      const text =
+        document.getElementById(
+          "completenessText"
+        );
+
+
+      if (percent === 100) {
+
+        text.textContent =
+          "Profil Anda sudah lengkap. Siap untuk melamar pekerjaan.";
+
+        status.textContent =
+          "🎉 Profil Anda sudah 100% lengkap.";
+
+      } else {
+
+        const missing =
+          fields
+            .filter(
+              field => !field.complete
+            )
+            .map(
+              field => field.name
+            );
+
+
+        text.textContent =
+          "Lengkapi profil Anda agar lebih mudah dilirik perusahaan.";
+
+        status.textContent =
+          "Masih perlu dilengkapi: " +
+          missing.join(", ") +
+          ".";
+
+      }
 
     }
 
@@ -901,7 +1183,9 @@
 
         // Email akun
 
-        document.getElementById("email").value =
+        document.getElementById(
+          "email"
+        ).value =
           user.email || "";
 
 
@@ -937,7 +1221,13 @@
 
 
         if (!profile) {
+
+          updateProfileCompleteness(
+            null
+          );
+
           return;
+
         }
 
 
@@ -945,25 +1235,45 @@
         // DATA PROFILE
         // ==========================================
 
-        document.getElementById("fullName").value =
+        document.getElementById(
+          "fullName"
+        ).value =
           profile.full_name || "";
 
-        document.getElementById("phone").value =
+
+        document.getElementById(
+          "phone"
+        ).value =
           profile.phone || "";
 
-        document.getElementById("city").value =
+
+        document.getElementById(
+          "city"
+        ).value =
           profile.city || "";
 
-        document.getElementById("address").value =
+
+        document.getElementById(
+          "address"
+        ).value =
           profile.address || "";
 
-        document.getElementById("education").value =
+
+        document.getElementById(
+          "education"
+        ).value =
           profile.education || "";
 
-        document.getElementById("position").value =
+
+        document.getElementById(
+          "position"
+        ).value =
           profile.position || "";
 
-        document.getElementById("experience").value =
+
+        document.getElementById(
+          "experience"
+        ).value =
           profile.experience || "";
 
 
@@ -976,11 +1286,14 @@
           currentPhotoUrl =
             profile.photo_url;
 
+
           document.getElementById(
             "photoPreview"
           ).innerHTML =
             '<img src="' +
-            escapeHtml(profile.photo_url) +
+            escapeHtml(
+              profile.photo_url
+            ) +
             '" alt="Foto Profil">';
 
         }
@@ -995,12 +1308,22 @@
           currentCVPath =
             profile.cv_path;
 
+
           document.getElementById(
             "cvStatus"
           ).style.display =
             "block";
 
         }
+
+
+        // ==========================================
+        // UPDATE KELENGKAPAN
+        // ==========================================
+
+        updateProfileCompleteness(
+          profile
+        );
 
       } catch (error) {
 
@@ -1023,11 +1346,26 @@
     function escapeHtml(value) {
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
@@ -1058,7 +1396,11 @@
           ];
 
 
-          if (!allowedTypes.includes(file.type)) {
+          if (
+            !allowedTypes.includes(
+              file.type
+            )
+          ) {
 
             showMessage(
               "error",
@@ -1072,7 +1414,10 @@
           }
 
 
-          if (file.size > MAX_PHOTO_SIZE) {
+          if (
+            file.size >
+            MAX_PHOTO_SIZE
+          ) {
 
             showMessage(
               "error",
@@ -1103,7 +1448,9 @@
             };
 
 
-          reader.readAsDataURL(file);
+          reader.readAsDataURL(
+            file
+          );
 
         }
       );
@@ -1129,8 +1476,11 @@
 
 
           const isPDF =
-            file.type === "application/pdf" ||
-            file.name.toLowerCase().endsWith(".pdf");
+            file.type ===
+              "application/pdf" ||
+            file.name
+              .toLowerCase()
+              .endsWith(".pdf");
 
 
           if (!isPDF) {
@@ -1147,7 +1497,10 @@
           }
 
 
-          if (file.size > MAX_CV_SIZE) {
+          if (
+            file.size >
+            MAX_CV_SIZE
+          ) {
 
             showMessage(
               "error",
@@ -1171,7 +1524,9 @@
     async function uploadPhoto(file) {
 
       if (!file) {
+
         return currentPhotoUrl;
+
       }
 
 
@@ -1182,7 +1537,11 @@
       ];
 
 
-      if (!allowedTypes.includes(file.type)) {
+      if (
+        !allowedTypes.includes(
+          file.type
+        )
+      ) {
 
         throw new Error(
           "Foto harus JPG, PNG, atau WebP."
@@ -1191,7 +1550,10 @@
       }
 
 
-      if (file.size > MAX_PHOTO_SIZE) {
+      if (
+        file.size >
+        MAX_PHOTO_SIZE
+      ) {
 
         throw new Error(
           "Ukuran foto maksimal 2 MB."
@@ -1201,9 +1563,13 @@
 
 
       const extensionMap = {
+
         "image/jpeg": "jpg",
+
         "image/png": "png",
+
         "image/webp": "webp"
+
       };
 
 
@@ -1250,7 +1616,9 @@
         supabaseClient
           .storage
           .from("profile-photos")
-          .getPublicUrl(photoPath);
+          .getPublicUrl(
+            photoPath
+          );
 
 
       return publicUrlData.publicUrl;
@@ -1265,13 +1633,18 @@
     async function uploadCV(file) {
 
       if (!file) {
+
         return currentCVPath;
+
       }
 
 
       const isPDF =
-        file.type === "application/pdf" ||
-        file.name.toLowerCase().endsWith(".pdf");
+        file.type ===
+          "application/pdf" ||
+        file.name
+          .toLowerCase()
+          .endsWith(".pdf");
 
 
       if (!isPDF) {
@@ -1283,7 +1656,10 @@
       }
 
 
-      if (file.size > MAX_CV_SIZE) {
+      if (
+        file.size >
+        MAX_CV_SIZE
+      ) {
 
         throw new Error(
           "Ukuran CV maksimal 5 MB."
@@ -1309,7 +1685,8 @@
             {
               cacheControl: "3600",
               upsert: true,
-              contentType: "application/pdf"
+              contentType:
+                "application/pdf"
             }
           );
 
@@ -1336,7 +1713,9 @@
     async function saveProfile() {
 
       const saveButton =
-        document.getElementById("saveButton");
+        document.getElementById(
+          "saveButton"
+        );
 
 
       try {
@@ -1358,7 +1737,10 @@
           await supabaseClient.auth.getUser();
 
 
-        if (userError || !user) {
+        if (
+          userError ||
+          !user
+        ) {
 
           showMessage(
             "error",
@@ -1381,62 +1763,80 @@
 
         const fullName =
           document
-            .getElementById("fullName")
+            .getElementById(
+              "fullName"
+            )
             .value
             .trim();
 
 
         const phone =
           document
-            .getElementById("phone")
+            .getElementById(
+              "phone"
+            )
             .value
             .trim();
 
 
         const city =
           document
-            .getElementById("city")
+            .getElementById(
+              "city"
+            )
             .value
             .trim();
 
 
         const address =
           document
-            .getElementById("address")
+            .getElementById(
+              "address"
+            )
             .value
             .trim();
 
 
         const education =
           document
-            .getElementById("education")
+            .getElementById(
+              "education"
+            )
             .value
             .trim();
 
 
         const position =
           document
-            .getElementById("position")
+            .getElementById(
+              "position"
+            )
             .value
             .trim();
 
 
         const experience =
           document
-            .getElementById("experience")
+            .getElementById(
+              "experience"
+            )
             .value
             .trim();
 
 
         const photoFile =
           document
-            .getElementById("profilePhoto")
+            .getElementById(
+              "profilePhoto"
+            )
             .files[0];
 
 
         const cvFile =
           document
-            .getElementById("cvFile")
+            .getElementById(
+              "cvFile"
+            )
             .files[0];
 
 
@@ -1487,7 +1887,9 @@
 
 
           photoUrl =
-            await uploadPhoto(photoFile);
+            await uploadPhoto(
+              photoFile
+            );
 
         }
 
@@ -1507,7 +1909,9 @@
 
 
           cvPath =
-            await uploadCV(cvFile);
+            await uploadCV(
+              cvFile
+            );
 
         }
 
@@ -1528,19 +1932,41 @@
             .upsert(
               {
                 user_id: user.id,
-                full_name: fullName,
-                phone: phone,
-                email: user.email,
-                city: city,
-                address: address,
-                education: education,
-                position: position,
-                experience: experience,
-                photo_url: photoUrl,
-                cv_path: cvPath
+
+                full_name:
+                  fullName,
+
+                phone:
+                  phone,
+
+                email:
+                  user.email,
+
+                city:
+                  city,
+
+                address:
+                  address,
+
+                education:
+                  education,
+
+                position:
+                  position,
+
+                experience:
+                  experience,
+
+                photo_url:
+                  photoUrl,
+
+                cv_path:
+                  cvPath
+
               },
               {
-                onConflict: "user_id"
+                onConflict:
+                  "user_id"
               }
             );
 
@@ -1583,7 +2009,23 @@
         }
 
 
-        // Kosongkan input file setelah berhasil
+        // ==========================================
+        // UPDATE KELENGKAPAN PROFIL
+        // ==========================================
+
+        updateProfileCompleteness(
+          {
+            photo_url:
+              currentPhotoUrl,
+
+            cv_path:
+              currentCVPath
+          }
+        );
+
+
+        // Kosongkan input file
+        // setelah berhasil
 
         document.getElementById(
           "profilePhoto"
@@ -1679,6 +2121,7 @@
           "_blank"
         );
 
+
       } catch (error) {
 
         showMessage(
@@ -1704,7 +2147,9 @@
 
 
         const link =
-          document.createElement("a");
+          document.createElement(
+            "a"
+          );
 
 
         link.href =
@@ -1717,11 +2162,16 @@
           "CV-Sea-Marine-Job.pdf";
 
 
-        document.body.appendChild(link);
+        document.body.appendChild(
+          link
+        );
 
         link.click();
 
-        document.body.removeChild(link);
+        document.body.removeChild(
+          link
+        );
+
 
       } catch (error) {
 
@@ -1744,7 +2194,9 @@
       const {
         error
       } =
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+          .auth
+          .signOut();
 
 
       if (error) {
@@ -1772,7 +2224,6 @@
     loadProfile();
 
   </script>
-
 
 </body>
 
