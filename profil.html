@@ -179,6 +179,12 @@
       max-width: 100%;
     }
 
+    .file-note {
+      margin-top: 7px;
+      color: #71808f;
+      font-size: 11px;
+    }
+
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -256,6 +262,45 @@
 
     .cv-box input {
       font-size: 13px;
+      max-width: 100%;
+    }
+
+    .cv-status {
+      margin-top: 18px;
+      padding: 12px;
+      background: #f1f7fb;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .cv-status strong {
+      margin-bottom: 8px;
+    }
+
+    .cv-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cv-btn {
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cv-view {
+      background: #1877b9;
+      color: white;
+    }
+
+    .cv-download {
+      background: #eaf4fb;
+      color: #1877b9;
     }
 
     .btn-save {
@@ -334,6 +379,10 @@
 
       .logout-btn {
         padding: 8px 10px;
+      }
+
+      .profile-photo {
+        align-items: flex-start;
       }
 
     }
@@ -454,8 +503,12 @@
             <input
               type="file"
               id="profilePhoto"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
             >
+
+            <div class="file-note">
+              JPG, PNG, atau WebP. Maksimal 2 MB.
+            </div>
 
           </div>
 
@@ -677,14 +730,45 @@
           </strong>
 
           <small>
-            Format PDF disarankan. Maksimal 5 MB.
+            Format PDF. Maksimal 5 MB.
           </small>
 
           <input
             type="file"
             id="cvFile"
-            accept=".pdf"
+            accept=".pdf,application/pdf"
           >
+
+          <div
+            class="cv-status"
+            id="cvStatus"
+          >
+
+            <strong>
+              CV tersimpan
+            </strong>
+
+            <div class="cv-buttons">
+
+              <button
+                type="button"
+                class="cv-btn cv-view"
+                onclick="viewCV()"
+              >
+                👁️ Lihat CV
+              </button>
+
+              <button
+                type="button"
+                class="cv-btn cv-download"
+                onclick="downloadCV()"
+              >
+                ⬇️ Download CV
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -724,10 +808,8 @@
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
 
-
     const SUPABASE_KEY =
       "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
-
 
     const supabaseClient =
       supabase.createClient(
@@ -735,6 +817,18 @@
         SUPABASE_KEY
       );
 
+
+    // ==========================================
+    // VARIABEL
+    // ==========================================
+
+    let currentUser = null;
+    let currentPhotoUrl = null;
+    let currentCVPath = null;
+
+
+    const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
+    const MAX_CV_SIZE = 5 * 1024 * 1024;
 
 
     // ==========================================
@@ -759,6 +853,22 @@
 
     }
 
+
+    // ==========================================
+    // RESET TOMBOL SIMPAN
+    // ==========================================
+
+    function resetSaveButton() {
+
+      const saveButton =
+        document.getElementById("saveButton");
+
+      saveButton.disabled = false;
+
+      saveButton.textContent =
+        "💾 Simpan Profil";
+
+    }
 
 
     // ==========================================
@@ -786,13 +896,16 @@
         }
 
 
-        // Email akun yang sedang login
+        currentUser = user;
+
+
+        // Email akun
 
         document.getElementById("email").value =
           user.email || "";
 
 
-        // Ambil profile berdasarkan ID user
+        // Ambil profile berdasarkan user_id
 
         const {
           data: profile,
@@ -823,45 +936,71 @@
         }
 
 
-        // Isi data apabila profile sudah ada
-
-        if (profile) {
-
-          document.getElementById("fullName").value =
-            profile.full_name || "";
-
-          document.getElementById("phone").value =
-            profile.phone || "";
-
-          document.getElementById("city").value =
-            profile.city || "";
-
-          document.getElementById("address").value =
-            profile.address || "";
-
-          document.getElementById("education").value =
-            profile.education || "";
-
-          document.getElementById("position").value =
-            profile.position || "";
-
-          document.getElementById("experience").value =
-            profile.experience || "";
+        if (!profile) {
+          return;
+        }
 
 
-          if (profile.photo_url) {
+        // ==========================================
+        // DATA PROFILE
+        // ==========================================
 
-            document.getElementById(
-              "photoPreview"
-            ).innerHTML =
-              '<img src="' +
-              profile.photo_url +
-              '" alt="Foto Profil">';
+        document.getElementById("fullName").value =
+          profile.full_name || "";
 
-          }
+        document.getElementById("phone").value =
+          profile.phone || "";
+
+        document.getElementById("city").value =
+          profile.city || "";
+
+        document.getElementById("address").value =
+          profile.address || "";
+
+        document.getElementById("education").value =
+          profile.education || "";
+
+        document.getElementById("position").value =
+          profile.position || "";
+
+        document.getElementById("experience").value =
+          profile.experience || "";
+
+
+        // ==========================================
+        // FOTO PROFILE
+        // ==========================================
+
+        if (profile.photo_url) {
+
+          currentPhotoUrl =
+            profile.photo_url;
+
+          document.getElementById(
+            "photoPreview"
+          ).innerHTML =
+            '<img src="' +
+            escapeHtml(profile.photo_url) +
+            '" alt="Foto Profil">';
 
         }
 
+
+        // ==========================================
+        // CV
+        // ==========================================
+
+        if (profile.cv_path) {
+
+          currentCVPath =
+            profile.cv_path;
+
+          document.getElementById(
+            "cvStatus"
+          ).style.display =
+            "block";
+
+        }
 
       } catch (error) {
 
@@ -876,6 +1015,21 @@
 
     }
 
+
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
 
 
     // ==========================================
@@ -897,11 +1051,32 @@
           }
 
 
-          if (!file.type.startsWith("image/")) {
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+          ];
+
+
+          if (!allowedTypes.includes(file.type)) {
 
             showMessage(
               "error",
-              "File foto harus berupa gambar."
+              "Foto harus JPG, PNG, atau WebP."
+            );
+
+            event.target.value = "";
+
+            return;
+
+          }
+
+
+          if (file.size > MAX_PHOTO_SIZE) {
+
+            showMessage(
+              "error",
+              "Ukuran foto maksimal 2 MB."
             );
 
             event.target.value = "";
@@ -934,6 +1109,225 @@
       );
 
 
+    // ==========================================
+    // VALIDASI CV
+    // ==========================================
+
+    document
+      .getElementById("cvFile")
+      .addEventListener(
+        "change",
+        function(event) {
+
+          const file =
+            event.target.files[0];
+
+
+          if (!file) {
+            return;
+          }
+
+
+          const isPDF =
+            file.type === "application/pdf" ||
+            file.name.toLowerCase().endsWith(".pdf");
+
+
+          if (!isPDF) {
+
+            showMessage(
+              "error",
+              "CV harus berupa file PDF."
+            );
+
+            event.target.value = "";
+
+            return;
+
+          }
+
+
+          if (file.size > MAX_CV_SIZE) {
+
+            showMessage(
+              "error",
+              "Ukuran CV maksimal 5 MB."
+            );
+
+            event.target.value = "";
+
+            return;
+
+          }
+
+        }
+      );
+
+
+    // ==========================================
+    // UPLOAD FOTO
+    // ==========================================
+
+    async function uploadPhoto(file) {
+
+      if (!file) {
+        return currentPhotoUrl;
+      }
+
+
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ];
+
+
+      if (!allowedTypes.includes(file.type)) {
+
+        throw new Error(
+          "Foto harus JPG, PNG, atau WebP."
+        );
+
+      }
+
+
+      if (file.size > MAX_PHOTO_SIZE) {
+
+        throw new Error(
+          "Ukuran foto maksimal 2 MB."
+        );
+
+      }
+
+
+      const extensionMap = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp"
+      };
+
+
+      const extension =
+        extensionMap[file.type];
+
+
+      const photoPath =
+        currentUser.id +
+        "/profile." +
+        extension;
+
+
+      const {
+        error: uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("profile-photos")
+          .upload(
+            photoPath,
+            file,
+            {
+              cacheControl: "3600",
+              upsert: true,
+              contentType: file.type
+            }
+          );
+
+
+      if (uploadError) {
+
+        throw new Error(
+          "Gagal upload foto: " +
+          uploadError.message
+        );
+
+      }
+
+
+      const {
+        data: publicUrlData
+      } =
+        supabaseClient
+          .storage
+          .from("profile-photos")
+          .getPublicUrl(photoPath);
+
+
+      return publicUrlData.publicUrl;
+
+    }
+
+
+    // ==========================================
+    // UPLOAD CV
+    // ==========================================
+
+    async function uploadCV(file) {
+
+      if (!file) {
+        return currentCVPath;
+      }
+
+
+      const isPDF =
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf");
+
+
+      if (!isPDF) {
+
+        throw new Error(
+          "CV harus berupa file PDF."
+        );
+
+      }
+
+
+      if (file.size > MAX_CV_SIZE) {
+
+        throw new Error(
+          "Ukuran CV maksimal 5 MB."
+        );
+
+      }
+
+
+      const cvPath =
+        currentUser.id +
+        "/cv.pdf";
+
+
+      const {
+        error: uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("cv-files")
+          .upload(
+            cvPath,
+            file,
+            {
+              cacheControl: "3600",
+              upsert: true,
+              contentType: "application/pdf"
+            }
+          );
+
+
+      if (uploadError) {
+
+        throw new Error(
+          "Gagal upload CV: " +
+          uploadError.message
+        );
+
+      }
+
+
+      return cvPath;
+
+    }
+
 
     // ==========================================
     // SIMPAN PROFILE
@@ -953,7 +1347,9 @@
           "⏳ Menyimpan...";
 
 
-        // Cek user login
+        // ==========================================
+        // CEK LOGIN
+        // ==========================================
 
         const {
           data: { user },
@@ -969,17 +1365,19 @@
             "Sesi login tidak ditemukan. Silakan login kembali."
           );
 
-          saveButton.disabled = false;
-
-          saveButton.textContent =
-            "💾 Simpan Profil";
+          resetSaveButton();
 
           return;
 
         }
 
 
-        // Ambil data form
+        currentUser = user;
+
+
+        // ==========================================
+        // AMBIL DATA FORM
+        // ==========================================
 
         const fullName =
           document
@@ -1030,7 +1428,21 @@
             .trim();
 
 
-        // Validasi
+        const photoFile =
+          document
+            .getElementById("profilePhoto")
+            .files[0];
+
+
+        const cvFile =
+          document
+            .getElementById("cvFile")
+            .files[0];
+
+
+        // ==========================================
+        // VALIDASI
+        // ==========================================
 
         if (!fullName) {
 
@@ -1039,10 +1451,7 @@
             "Nama lengkap wajib diisi."
           );
 
-          saveButton.disabled = false;
-
-          saveButton.textContent =
-            "💾 Simpan Profil";
+          resetSaveButton();
 
           return;
 
@@ -1056,73 +1465,139 @@
             "Nomor WhatsApp wajib diisi."
           );
 
-          saveButton.disabled = false;
-
-          saveButton.textContent =
-            "💾 Simpan Profil";
+          resetSaveButton();
 
           return;
 
         }
 
 
-        // Simpan ke Supabase
+        // ==========================================
+        // UPLOAD FOTO JIKA ADA
+        // ==========================================
 
-const {
-  error
-} =
-  await supabaseClient
-    .from("profiles")
-    .upsert({
-      
-      user_id: user.id,
-
-      full_name: fullName,
-
-      phone: phone,
-
-      email: user.email,
-
-      city: city,
-
-      address: address,
-
-      education: education,
-
-      position: position,
-
-      experience: experience
-
-    }, {
-      onConflict: "user_id"
-    });
+        let photoUrl =
+          currentPhotoUrl;
 
 
-if (error) {
+        if (photoFile) {
 
-  console.error(error);
-
-  showMessage(
-    "error",
-    "Gagal menyimpan profil: " +
-    error.message
-  );
-
-  saveButton.disabled = false;
-
-  saveButton.textContent =
-    "💾 Simpan Profil";
-
-  return;
-
-}
+          saveButton.textContent =
+            "⏳ Mengupload foto...";
 
 
-        // Berhasil
+          photoUrl =
+            await uploadPhoto(photoFile);
+
+        }
+
+
+        // ==========================================
+        // UPLOAD CV JIKA ADA
+        // ==========================================
+
+        let cvPath =
+          currentCVPath;
+
+
+        if (cvFile) {
+
+          saveButton.textContent =
+            "⏳ Mengupload CV...";
+
+
+          cvPath =
+            await uploadCV(cvFile);
+
+        }
+
+
+        // ==========================================
+        // SIMPAN DATABASE
+        // ==========================================
+
+        saveButton.textContent =
+          "⏳ Menyimpan profil...";
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("profiles")
+            .upsert(
+              {
+                user_id: user.id,
+                full_name: fullName,
+                phone: phone,
+                email: user.email,
+                city: city,
+                address: address,
+                education: education,
+                position: position,
+                experience: experience,
+                photo_url: photoUrl,
+                cv_path: cvPath
+              },
+              {
+                onConflict: "user_id"
+              }
+            );
+
+
+        if (error) {
+
+          console.error(error);
+
+          showMessage(
+            "error",
+            "Gagal menyimpan profil: " +
+            error.message
+          );
+
+          resetSaveButton();
+
+          return;
+
+        }
+
+
+        // ==========================================
+        // UPDATE STATUS
+        // ==========================================
+
+        currentPhotoUrl =
+          photoUrl;
+
+        currentCVPath =
+          cvPath;
+
+
+        if (cvPath) {
+
+          document.getElementById(
+            "cvStatus"
+          ).style.display =
+            "block";
+
+        }
+
+
+        // Kosongkan input file setelah berhasil
+
+        document.getElementById(
+          "profilePhoto"
+        ).value = "";
+
+
+        document.getElementById(
+          "cvFile"
+        ).value = "";
+
 
         showMessage(
           "success",
-          "Profil berhasil disimpan! ✅"
+          "Profil, foto, dan CV berhasil disimpan! ✅"
         );
 
 
@@ -1132,20 +1607,132 @@ if (error) {
 
         showMessage(
           "error",
-          "Terjadi kesalahan: " +
+          error.message ||
+          "Terjadi kesalahan saat menyimpan profil."
+        );
+
+      }
+
+
+      resetSaveButton();
+
+    }
+
+
+    // ==========================================
+    // BUAT SIGNED URL CV
+    // ==========================================
+
+    async function createCVUrl() {
+
+      if (!currentCVPath) {
+
+        throw new Error(
+          "CV belum tersedia."
+        );
+
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .storage
+          .from("cv-files")
+          .createSignedUrl(
+            currentCVPath,
+            60 * 60
+          );
+
+
+      if (error) {
+
+        throw new Error(
+          "CV tidak dapat dibuka: " +
           error.message
         );
 
       }
 
 
-      saveButton.disabled = false;
-
-      saveButton.textContent =
-        "💾 Simpan Profil";
+      return data.signedUrl;
 
     }
 
+
+    // ==========================================
+    // LIHAT CV
+    // ==========================================
+
+    async function viewCV() {
+
+      try {
+
+        const url =
+          await createCVUrl();
+
+
+        window.open(
+          url,
+          "_blank"
+        );
+
+      } catch (error) {
+
+        showMessage(
+          "error",
+          error.message
+        );
+
+      }
+
+    }
+
+
+    // ==========================================
+    // DOWNLOAD CV
+    // ==========================================
+
+    async function downloadCV() {
+
+      try {
+
+        const url =
+          await createCVUrl();
+
+
+        const link =
+          document.createElement("a");
+
+
+        link.href =
+          url;
+
+        link.target =
+          "_blank";
+
+        link.download =
+          "CV-Sea-Marine-Job.pdf";
+
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+      } catch (error) {
+
+        showMessage(
+          "error",
+          error.message
+        );
+
+      }
+
+    }
 
 
     // ==========================================
@@ -1176,7 +1763,6 @@ if (error) {
         "daftar.html";
 
     }
-
 
 
     // ==========================================
