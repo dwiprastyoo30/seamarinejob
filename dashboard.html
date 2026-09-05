@@ -10,19 +10,15 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    Dashboard | Sea Marine Job
-  </title>
-
+  <title>Dashboard Kandidat | Sea Marine Job</title>
 
   <style>
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
-
 
     :root {
       --navy: #102a43;
@@ -33,10 +29,19 @@
       --text: #243b53;
       --muted: #627d98;
       --border: #d9e2ec;
-      --success: #22a06b;
-      --danger: #d64545;
-    }
 
+      --success-bg: #e8f8ef;
+      --success-text: #167445;
+
+      --warning-bg: #fff7e6;
+      --warning-text: #9a6700;
+
+      --danger-bg: #fdecec;
+      --danger-text: #b42318;
+
+      --info-bg: #e8f4fc;
+      --info-text: #1877b9;
+    }
 
     body {
       font-family:
@@ -49,17 +54,30 @@
 
       color:
         var(--text);
+
+      min-height: 100vh;
     }
 
+    a {
+      text-decoration: none;
+    }
 
-    /* NAVBAR */
+    button {
+      font-family: inherit;
+    }
+
+    /* =========================
+       NAVBAR
+       ========================= */
 
     .navbar {
-
-      height: 75px;
+      min-height: 72px;
 
       background:
         var(--navy);
+
+      color:
+        white;
 
       display:
         flex;
@@ -71,16 +89,13 @@
         space-between;
 
       padding:
-        0 7%;
+        0 6%;
 
-      color:
-        white;
-
+      gap:
+        20px;
     }
 
-
     .logo {
-
       display:
         flex;
 
@@ -88,66 +103,48 @@
         center;
 
       gap:
-        12px;
-
-      text-decoration:
-        none;
+        11px;
 
       color:
         white;
-
     }
-
 
     .logo-icon {
-
       font-size:
-        34px;
-
+        31px;
     }
 
-
     .logo-text {
-
       display:
         flex;
 
       flex-direction:
         column;
-
     }
 
-
     .logo-text strong {
-
       font-size:
-        20px;
+        19px;
 
       letter-spacing:
         .5px;
-
     }
 
-
     .logo-text span {
-
       font-size:
-        10px;
+        9px;
 
       letter-spacing:
-        2px;
+        1.8px;
 
       opacity:
         .7;
 
       margin-top:
-        4px;
-
+        3px;
     }
 
-
     .nav-right {
-
       display:
         flex;
 
@@ -155,43 +152,32 @@
         center;
 
       gap:
-        20px;
-
-    }
-
-
-    .user-info {
-
-      text-align:
-        right;
-
-    }
-
-
-    .user-info strong {
-
-      display:
-        block;
-
-      font-size:
         14px;
-
     }
 
-
-    .user-info span {
+    .nav-link {
+      color:
+        rgba(255,255,255,.88);
 
       font-size:
-        11px;
+        13px;
 
-      opacity:
-        .7;
+      font-weight:
+        bold;
 
+      padding:
+        9px 11px;
+
+      border-radius:
+        7px;
     }
 
+    .nav-link:hover {
+      background:
+        rgba(255,255,255,.1);
+    }
 
     .logout-btn {
-
       border:
         none;
 
@@ -202,7 +188,7 @@
         white;
 
       padding:
-        10px 18px;
+        9px 15px;
 
       border-radius:
         8px;
@@ -213,37 +199,35 @@
       font-weight:
         bold;
 
+      font-size:
+        13px;
     }
-
 
     .logout-btn:hover {
-
-      opacity:
-        .9;
-
+      background:
+        #b93434;
     }
 
-
-    /* LAYOUT */
+    /* =========================
+       MAIN
+       ========================= */
 
     .dashboard {
+      width:
+        92%;
 
       max-width:
-        1250px;
+        1240px;
 
       margin:
-        35px auto;
-
-      padding:
-        0 20px;
-
+        32px auto 60px;
     }
 
-
-    /* WELCOME */
+    /* =========================
+       WELCOME
+       ========================= */
 
     .welcome-card {
-
       background:
         linear-gradient(
           135deg,
@@ -254,44 +238,132 @@
       color:
         white;
 
-      padding:
-        35px;
-
       border-radius:
         18px;
 
-      margin-bottom:
-        30px;
+      padding:
+        34px;
 
+      margin-bottom:
+        24px;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
     }
 
+    .welcome-card::after {
+      content:
+        "";
+
+      position:
+        absolute;
+
+      width:
+        230px;
+
+      height:
+        230px;
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      border-radius:
+        50%;
+
+      right:
+        -70px;
+
+      top:
+        -80px;
+    }
 
     .welcome-card h1 {
-
       font-size:
-        30px;
+        29px;
 
       margin-bottom:
-        10px;
+        9px;
 
+      position:
+        relative;
+
+      z-index:
+        1;
     }
 
-
     .welcome-card p {
-
-      opacity:
-        .85;
+      font-size:
+        14px;
 
       line-height:
         1.6;
 
+      opacity:
+        .88;
+
+      max-width:
+        700px;
+
+      position:
+        relative;
+
+      z-index:
+        1;
     }
 
+    /* =========================
+       MESSAGE
+       ========================= */
 
-    /* STATS */
+    .message {
+      display:
+        none;
+
+      padding:
+        14px 16px;
+
+      border-radius:
+        10px;
+
+      margin-bottom:
+        20px;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.5;
+    }
+
+    .message.show {
+      display:
+        block;
+    }
+
+    .message.error {
+      background:
+        var(--danger-bg);
+
+      color:
+        var(--danger-text);
+    }
+
+    .message.info {
+      background:
+        var(--info-bg);
+
+      color:
+        var(--info-text);
+    }
+
+    /* =========================
+       STATS
+       ========================= */
 
     .stats {
-
       display:
         grid;
 
@@ -299,79 +371,79 @@
         repeat(4, 1fr);
 
       gap:
-        20px;
+        16px;
 
       margin-bottom:
-        30px;
-
+        24px;
     }
 
-
     .stat-card {
-
       background:
         white;
-
-      padding:
-        22px;
-
-      border-radius:
-        15px;
 
       border:
         1px solid var(--border);
 
+      border-radius:
+        14px;
+
+      padding:
+        20px;
+
+      box-shadow:
+        0 4px 16px rgba(20,50,70,.035);
     }
 
-
-    .stat-card span {
-
+    .stat-icon {
       font-size:
-        25px;
+        23px;
 
+      margin-bottom:
+        8px;
     }
 
-
-    .stat-card h3 {
-
+    .stat-number {
       font-size:
-        26px;
+        27px;
 
-      margin:
-        10px 0 5px;
+      font-weight:
+        bold;
 
+      color:
+        var(--text);
+
+      margin-bottom:
+        4px;
     }
 
-
-    .stat-card p {
+    .stat-label {
+      font-size:
+        12px;
 
       color:
         var(--muted);
-
-      font-size:
-        13px;
-
     }
 
-
-    /* MAIN GRID */
+    /* =========================
+       MAIN GRID
+       ========================= */
 
     .main-grid {
-
       display:
         grid;
 
       grid-template-columns:
-        2fr 1fr;
+        minmax(0, 2fr)
+        minmax(280px, 1fr);
 
       gap:
-        25px;
+        22px;
 
+      align-items:
+        start;
     }
 
-
     .card {
-
       background:
         white;
 
@@ -382,13 +454,13 @@
         16px;
 
       padding:
-        25px;
+        24px;
 
+      box-shadow:
+        0 4px 18px rgba(20,50,70,.035);
     }
 
-
     .card-header {
-
       display:
         flex;
 
@@ -398,41 +470,59 @@
       align-items:
         center;
 
+      gap:
+        15px;
+
       margin-bottom:
         20px;
-
     }
-
 
     .card-header h2 {
-
       font-size:
         20px;
-
     }
 
+    .card-header p {
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      margin-top:
+        4px;
+    }
 
     .view-all {
-
       color:
         var(--blue);
 
-      text-decoration:
-        none;
-
       font-size:
-        13px;
+        12px;
 
       font-weight:
         bold;
 
+      white-space:
+        nowrap;
     }
 
+    /* =========================
+       APPLICATION
+       ========================= */
 
-    /* JOB */
+    .application-list {
+      display:
+        flex;
 
-    .job-item {
+      flex-direction:
+        column;
 
+      gap:
+        13px;
+    }
+
+    .application-item {
       border:
         1px solid var(--border);
 
@@ -440,74 +530,65 @@
         12px;
 
       padding:
-        18px;
-
-      margin-bottom:
-        15px;
+        17px;
 
       transition:
-        .3s;
-
+        .2s;
     }
 
-
-    .job-item:hover {
-
+    .application-item:hover {
       border-color:
-        var(--blue);
+        #b7d7eb;
 
-      transform:
-        translateY(-2px);
-
+      box-shadow:
+        0 5px 15px rgba(20,80,120,.06);
     }
 
-
-    .job-top {
-
+    .application-top {
       display:
         flex;
 
       justify-content:
         space-between;
 
+      align-items:
+        flex-start;
+
       gap:
         15px;
-
     }
 
-
-    .job-title {
+    .application-title {
+      font-size:
+        16px;
 
       font-weight:
         bold;
 
-      font-size:
-        16px;
+      color:
+        var(--text);
 
       margin-bottom:
-        7px;
-
+        6px;
     }
 
-
-    .company {
-
+    .application-company {
       color:
         var(--muted);
 
       font-size:
         13px;
-
     }
 
+    .status-badge {
+      display:
+        inline-flex;
 
-    .job-tag {
+      align-items:
+        center;
 
-      background:
-        #e8f4fc;
-
-      color:
-        var(--blue);
+      justify-content:
+        center;
 
       padding:
         6px 10px;
@@ -516,60 +597,214 @@
         20px;
 
       font-size:
-        11px;
+        10px;
 
-      height:
-        fit-content;
+      font-weight:
+        bold;
 
+      white-space:
+        nowrap;
     }
 
+    .status-submitted {
+      background:
+        var(--info-bg);
 
-    .job-detail {
+      color:
+        var(--info-text);
+    }
+
+    .status-reviewing,
+    .status-interview {
+      background:
+        var(--warning-bg);
+
+      color:
+        var(--warning-text);
+    }
+
+    .status-accepted {
+      background:
+        var(--success-bg);
+
+      color:
+        var(--success-text);
+    }
+
+    .status-rejected,
+    .status-withdrawn {
+      background:
+        var(--danger-bg);
+
+      color:
+        var(--danger-text);
+    }
+
+    .application-meta {
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px 18px;
+
+      margin-top:
+        14px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+    }
+
+    .application-actions {
+      margin-top:
+        15px;
 
       display:
         flex;
 
-      gap:
-        15px;
+      justify-content:
+        flex-end;
+    }
 
-      margin-top:
-        15px;
+    .detail-btn {
+      display:
+        inline-block;
 
+      border:
+        1px solid #c9dce9;
+
+      color:
+        var(--blue);
+
+      background:
+        #f7fbfe;
+
+      padding:
+        8px 12px;
+
+      border-radius:
+        7px;
+
+      font-size:
+        11px;
+
+      font-weight:
+        bold;
+    }
+
+    .detail-btn:hover {
+      background:
+        #eaf4fb;
+    }
+
+    /* =========================
+       EMPTY STATE
+       ========================= */
+
+    .empty-state {
+      text-align:
+        center;
+
+      padding:
+        38px 20px;
+    }
+
+    .empty-icon {
+      font-size:
+        43px;
+
+      margin-bottom:
+        13px;
+    }
+
+    .empty-state h3 {
+      font-size:
+        17px;
+
+      margin-bottom:
+        7px;
+    }
+
+    .empty-state p {
       color:
         var(--muted);
 
       font-size:
         12px;
 
+      line-height:
+        1.6;
+
+      max-width:
+        430px;
+
+      margin:
+        0 auto 18px;
     }
 
-
-    /* PROFILE */
-
-    .profile-box {
-
-      text-align:
-        center;
-
-    }
-
-
-    .profile-avatar {
-
-      width:
-        75px;
-
-      height:
-        75px;
-
-      border-radius:
-        50%;
+    .primary-btn {
+      display:
+        inline-block;
 
       background:
         var(--blue);
 
       color:
         white;
+
+      padding:
+        11px 17px;
+
+      border-radius:
+        8px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        bold;
+    }
+
+    .primary-btn:hover {
+      background:
+        var(--blue-dark);
+    }
+
+    /* =========================
+       PROFILE CARD
+       ========================= */
+
+    .profile-summary {
+      text-align:
+        center;
+    }
+
+    .profile-avatar {
+      width:
+        82px;
+
+      height:
+        82px;
+
+      margin:
+        0 auto 14px;
+
+      border-radius:
+        50%;
+
+      overflow:
+        hidden;
+
+      background:
+        #eaf4fb;
+
+      border:
+        2px solid #d7e8f4;
 
       display:
         flex;
@@ -580,53 +815,116 @@
       justify-content:
         center;
 
+      color:
+        var(--blue);
+
       font-size:
-        28px;
+        30px;
 
-      margin:
-        auto;
-
-      margin-bottom:
-        15px;
-
+      font-weight:
+        bold;
     }
 
+    .profile-avatar img {
+      width:
+        100%;
 
-    .profile-box h3 {
+      height:
+        100%;
+
+      object-fit:
+        cover;
+    }
+
+    .profile-name {
+      font-size:
+        18px;
+
+      font-weight:
+        bold;
 
       margin-bottom:
         5px;
-
     }
 
-
-    .profile-box p {
-
+    .profile-email {
       color:
         var(--muted);
 
       font-size:
         12px;
 
-      margin-bottom:
-        20px;
-
+      word-break:
+        break-word;
     }
 
+    .account-badge {
+      display:
+        inline-block;
+
+      margin-top:
+        10px;
+
+      background:
+        #eef6fb;
+
+      color:
+        var(--blue);
+
+      padding:
+        5px 9px;
+
+      border-radius:
+        20px;
+
+      font-size:
+        10px;
+
+      font-weight:
+        bold;
+    }
+
+    /* =========================
+       PROFILE PROGRESS
+       ========================= */
 
     .profile-progress {
+      margin-top:
+        24px;
+
+      padding-top:
+        20px;
+
+      border-top:
+        1px solid var(--border);
 
       text-align:
         left;
-
-      margin-top:
-        20px;
-
     }
 
+    .progress-header {
+      display:
+        flex;
 
-    .progress-bar {
+      justify-content:
+        space-between;
 
+      gap:
+        10px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        bold;
+    }
+
+    .progress-percent {
+      color:
+        var(--blue);
+    }
+
+    .progress-track {
       height:
         9px;
 
@@ -640,15 +938,12 @@
         hidden;
 
       margin:
-        10px 0;
-
+        10px 0 8px;
     }
 
-
-    .progress {
-
+    .progress-fill {
       width:
-        60%;
+        0%;
 
       height:
         100%;
@@ -656,22 +951,36 @@
       background:
         var(--blue);
 
+      border-radius:
+        20px;
+
+      transition:
+        width .4s ease;
     }
 
+    .progress-text {
+      color:
+        var(--muted);
 
-    .btn {
+      font-size:
+        11px;
 
+      line-height:
+        1.5;
+    }
+
+    .profile-btn {
       display:
         block;
-
-      width:
-        100%;
 
       text-align:
         center;
 
-      text-decoration:
-        none;
+      width:
+        100%;
+
+      margin-top:
+        18px;
 
       background:
         var(--blue);
@@ -680,117 +989,277 @@
         white;
 
       padding:
-        12px;
+        11px;
 
       border-radius:
         8px;
 
+      font-size:
+        12px;
+
+      font-weight:
+        bold;
+    }
+
+    .profile-btn:hover {
+      background:
+        var(--blue-dark);
+    }
+
+    /* =========================
+       RECOMMENDED JOBS
+       ========================= */
+
+    .recommendations {
+      margin-top:
+        22px;
+    }
+
+    .recommendation-list {
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        10px;
+    }
+
+    .recommendation-item {
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        10px;
+
+      padding:
+        13px;
+
+      transition:
+        .2s;
+    }
+
+    .recommendation-item:hover {
+      border-color:
+        #b7d7eb;
+    }
+
+    .recommendation-title {
+      color:
+        var(--text);
+
       font-weight:
         bold;
 
+      font-size:
+        13px;
+
+      margin-bottom:
+        4px;
+    }
+
+    .recommendation-company {
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+      margin-bottom:
+        9px;
+    }
+
+    .recommendation-meta {
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        7px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+    }
+
+    .recommendation-link {
+      display:
+        inline-block;
+
       margin-top:
-        20px;
+        9px;
 
+      color:
+        var(--blue);
+
+      font-size:
+        10px;
+
+      font-weight:
+        bold;
     }
 
+    /* =========================
+       LOADING
+       ========================= */
 
-    .btn:hover {
+    .loading {
+      text-align:
+        center;
 
-      background:
-        var(--blue-dark);
+      padding:
+        35px 15px;
 
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
     }
 
+    .loading-spinner {
+      width:
+        30px;
 
-    /* RESPONSIVE */
+      height:
+        30px;
 
-    @media (
-      max-width: 900px
-    ) {
+      border:
+        3px solid #dce8ef;
+
+      border-top-color:
+        var(--blue);
+
+      border-radius:
+        50%;
+
+      margin:
+        0 auto 12px;
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform:
+          rotate(360deg);
+      }
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 1000px) {
 
       .stats {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
+      .main-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+    @media (max-width: 650px) {
+
+      .navbar {
+        padding:
+          0 20px;
+      }
+
+      .nav-link {
+        display:
+          none;
+      }
+
+      .logo-text strong {
+        font-size:
+          15px;
+      }
+
+      .logo-text span {
+        font-size:
+          7px;
+      }
+
+      .dashboard {
+        width:
+          94%;
+
+        margin-top:
+          20px;
+      }
+
+      .welcome-card {
+        padding:
+          25px 21px;
+      }
+
+      .welcome-card h1 {
+        font-size:
+          23px;
+      }
+
+      .stats {
         grid-template-columns:
           1fr 1fr;
 
+        gap:
+          10px;
       }
 
+      .stat-card {
+        padding:
+          15px;
+      }
 
-      .main-grid {
+      .stat-number {
+        font-size:
+          23px;
+      }
 
-        grid-template-columns:
-          1fr;
+      .card {
+        padding:
+          18px;
+      }
 
+      .application-top {
+        flex-direction:
+          column;
+      }
+
+      .application-actions {
+        justify-content:
+          flex-start;
       }
 
     }
 
-
-    @media (
-      max-width: 600px
-    ) {
-
-      .navbar {
-
-        padding:
-          0 20px;
-
-      }
-
-
-      .logo-text strong {
-
-        font-size:
-          15px;
-
-      }
-
-
-      .logo-text span {
-
-        font-size:
-          8px;
-
-      }
-
-
-      .user-info {
-
-        display:
-          none;
-
-      }
-
-
-      .welcome-card {
-
-        padding:
-          25px;
-
-      }
-
-
-      .welcome-card h1 {
-
-        font-size:
-          23px;
-
-      }
-
+    @media (max-width: 430px) {
 
       .stats {
-
         grid-template-columns:
           1fr;
-
       }
 
+      .logout-btn {
+        padding:
+          8px 11px;
+      }
 
-      .job-top {
-
-        flex-direction:
-          column;
-
+      .welcome-card h1 {
+        font-size:
+          21px;
       }
 
     }
@@ -803,10 +1272,11 @@
 <body>
 
 
-  <!-- NAVBAR -->
+  <!-- =========================
+       NAVBAR
+       ========================= -->
 
   <nav class="navbar">
-
 
     <a
       href="index.html"
@@ -816,7 +1286,6 @@
       <div class="logo-icon">
         ⚓
       </div>
-
 
       <div class="logo-text">
 
@@ -835,40 +1304,36 @@
 
     <div class="nav-right">
 
+      <a
+        href="kapal.html"
+        class="nav-link"
+      >
+        Cari Lowongan
+      </a>
 
-      <div class="user-info">
-
-        <strong
-          id="userName"
-        >
-          Memuat...
-        </strong>
-
-        <span>
-          Pencari Kerja
-        </span>
-
-      </div>
-
+      <a
+        href="profil.html"
+        class="nav-link"
+      >
+        Profil Saya
+      </a>
 
       <button
+        type="button"
         class="logout-btn"
         onclick="logout()"
       >
-
         Keluar
-
       </button>
 
-
     </div>
-
 
   </nav>
 
 
-
-  <!-- DASHBOARD -->
+  <!-- =========================
+       MAIN DASHBOARD
+       ========================= -->
 
   <main class="dashboard">
 
@@ -878,97 +1343,113 @@
     <section class="welcome-card">
 
       <h1>
-
         Selamat Datang,
         <span id="welcomeName">
           Pelaut
         </span>
         👋
-
       </h1>
 
-
       <p>
-
-        Temukan peluang karier terbaik
-        di industri maritim, pelayaran,
-        offshore, dan logistik.
-
+        Kelola profil, pantau lamaran,
+        dan temukan peluang karier terbaik
+        di industri maritim.
       </p>
 
     </section>
 
 
+    <!-- MESSAGE -->
 
-    <!-- STATISTIK -->
+    <div
+      id="dashboardMessage"
+      class="message"
+    ></div>
+
+
+    <!-- =========================
+         STATISTICS
+         ========================= -->
 
     <section class="stats">
 
 
       <div class="stat-card">
 
-        <span>
-          ⚓
-        </span>
-
-        <h3>
-          0
-        </h3>
-
-        <p>
-          Lowongan Dilamar
-        </p>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <span>
+        <div class="stat-icon">
           📄
-        </span>
+        </div>
 
-        <h3>
+        <div
+          class="stat-number"
+          id="totalApplications"
+        >
           0
-        </h3>
+        </div>
 
-        <p>
-          Lamaran Diproses
-        </p>
+        <div class="stat-label">
+          Total Lamaran
+        </div>
 
       </div>
 
 
       <div class="stat-card">
 
-        <span>
-          ⭐
-        </span>
+        <div class="stat-icon">
+          🔄
+        </div>
 
-        <h3>
+        <div
+          class="stat-number"
+          id="activeApplications"
+        >
           0
-        </h3>
+        </div>
 
-        <p>
-          Lowongan Disimpan
-        </p>
+        <div class="stat-label">
+          Sedang Diproses
+        </div>
 
       </div>
 
 
       <div class="stat-card">
 
-        <span>
-          🔔
-        </span>
+        <div class="stat-icon">
+          ✅
+        </div>
 
-        <h3>
+        <div
+          class="stat-number"
+          id="acceptedApplications"
+        >
           0
-        </h3>
+        </div>
 
-        <p>
-          Notifikasi Baru
-        </p>
+        <div class="stat-label">
+          Diterima
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ❌
+        </div>
+
+        <div
+          class="stat-number"
+          id="rejectedApplications"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          Ditolak
+        </div>
 
       </div>
 
@@ -976,272 +1457,189 @@
     </section>
 
 
-
-    <!-- MAIN CONTENT -->
+    <!-- =========================
+         MAIN GRID
+         ========================= -->
 
     <section class="main-grid">
 
 
-      <!-- LOWONGAN -->
+      <!-- =========================
+           LAMARAN SAYA
+           ========================= -->
 
       <div class="card">
 
-
         <div class="card-header">
 
-          <h2>
-            Lowongan Rekomendasi
-          </h2>
+          <div>
 
+            <h2>
+              Lamaran Saya
+            </h2>
+
+            <p>
+              Pantau status pekerjaan yang sudah Anda lamar.
+            </p>
+
+          </div>
 
           <a
             href="kapal.html"
             class="view-all"
           >
-
-            Lihat Semua →
-
+            Cari Lowongan →
           </a>
 
         </div>
 
 
-
-        <div class="job-item">
-
-
-          <div class="job-top">
-
-            <div>
-
-              <div class="job-title">
-
-                Chief Officer
-
-              </div>
-
-
-              <div class="company">
-
-                PT Samudera Nusantara
-
-              </div>
-
-            </div>
-
-
-            <div class="job-tag">
-
-              Kapal
-
-            </div>
-
-          </div>
-
-
-          <div class="job-detail">
-
-            <span>
-              ⚓ Cargo Ship
-            </span>
-
-            <span>
-              🌍 International
-            </span>
-
-            <span>
-              💼 Full Time
-            </span>
-
-          </div>
-
-
-        </div>
-
-
-
-        <div class="job-item">
-
-
-          <div class="job-top">
-
-            <div>
-
-              <div class="job-title">
-
-                Second Engineer
-
-              </div>
-
-
-              <div class="company">
-
-                PT Ocean Marine Indonesia
-
-              </div>
-
-            </div>
-
-
-            <div class="job-tag">
-
-              Kapal
-
-            </div>
-
-          </div>
-
-
-          <div class="job-detail">
-
-            <span>
-              ⚙ Engine Department
-            </span>
-
-            <span>
-              🌍 International
-            </span>
-
-            <span>
-              💼 Full Time
-            </span>
-
-          </div>
-
-
-        </div>
-
-
-
-        <div class="job-item">
-
-
-          <div class="job-top">
-
-            <div>
-
-              <div class="job-title">
-
-                Port Captain
-
-              </div>
-
-
-              <div class="company">
-
-                PT Maritime Logistic
-
-              </div>
-
-            </div>
-
-
-            <div class="job-tag">
-
-              Darat
-
-            </div>
-
-          </div>
-
-
-          <div class="job-detail">
-
-            <span>
-              📍 Jakarta
-            </span>
-
-            <span>
-              ⚓ Maritime
-            </span>
-
-            <span>
-              💼 Full Time
-            </span>
-
-          </div>
-
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- PROFILE -->
-
-      <div class="card">
-
-
-        <div class="profile-box">
-
-
-          <div class="profile-avatar">
-
-            👨‍✈️
-
-          </div>
-
-
-          <h3
-            id="profileName"
-          >
-
-            Memuat...
-
-          </h3>
-
-
-          <p
-            id="profileEmail"
-          >
-
-            Memuat email...
-
-          </p>
-
-
-        </div>
-
-
-
-        <div class="profile-progress">
-
-          <strong>
-            Kelengkapan Profil
-          </strong>
-
-
-          <div class="progress-bar">
-
-            <div
-              class="progress"
-            ></div>
-
-          </div>
-
-
-          <p>
-
-            60% Profil Lengkap
-
-          </p>
-
-        </div>
-
-
-        <a
-          href="#"
-          class="btn"
+        <div
+          id="applicationsContainer"
+          class="application-list"
         >
 
-          Lengkapi Profil
+          <div class="loading">
 
-        </a>
+            <div class="loading-spinner"></div>
 
+            Memuat lamaran...
+
+          </div>
+
+        </div>
 
       </div>
+
+
+      <!-- =========================
+           SIDEBAR
+           ========================= -->
+
+      <aside>
+
+
+        <!-- PROFILE -->
+
+        <div class="card">
+
+          <div class="profile-summary">
+
+            <div
+              class="profile-avatar"
+              id="profileAvatar"
+            >
+              👤
+            </div>
+
+            <div
+              class="profile-name"
+              id="profileName"
+            >
+              Memuat...
+            </div>
+
+            <div
+              class="profile-email"
+              id="profileEmail"
+            >
+              Memuat...
+            </div>
+
+            <div
+              class="account-badge"
+              id="accountType"
+            >
+              PENCARI KERJA
+            </div>
+
+          </div>
+
+
+          <div class="profile-progress">
+
+            <div class="progress-header">
+
+              <span>
+                Kelengkapan Profil
+              </span>
+
+              <span
+                class="progress-percent"
+                id="profilePercent"
+              >
+                0%
+              </span>
+
+            </div>
+
+
+            <div class="progress-track">
+
+              <div
+                class="progress-fill"
+                id="profileProgress"
+              ></div>
+
+            </div>
+
+
+            <div
+              class="progress-text"
+              id="profileProgressText"
+            >
+              Memeriksa kelengkapan profil...
+            </div>
+
+
+            <a
+              href="profil.html"
+              class="profile-btn"
+            >
+              Lengkapi Profil
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- RECOMMENDATIONS -->
+
+        <div class="card recommendations">
+
+          <div class="card-header">
+
+            <div>
+
+              <h2>
+                Lowongan Terbaru
+              </h2>
+
+              <p>
+                Peluang terbaru di Sea Marine Job.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="recommendationContainer"
+            class="recommendation-list"
+          >
+
+            <div class="loading">
+              Memuat lowongan...
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </aside>
 
 
     </section>
@@ -1250,8 +1648,9 @@
   </main>
 
 
-
-  <!-- SUPABASE -->
+  <!-- =========================
+       SUPABASE
+       ========================= -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1259,13 +1658,15 @@
   <script>
 
 
-    const SUPABASE_URL =
-      "https://vkohnzfibdmzupmoutkd.supabase.co";
+    // ==========================================
+    // SUPABASE
+    // ==========================================
 
+    const SUPABASE_URL =
+      "https://pnyqdhcaabpxbatpubcb.supabase.co";
 
     const SUPABASE_KEY =
-      "sb_publishable_k_BCbFBatbtK13B7cMjYhw_GwBRQ6PM";
-
+      "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
 
     const supabaseClient =
       supabase.createClient(
@@ -1274,37 +1675,300 @@
       );
 
 
+    // ==========================================
+    // GLOBAL VARIABLES
+    // ==========================================
 
-    async function loadUser() {
+    let currentUser = null;
+
+    let currentProfile = null;
+
+    let applications = [];
+
+    let applicationJobs = {};
 
 
-      const response =
-        await supabaseClient.auth.getUser();
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
+
+    function escapeHTML(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
 
 
-      const user =
-        response.data.user;
+    // ==========================================
+    // SHOW MESSAGE
+    // ==========================================
+
+    function showMessage(
+      type,
+      text
+    ) {
+
+      const element =
+        document.getElementById(
+          "dashboardMessage"
+        );
+
+      element.className =
+        "message show " + type;
+
+      element.textContent =
+        text;
+
+    }
 
 
-      if (!user) {
+    // ==========================================
+    // FORMAT DATE
+    // ==========================================
+
+    function formatDate(
+      dateValue
+    ) {
+
+      if (!dateValue) {
+        return "-";
+      }
+
+      const date =
+        new Date(dateValue);
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return "-";
+      }
+
+      return date.toLocaleDateString(
+        "id-ID",
+        {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    // ==========================================
+    // STATUS
+    // ==========================================
+
+    function normalizeStatus(
+      status
+    ) {
+
+      return String(
+        status || "submitted"
+      )
+        .trim()
+        .toLowerCase();
+
+    }
+
+
+    function getStatusLabel(
+      status
+    ) {
+
+      const normalized =
+        normalizeStatus(status);
+
+      const labels = {
+
+        submitted:
+          "Dikirim",
+
+        reviewing:
+          "Sedang Ditinjau",
+
+        review:
+          "Sedang Ditinjau",
+
+        interview:
+          "Tahap Interview",
+
+        accepted:
+          "Diterima",
+
+        hired:
+          "Diterima",
+
+        rejected:
+          "Ditolak",
+
+        withdrawn:
+          "Dibatalkan"
+
+      };
+
+      return (
+        labels[normalized]
+        || normalized
+          .replace(/_/g, " ")
+          .replace(
+            /\b\w/g,
+            char =>
+              char.toUpperCase()
+          )
+      );
+
+    }
+
+
+    function getStatusClass(
+      status
+    ) {
+
+      const normalized =
+        normalizeStatus(status);
+
+      if (
+        normalized === "accepted" ||
+        normalized === "hired"
+      ) {
+        return "status-accepted";
+      }
+
+      if (
+        normalized === "rejected" ||
+        normalized === "withdrawn"
+      ) {
+        return "status-rejected";
+      }
+
+      if (
+        normalized === "reviewing" ||
+        normalized === "review" ||
+        normalized === "interview"
+      ) {
+        return "status-reviewing";
+      }
+
+      return "status-submitted";
+
+    }
+
+
+    // ==========================================
+    // LOAD CURRENT USER
+    // ==========================================
+
+    async function loadCurrentUser() {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .auth
+          .getUser();
+
+      if (error) {
+        console.error(
+          "Auth error:",
+          error
+        );
+      }
+
+      currentUser =
+        data?.user || null;
+
+
+      if (!currentUser) {
 
         window.location.href =
           "daftar.html";
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    // ==========================================
+    // LOAD PROFILE
+    // ==========================================
+
+    async function loadProfile() {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(`
+            user_id,
+            full_name,
+            phone,
+            email,
+            account_type,
+            photo_url,
+            address,
+            city,
+            education,
+            position,
+            experience,
+            cv_path
+          `)
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Profile error:",
+          error
+        );
+
+        currentProfile =
+          null;
 
         return;
 
       }
 
 
+      currentProfile =
+        data || null;
+
+
       const fullName =
-        user.user_metadata.full_name
-        || "Pelaut";
-
-
-      document.getElementById(
-        "userName"
-      ).textContent =
-        fullName;
+        currentProfile?.full_name
+        ||
+        currentUser
+          ?.user_metadata
+          ?.full_name
+        ||
+        "Pelaut";
 
 
       document.getElementById(
@@ -1322,17 +1986,844 @@
       document.getElementById(
         "profileEmail"
       ).textContent =
-        user.email;
+        currentUser.email
+        || "-";
 
+
+      const accountType =
+        currentProfile
+          ?.account_type
+          || "jobseeker";
+
+
+      document.getElementById(
+        "accountType"
+      ).textContent =
+        accountType === "company"
+          ? "PERUSAHAAN"
+          : "PENCARI KERJA";
+
+
+      updateProfileCompleteness();
+
+      loadProfilePhoto();
 
     }
 
 
+    // ==========================================
+    // PROFILE PHOTO
+    // ==========================================
+
+    function loadProfilePhoto() {
+
+      const avatar =
+        document.getElementById(
+          "profileAvatar"
+        );
+
+
+      const photoUrl =
+        currentProfile
+          ?.photo_url;
+
+
+      if (!photoUrl) {
+
+        avatar.innerHTML =
+          "👤";
+
+        return;
+
+      }
+
+
+      avatar.innerHTML =
+        `
+          <img
+            src="${escapeHTML(photoUrl)}"
+            alt="Foto profil"
+          >
+        `;
+
+    }
+
+
+    // ==========================================
+    // PROFILE COMPLETENESS
+    // ==========================================
+
+    function updateProfileCompleteness() {
+
+      const profile =
+        currentProfile || {};
+
+
+      const fields = [
+
+        profile.full_name,
+
+        profile.phone,
+
+        profile.city,
+
+        profile.address,
+
+        profile.education,
+
+        profile.position,
+
+        profile.experience,
+
+        profile.cv_path,
+
+        profile.photo_url
+
+      ];
+
+
+      const completed =
+        fields.filter(
+          value =>
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== ""
+        ).length;
+
+
+      const total =
+        fields.length;
+
+
+      const percentage =
+        Math.round(
+          (completed / total) * 100
+        );
+
+
+      document.getElementById(
+        "profilePercent"
+      ).textContent =
+        percentage + "%";
+
+
+      document.getElementById(
+        "profileProgress"
+      ).style.width =
+        percentage + "%";
+
+
+      let text =
+        "Lengkapi profil Anda untuk meningkatkan peluang dilirik perusahaan.";
+
+
+      if (percentage >= 100) {
+
+        text =
+          "Profil Anda sudah lengkap dan siap digunakan untuk melamar.";
+
+      }
+      else if (percentage >= 75) {
+
+        text =
+          "Profil Anda hampir lengkap. Lengkapi beberapa data yang masih kosong.";
+
+      }
+      else if (percentage >= 50) {
+
+        text =
+          "Profil sudah cukup baik, tetapi masih ada data penting yang perlu dilengkapi.";
+
+      }
+
+
+      document.getElementById(
+        "profileProgressText"
+      ).textContent =
+        text;
+
+    }
+
+
+    // ==========================================
+    // LOAD APPLICATIONS
+    // ==========================================
+
+    async function loadApplications() {
+
+      const container =
+        document.getElementById(
+          "applicationsContainer"
+        );
+
+
+      container.innerHTML =
+        `
+          <div class="loading">
+
+            <div class="loading-spinner"></div>
+
+            Memuat lamaran...
+
+          </div>
+        `;
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("applications")
+          .select(`
+            id,
+            job_id,
+            user_id,
+            cover_letter,
+            cv_path,
+            status,
+            created_at
+          `)
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Applications error:",
+          error
+        );
+
+
+        container.innerHTML =
+          `
+            <div class="empty-state">
+
+              <div class="empty-icon">
+                ⚠️
+              </div>
+
+              <h3>
+                Lamaran belum dapat dimuat
+              </h3>
+
+              <p>
+                Terjadi masalah saat mengambil data lamaran.
+                Silakan refresh halaman.
+              </p>
+
+              <button
+                type="button"
+                class="primary-btn"
+                onclick="loadApplications()"
+              >
+                Coba Lagi
+              </button>
+
+            </div>
+          `;
+
+        showMessage(
+          "error",
+          "Data lamaran tidak dapat dimuat. Periksa policy RLS pada tabel applications."
+        );
+
+        return;
+
+      }
+
+
+      applications =
+        data || [];
+
+
+      await loadApplicationJobs();
+
+
+      renderApplicationStats();
+
+      renderApplications();
+
+    }
+
+
+    // ==========================================
+    // LOAD JOBS FOR APPLICATIONS
+    // ==========================================
+
+    async function loadApplicationJobs() {
+
+      applicationJobs = {};
+
+
+      if (
+        !applications.length
+      ) {
+        return;
+      }
+
+
+      const jobIds =
+        [
+          ...new Set(
+            applications
+              .map(
+                item => item.job_id
+              )
+              .filter(Boolean)
+          )
+        ];
+
+
+      if (!jobIds.length) {
+        return;
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("jobs")
+          .select(`
+            id,
+            title,
+            company_name,
+            location,
+            vessel_type,
+            employment_type,
+            salary,
+            status
+          `)
+          .in(
+            "id",
+            jobIds
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Job lookup error:",
+          error
+        );
+
+        return;
+
+      }
+
+
+      (data || [])
+        .forEach(
+          job => {
+
+            applicationJobs[
+              job.id
+            ] = job;
+
+          }
+        );
+
+    }
+
+
+    // ==========================================
+    // APPLICATION STATS
+    // ==========================================
+
+    function renderApplicationStats() {
+
+      let active = 0;
+
+      let accepted = 0;
+
+      let rejected = 0;
+
+
+      applications.forEach(
+        application => {
+
+          const status =
+            normalizeStatus(
+              application.status
+            );
+
+
+          if (
+            [
+              "submitted",
+              "reviewing",
+              "review",
+              "interview"
+            ].includes(status)
+          ) {
+
+            active++;
+
+          }
+
+
+          if (
+            [
+              "accepted",
+              "hired"
+            ].includes(status)
+          ) {
+
+            accepted++;
+
+          }
+
+
+          if (
+            status === "rejected"
+          ) {
+
+            rejected++;
+
+          }
+
+        }
+      );
+
+
+      document.getElementById(
+        "totalApplications"
+      ).textContent =
+        applications.length;
+
+
+      document.getElementById(
+        "activeApplications"
+      ).textContent =
+        active;
+
+
+      document.getElementById(
+        "acceptedApplications"
+      ).textContent =
+        accepted;
+
+
+      document.getElementById(
+        "rejectedApplications"
+      ).textContent =
+        rejected;
+
+    }
+
+
+    // ==========================================
+    // RENDER APPLICATIONS
+    // ==========================================
+
+    function renderApplications() {
+
+      const container =
+        document.getElementById(
+          "applicationsContainer"
+        );
+
+
+      if (
+        !applications.length
+      ) {
+
+        container.innerHTML =
+          `
+            <div class="empty-state">
+
+              <div class="empty-icon">
+                📄
+              </div>
+
+              <h3>
+                Belum ada lamaran
+              </h3>
+
+              <p>
+                Anda belum melamar lowongan apa pun.
+                Temukan lowongan yang sesuai dengan pengalaman
+                dan posisi yang Anda inginkan.
+              </p>
+
+              <a
+                href="kapal.html"
+                class="primary-btn"
+              >
+                Cari Lowongan
+              </a>
+
+            </div>
+          `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        applications
+          .map(
+            application =>
+              renderApplication(
+                application
+              )
+          )
+          .join("");
+
+    }
+
+
+    // ==========================================
+    // RENDER SINGLE APPLICATION
+    // ==========================================
+
+    function renderApplication(
+      application
+    ) {
+
+      const job =
+        applicationJobs[
+          application.job_id
+        ] || null;
+
+
+      const title =
+        job?.title
+        || "Lowongan tidak tersedia";
+
+
+      const company =
+        job?.company_name
+        || "Perusahaan tidak tersedia";
+
+
+      const location =
+        job?.location
+        || "-";
+
+
+      const vessel =
+        job?.vessel_type
+        || "-";
+
+
+      const employment =
+        job?.employment_type
+        || "-";
+
+
+      const status =
+        normalizeStatus(
+          application.status
+        );
+
+
+      const statusClass =
+        getStatusClass(
+          status
+        );
+
+
+      const statusLabel =
+        getStatusLabel(
+          status
+        );
+
+
+      return `
+        <div class="application-item">
+
+          <div class="application-top">
+
+            <div>
+
+              <div class="application-title">
+                ${escapeHTML(title)}
+              </div>
+
+              <div class="application-company">
+                ${escapeHTML(company)}
+              </div>
+
+            </div>
+
+            <span
+              class="status-badge ${statusClass}"
+            >
+              ${escapeHTML(statusLabel)}
+            </span>
+
+          </div>
+
+
+          <div class="application-meta">
+
+            <span>
+              📍 ${escapeHTML(location)}
+            </span>
+
+            <span>
+              ⚓ ${escapeHTML(vessel)}
+            </span>
+
+            <span>
+              💼 ${escapeHTML(employment)}
+            </span>
+
+            <span>
+              📅 ${escapeHTML(
+                formatDate(
+                  application.created_at
+                )
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="application-actions">
+
+            ${
+              job
+                ? `
+                  <a
+                    href="detail.html?id=${encodeURIComponent(
+                      job.id
+                    )}"
+                    class="detail-btn"
+                  >
+                    Lihat Lowongan →
+                  </a>
+                `
+                : ""
+            }
+
+          </div>
+
+        </div>
+      `;
+
+    }
+
+
+    // ==========================================
+    // LOAD RECOMMENDED JOBS
+    // ==========================================
+
+    async function loadRecommendations() {
+
+      const container =
+        document.getElementById(
+          "recommendationContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("jobs")
+          .select(`
+            id,
+            title,
+            company_name,
+            location,
+            vessel_type,
+            employment_type,
+            salary,
+            created_at,
+            status
+          `)
+          .eq(
+            "status",
+            "published"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          )
+          .limit(8);
+
+
+      if (error) {
+
+        console.error(
+          "Recommendation error:",
+          error
+        );
+
+
+        container.innerHTML =
+          `
+            <div class="empty-state">
+
+              <div class="empty-icon">
+                ⚠️
+              </div>
+
+              <p>
+                Lowongan belum dapat dimuat.
+              </p>
+
+            </div>
+          `;
+
+        return;
+
+      }
+
+
+      const appliedJobIds =
+        new Set(
+          applications.map(
+            item => item.job_id
+          )
+        );
+
+
+      const recommendations =
+        (data || [])
+          .filter(
+            job =>
+              !appliedJobIds.has(
+                job.id
+              )
+          )
+          .slice(
+            0,
+            3
+          );
+
+
+      if (
+        !recommendations.length
+      ) {
+
+        container.innerHTML =
+          `
+            <div class="empty-state">
+
+              <div class="empty-icon">
+                ⚓
+              </div>
+
+              <p>
+                Semua lowongan terbaru sudah Anda lamar
+                atau belum ada lowongan baru.
+              </p>
+
+              <a
+                href="kapal.html"
+                class="primary-btn"
+              >
+                Lihat Semua Lowongan
+              </a>
+
+            </div>
+          `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        recommendations
+          .map(
+            job =>
+              `
+                <div class="recommendation-item">
+
+                  <div class="recommendation-title">
+                    ${escapeHTML(
+                      job.title
+                    )}
+                  </div>
+
+                  <div class="recommendation-company">
+                    ${escapeHTML(
+                      job.company_name
+                    )}
+                  </div>
+
+                  <div class="recommendation-meta">
+
+                    <span>
+                      📍 ${escapeHTML(
+                        job.location || "-"
+                      )}
+                    </span>
+
+                    <span>
+                      ⚓ ${escapeHTML(
+                        job.vessel_type || "-"
+                      )}
+                    </span>
+
+                    <span>
+                      💼 ${escapeHTML(
+                        job.employment_type || "-"
+                      )}
+                    </span>
+
+                  </div>
+
+                  <a
+                    href="detail.html?id=${encodeURIComponent(
+                      job.id
+                    )}"
+                    class="recommendation-link"
+                  >
+                    Lihat Lowongan →
+                  </a>
+
+                </div>
+              `
+          )
+          .join("");
+
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
 
     async function logout() {
 
+      const {
+        error
+      } =
+        await supabaseClient
+          .auth
+          .signOut();
 
-      await supabaseClient.auth.signOut();
+
+      if (error) {
+
+        console.error(
+          "Logout error:",
+          error
+        );
+
+        return;
+
+      }
 
 
       window.location.href =
@@ -1341,8 +2832,37 @@
     }
 
 
+    // ==========================================
+    // INITIALIZE
+    // ==========================================
 
-    loadUser();
+    async function initializeDashboard() {
+
+      const authenticated =
+        await loadCurrentUser();
+
+
+      if (!authenticated) {
+        return;
+      }
+
+
+      await loadProfile();
+
+
+      await loadApplications();
+
+
+      await loadRecommendations();
+
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
+
+    initializeDashboard();
 
 
   </script>
