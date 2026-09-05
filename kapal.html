@@ -21,8 +21,10 @@
       --text: #1c2d42;
       --muted: #718096;
       --border: #e1e8f0;
-      --success: #198754;
-      --danger: #dc3545;
+      --green: #159957;
+      --green-bg: #e7f7ef;
+      --red: #d64545;
+      --red-bg: #fff0f0;
       --shadow: 0 10px 30px rgba(15, 40, 70, .08);
       --radius: 18px;
     }
@@ -130,6 +132,9 @@
     }
 
     .btn-login {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 10px 18px;
       border-radius: 9px;
       background: transparent;
@@ -139,20 +144,15 @@
     }
 
     .btn-register {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 11px 20px;
       border-radius: 9px;
       background: var(--gold);
       border: none;
       color: #1c2d42;
       font-weight: bold;
-    }
-
-    .btn-login:hover {
-      background: rgba(255,255,255,.08);
-    }
-
-    .btn-register:hover {
-      opacity: .9;
     }
 
     /* ================= HERO ================= */
@@ -171,7 +171,7 @@
         );
 
       color: white;
-      padding: 65px 0 90px;
+      padding: 55px 0 85px;
     }
 
     .breadcrumb {
@@ -193,6 +193,7 @@
       color: #c3d2df;
       max-width: 700px;
       line-height: 1.7;
+      font-size: 15px;
     }
 
     /* ================= SEARCH ================= */
@@ -222,6 +223,7 @@
       padding: 0 15px;
       min-height: 54px;
       gap: 10px;
+      background: white;
     }
 
     .search-field input,
@@ -234,6 +236,10 @@
       font-size: 14px;
     }
 
+    .search-field input::placeholder {
+      color: #8a98a8;
+    }
+
     .btn-search {
       border: none;
       border-radius: 10px;
@@ -241,6 +247,7 @@
       color: white;
       font-weight: bold;
       transition: .3s;
+      min-height: 54px;
     }
 
     .btn-search:hover {
@@ -250,7 +257,7 @@
     /* ================= CONTENT ================= */
 
     .content {
-      padding: 60px 0 80px;
+      padding: 55px 0 80px;
     }
 
     .content-layout {
@@ -267,7 +274,7 @@
       border-radius: var(--radius);
       border: 1px solid var(--border);
       padding: 22px;
-      box-shadow: 0 5px 15px rgba(0,0,0,.03);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, .03);
       position: sticky;
       top: 100px;
     }
@@ -317,17 +324,24 @@
       cursor: pointer;
     }
 
-    .filter-option input {
-      accent-color: var(--blue);
+    .filter-option:last-child {
+      margin-bottom: 0;
     }
 
-    /* ================= RESULT ================= */
+    .filter-option input {
+      accent-color: var(--blue);
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ================= RESULT TOP ================= */
 
     .result-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 22px;
+      gap: 20px;
     }
 
     .result-top h2 {
@@ -341,12 +355,13 @@
     }
 
     .sort-select {
-      padding: 10px 14px;
+      padding: 11px 14px;
       border: 1px solid var(--border);
       border-radius: 8px;
       outline: none;
       color: var(--text);
       background: white;
+      min-width: 150px;
     }
 
     /* ================= LOADING ================= */
@@ -355,56 +370,17 @@
       background: white;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 45px 25px;
+      padding: 50px 20px;
       text-align: center;
       color: var(--muted);
     }
 
     .loading-icon {
-      font-size: 34px;
+      font-size: 35px;
       margin-bottom: 12px;
     }
 
-    /* ================= EMPTY ================= */
-
-    .empty-box {
-      display: none;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 55px 25px;
-      text-align: center;
-    }
-
-    .empty-icon {
-      font-size: 45px;
-      margin-bottom: 15px;
-    }
-
-    .empty-box h3 {
-      margin-bottom: 8px;
-    }
-
-    .empty-box p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* ================= ERROR ================= */
-
-    .error-box {
-      display: none;
-      background: #fff5f5;
-      border: 1px solid #f3c2c2;
-      border-radius: 16px;
-      padding: 25px;
-      color: var(--danger);
-      margin-bottom: 20px;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    /* ================= JOB CARD ================= */
+    /* ================= JOB LIST ================= */
 
     .job-list {
       display: grid;
@@ -433,28 +409,56 @@
       width: 58px;
       height: 58px;
       border-radius: 14px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       color: white;
       font-weight: bold;
+      font-size: 16px;
+
       background: linear-gradient(
         135deg,
         #0e5d98,
         #5baee5
       );
-      flex-shrink: 0;
     }
 
     .job-company {
       color: var(--muted);
       font-size: 12px;
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
     }
 
     .job-title {
       font-size: 20px;
       margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .status-closed {
+      background: var(--red-bg);
+      color: var(--red);
     }
 
     .job-tags {
@@ -471,13 +475,15 @@
       border-radius: 7px;
     }
 
-    .job-salary {
-      color: var(--success) !important;
+    .salary-tag {
+      color: #078451 !important;
       font-weight: bold;
+      background: #eef9f4 !important;
     }
 
     .job-date {
       text-align: right;
+      min-width: 135px;
     }
 
     .job-date small {
@@ -503,25 +509,65 @@
       color: white;
     }
 
-    /* ================= STATUS ================= */
+    /* ================= EMPTY ================= */
 
-    .status-badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 10px;
+    .empty-state {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 60px 25px;
+      text-align: center;
+    }
+
+    .empty-state .icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ================= ERROR ================= */
+
+    .error-state {
+      background: white;
+      border: 1px solid #f0cccc;
+      border-radius: 16px;
+      padding: 40px 25px;
+      text-align: center;
+    }
+
+    .error-state .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .error-state h3 {
+      margin-bottom: 8px;
+    }
+
+    .error-state p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .btn-retry {
+      border: none;
+      background: var(--blue);
+      color: white;
+      padding: 11px 18px;
+      border-radius: 8px;
       font-weight: bold;
-      margin-left: 5px;
-    }
-
-    .status-active {
-      background: #e7f7ee;
-      color: var(--success);
-    }
-
-    .status-other {
-      background: #f1f3f5;
-      color: #6c757d;
     }
 
     /* ================= PAGINATION ================= */
@@ -530,17 +576,20 @@
       margin-top: 35px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .pagination button {
-      width: 42px;
+      min-width: 42px;
       height: 42px;
       border-radius: 9px;
       border: 1px solid var(--border);
       background: white;
       color: var(--text);
       font-weight: bold;
+      padding: 0 12px;
     }
 
     .pagination button:hover {
@@ -567,9 +616,11 @@
       border-radius: 20px;
       padding: 45px;
       color: white;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 30px;
     }
 
@@ -602,7 +653,7 @@
       justify-content: space-between;
       gap: 30px;
       padding-bottom: 30px;
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
     }
 
     .footer-content h3 {
@@ -613,6 +664,7 @@
     .footer-content p {
       font-size: 13px;
       max-width: 500px;
+      line-height: 1.6;
     }
 
     .footer-links {
@@ -623,6 +675,10 @@
 
     .footer-links a {
       font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: white;
     }
 
     .copyright {
@@ -636,11 +692,27 @@
     @media (max-width: 1100px) {
 
       .nav-menu {
-        display: none;
+        gap: 15px;
+      }
+
+      .nav-menu a {
+        font-size: 12px;
       }
 
       .search-box {
         grid-template-columns: 1fr 1fr;
+      }
+
+      .content-layout {
+        grid-template-columns: 230px 1fr;
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .nav-menu {
+        display: none;
       }
 
       .content-layout {
@@ -664,6 +736,19 @@
 
       .filter-group {
         border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      .job-card {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .job-date {
+        grid-column: 1 / -1;
+        text-align: left;
+        padding-top: 15px;
+        border-top: 1px solid var(--border);
       }
 
     }
@@ -678,12 +763,28 @@
         display: none;
       }
 
+      .logo-icon {
+        font-size: 28px;
+      }
+
+      .logo strong {
+        font-size: 15px;
+      }
+
+      .logo small {
+        font-size: 8px;
+      }
+
       .page-hero {
-        padding: 45px 0 75px;
+        padding: 40px 0 70px;
       }
 
       .page-hero h1 {
-        font-size: 32px;
+        font-size: 31px;
+      }
+
+      .page-hero p {
+        font-size: 14px;
       }
 
       .search-box {
@@ -694,15 +795,19 @@
         grid-template-columns: 1fr;
       }
 
-      .job-card {
-        grid-template-columns: 55px 1fr;
+      .filter-header {
+        grid-column: auto;
       }
 
-      .job-date {
-        grid-column: 1 / -1;
-        text-align: left;
-        padding-top: 10px;
-        border-top: 1px solid var(--border);
+      .filter-group {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 18px;
+        margin-bottom: 18px;
+      }
+
+      .filter-group:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
       }
 
       .result-top {
@@ -711,10 +816,37 @@
         gap: 15px;
       }
 
+      .sort-select {
+        width: 100%;
+      }
+
+      .job-card {
+        grid-template-columns: 52px 1fr;
+        padding: 18px;
+        gap: 14px;
+      }
+
+      .company-logo {
+        width: 50px;
+        height: 50px;
+      }
+
+      .job-title {
+        font-size: 18px;
+      }
+
+      .job-tags span {
+        font-size: 11px;
+      }
+
       .bottom-info {
         flex-direction: column;
         align-items: flex-start;
         padding: 30px;
+      }
+
+      .bottom-info h2 {
+        font-size: 23px;
       }
 
       .footer-content {
@@ -723,6 +855,7 @@
 
       .footer-links {
         flex-wrap: wrap;
+        gap: 18px;
       }
 
     }
@@ -782,19 +915,13 @@
 
       <div class="nav-actions">
 
-        <button
-          class="btn-login"
-          onclick="window.location.href='daftar.html'"
-        >
+        <a href="daftar.html" class="btn-login">
           Masuk
-        </button>
+        </a>
 
-        <button
-          class="btn-register"
-          onclick="window.location.href='daftar.html'"
-        >
+        <a href="daftar.html" class="btn-register">
           Daftar
-        </button>
+        </a>
 
       </div>
 
@@ -828,8 +955,8 @@
 
       <p>
         Temukan peluang karier terbaik di industri pelayaran dan maritim.
-        Cari posisi berdasarkan jabatan, perusahaan, jenis kapal,
-        dan lokasi pekerjaan.
+        Cari posisi, perusahaan, jenis kapal, dan lokasi yang sesuai
+        dengan pengalaman serta keahlian Anda.
       </p>
 
     </div>
@@ -850,7 +977,7 @@
         <input
           type="text"
           id="searchInput"
-          placeholder="Cari jabatan atau nama perusahaan..."
+          placeholder="Cari jabatan, perusahaan, atau lokasi..."
         >
 
       </div>
@@ -858,7 +985,7 @@
 
       <div class="search-field">
 
-        ⚓
+        🚢
 
         <select id="shipFilter">
 
@@ -870,15 +997,15 @@
             Tanker
           </option>
 
-          <option value="bulk">
+          <option value="bulk carrier">
             Bulk Carrier
           </option>
 
-          <option value="tug">
+          <option value="tug boat">
             Tug Boat
           </option>
 
-          <option value="container">
+          <option value="container vessel">
             Container Vessel
           </option>
 
@@ -886,7 +1013,7 @@
             Offshore
           </option>
 
-          <option value="cargo">
+          <option value="cargo vessel">
             Cargo Vessel
           </option>
 
@@ -897,13 +1024,27 @@
 
       <div class="search-field">
 
-        📍
+        💼
 
-        <input
-          type="text"
-          id="locationFilter"
-          placeholder="Lokasi..."
-        >
+        <select id="employmentFilter">
+
+          <option value="">
+            Semua Tipe Pekerjaan
+          </option>
+
+          <option value="full time">
+            Full Time
+          </option>
+
+          <option value="contract">
+            Contract
+          </option>
+
+          <option value="part time">
+            Part Time
+          </option>
+
+        </select>
 
       </div>
 
@@ -933,6 +1074,7 @@
 
         <aside class="filter-box">
 
+
           <div class="filter-header">
 
             <h3>
@@ -941,7 +1083,7 @@
 
             <button
               class="reset-filter"
-              onclick="resetFilters()"
+              onclick="resetFilter()"
             >
               Reset
             </button>
@@ -957,12 +1099,12 @@
               Status Lowongan
             </h4>
 
+
             <label class="filter-option">
 
               <input
                 type="checkbox"
-                class="status-checkbox"
-                value="active"
+                id="activeOnly"
               >
 
               Lowongan Aktif
@@ -979,6 +1121,7 @@
             <h4>
               Jenis Kapal
             </h4>
+
 
             <label class="filter-option">
 
@@ -998,7 +1141,7 @@
               <input
                 type="checkbox"
                 class="ship-checkbox"
-                value="bulk"
+                value="bulk carrier"
               >
 
               Bulk Carrier
@@ -1011,7 +1154,7 @@
               <input
                 type="checkbox"
                 class="ship-checkbox"
-                value="tug"
+                value="tug boat"
               >
 
               Tug Boat
@@ -1024,7 +1167,7 @@
               <input
                 type="checkbox"
                 class="ship-checkbox"
-                value="container"
+                value="container vessel"
               >
 
               Container Vessel
@@ -1050,7 +1193,7 @@
               <input
                 type="checkbox"
                 class="ship-checkbox"
-                value="cargo"
+                value="cargo vessel"
               >
 
               Cargo Vessel
@@ -1060,13 +1203,14 @@
           </div>
 
 
-          <!-- EMPLOYMENT -->
+          <!-- TIPE PEKERJAAN -->
 
           <div class="filter-group">
 
             <h4>
               Tipe Pekerjaan
             </h4>
+
 
             <label class="filter-option">
 
@@ -1108,12 +1252,77 @@
 
           </div>
 
+
+          <!-- LOKASI -->
+
+          <div class="filter-group">
+
+            <h4>
+              Lokasi
+            </h4>
+
+
+            <label class="filter-option">
+
+              <input
+                type="checkbox"
+                class="location-checkbox"
+                value="jakarta"
+              >
+
+              Jakarta
+
+            </label>
+
+
+            <label class="filter-option">
+
+              <input
+                type="checkbox"
+                class="location-checkbox"
+                value="surabaya"
+              >
+
+              Surabaya
+
+            </label>
+
+
+            <label class="filter-option">
+
+              <input
+                type="checkbox"
+                class="location-checkbox"
+                value="batam"
+              >
+
+              Batam
+
+            </label>
+
+
+            <label class="filter-option">
+
+              <input
+                type="checkbox"
+                class="location-checkbox"
+                value="indonesia"
+              >
+
+              Indonesia
+
+            </label>
+
+          </div>
+
+
         </aside>
 
 
-        <!-- ================= RESULT ================= -->
+        <!-- ================= JOB RESULT ================= -->
 
         <main>
+
 
           <div class="result-top">
 
@@ -1132,8 +1341,7 @@
 
             <select
               class="sort-select"
-              id="sortSelect"
-              onchange="applyFilters()"
+              id="sortFilter"
             >
 
               <option value="newest">
@@ -1157,61 +1365,25 @@
           </div>
 
 
-          <!-- ERROR -->
-
-          <div
-            class="error-box"
-            id="errorBox"
-          >
-          </div>
-
-
-          <!-- LOADING -->
-
-          <div
-            class="loading-box"
-            id="loadingBox"
-          >
-
-            <div class="loading-icon">
-              ⚓
-            </div>
-
-            <p>
-              Sedang memuat lowongan kapal...
-            </p>
-
-          </div>
-
-
-          <!-- EMPTY -->
-
-          <div
-            class="empty-box"
-            id="emptyBox"
-          >
-
-            <div class="empty-icon">
-              🔎
-            </div>
-
-            <h3>
-              Lowongan tidak ditemukan
-            </h3>
-
-            <p>
-              Coba ubah kata pencarian atau filter yang digunakan.
-            </p>
-
-          </div>
-
-
           <!-- JOB LIST -->
 
           <div
             class="job-list"
             id="jobList"
           >
+
+            <div class="loading-box">
+
+              <div class="loading-icon">
+                ⚓
+              </div>
+
+              <p>
+                Memuat lowongan dari database...
+              </p>
+
+            </div>
+
           </div>
 
 
@@ -1220,8 +1392,8 @@
           <div
             class="pagination"
             id="pagination"
-          >
-          </div>
+          ></div>
+
 
         </main>
 
@@ -1235,13 +1407,13 @@
         <div>
 
           <h2>
-            Belum menemukan posisi yang cocok?
+            Tidak menemukan posisi yang Anda cari?
           </h2>
 
           <p>
-            Lengkapi profil dan CV Anda di Sea Marine Job.
-            Profil yang lengkap akan membantu perusahaan menemukan
-            kandidat yang sesuai dengan kebutuhan mereka.
+            Lengkapi profil Sea Marine Job Anda agar perusahaan
+            dapat menemukan pengalaman dan keahlian Anda ketika
+            membuka lowongan yang sesuai.
           </p>
 
         </div>
@@ -1268,6 +1440,7 @@
     <div class="container">
 
       <div class="footer-content">
+
 
         <div>
 
@@ -1297,10 +1470,6 @@
             Lowongan Darat
           </a>
 
-          <a href="profil.html">
-            Profil
-          </a>
-
           <a href="detail.html">
             Tentang Kami
           </a>
@@ -1325,9 +1494,9 @@
 
   <script>
 
-    /* =====================================================
-       SUPABASE CONFIGURATION
-    ===================================================== */
+    /* ============================================
+       SUPABASE CONFIG
+    ============================================ */
 
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
@@ -1342,559 +1511,466 @@
       );
 
 
-    /* =====================================================
+    /* ============================================
        GLOBAL DATA
-    ===================================================== */
+    ============================================ */
 
     let allJobs = [];
 
+    let filteredJobs = [];
+
     let currentPage = 1;
 
-    const jobsPerPage = 8;
+    const jobsPerPage = 10;
 
 
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const searchInput =
-      document.getElementById("searchInput");
-
-    const locationFilter =
-      document.getElementById("locationFilter");
-
-    const shipFilter =
-      document.getElementById("shipFilter");
-
-    const sortSelect =
-      document.getElementById("sortSelect");
-
-    const jobList =
-      document.getElementById("jobList");
-
-    const resultCount =
-      document.getElementById("resultCount");
-
-    const loadingBox =
-      document.getElementById("loadingBox");
-
-    const emptyBox =
-      document.getElementById("emptyBox");
-
-    const errorBox =
-      document.getElementById("errorBox");
-
-    const pagination =
-      document.getElementById("pagination");
-
-
-    /* =====================================================
-       LOAD JOBS FROM SUPABASE
-    ===================================================== */
+    /* ============================================
+       LOAD JOBS
+    ============================================ */
 
     async function loadJobs() {
 
-      loadingBox.style.display = "block";
+      const jobList =
+        document.getElementById("jobList");
 
-      emptyBox.style.display = "none";
-
-      errorBox.style.display = "none";
-
-      jobList.innerHTML = "";
-
-      pagination.innerHTML = "";
-
-
-      const {
-        data,
-        error
-      } = await supabaseClient
-
-        .from("jobs")
-
-        .select(`
-          id,
-          created_at,
-          title,
-          company_name,
-          location,
-          vessel_type,
-          employment_type,
-          salary,
-          description,
-          requirements,
-          status,
-          posted_by
-        `)
-
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
+      jobList.innerHTML = `
+        <div class="loading-box">
+          <div class="loading-icon">⚓</div>
+          <p>Memuat lowongan dari database...</p>
+        </div>
+      `;
 
 
-      loadingBox.style.display = "none";
+      try {
 
-
-      if (error) {
-
-        console.error(
-          "Gagal mengambil jobs:",
+        const {
+          data,
           error
-        );
+        } = await supabaseClient
+          .from("jobs")
+          .select(`
+            id,
+            created_at,
+            title,
+            company_name,
+            location,
+            vessel_type,
+            employment_type,
+            salary,
+            description,
+            requirements,
+            status,
+            posted_by
+          `)
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
 
-        errorBox.style.display = "block";
 
-        errorBox.innerHTML =
-          "<strong>Gagal memuat lowongan.</strong><br>" +
-          "Pastikan tabel <b>jobs</b> sudah memiliki " +
-          "policy SELECT untuk pengguna/public.";
+        if (error) {
 
-        resultCount.textContent =
-          "Data lowongan tidak dapat dimuat";
+          console.error(
+            "Supabase error:",
+            error
+          );
 
-        return;
+          showError(
+            "Gagal mengambil data lowongan dari database."
+          );
+
+          return;
+        }
+
+
+        allJobs = data || [];
+
+        filteredJobs = [...allJobs];
+
+        currentPage = 1;
+
+        renderJobs();
 
       }
 
+      catch (error) {
 
-      allJobs = data || [];
+        console.error(
+          "Load jobs error:",
+          error
+        );
 
-      currentPage = 1;
+        showError(
+          "Terjadi kesalahan saat memuat lowongan."
+        );
 
-      applyFilters();
+      }
 
     }
 
 
-    /* =====================================================
+    /* ============================================
        APPLY FILTERS
-    ===================================================== */
+    ============================================ */
 
     function applyFilters() {
 
       const keyword =
-        searchInput.value
+        document
+          .getElementById("searchInput")
+          .value
           .trim()
           .toLowerCase();
 
 
-      const locationKeyword =
-        locationFilter.value
-          .trim()
+      const shipSelect =
+        document
+          .getElementById("shipFilter")
+          .value
           .toLowerCase();
 
 
-      const selectedShip =
-        shipFilter.value
-          .trim()
+      const employmentSelect =
+        document
+          .getElementById("employmentFilter")
+          .value
           .toLowerCase();
-
-
-      const selectedShips =
-        Array.from(
-          document.querySelectorAll(
-            ".ship-checkbox:checked"
-          )
-        )
-        .map(
-          checkbox =>
-            checkbox.value.toLowerCase()
-        );
-
-
-      const selectedEmployment =
-        Array.from(
-          document.querySelectorAll(
-            ".employment-checkbox:checked"
-          )
-        )
-        .map(
-          checkbox =>
-            checkbox.value.toLowerCase()
-        );
 
 
       const activeOnly =
-        document.querySelector(
-          ".status-checkbox"
-        ).checked;
+        document
+          .getElementById("activeOnly")
+          .checked;
 
 
-      const filtered =
-        allJobs.filter(
-          function(job) {
-
-            const title =
-              String(
-                job.title || ""
-              ).toLowerCase();
-
-
-            const company =
-              String(
-                job.company_name || ""
-              ).toLowerCase();
+      const selectedShips =
+        Array
+          .from(
+            document.querySelectorAll(
+              ".ship-checkbox:checked"
+            )
+          )
+          .map(
+            checkbox =>
+              checkbox.value.toLowerCase()
+          );
 
 
-            const location =
-              String(
-                job.location || ""
-              ).toLowerCase();
+      const selectedEmployment =
+        Array
+          .from(
+            document.querySelectorAll(
+              ".employment-checkbox:checked"
+            )
+          )
+          .map(
+            checkbox =>
+              checkbox.value.toLowerCase()
+          );
 
 
-            const vessel =
-              String(
-                job.vessel_type || ""
-              ).toLowerCase();
+      const selectedLocations =
+        Array
+          .from(
+            document.querySelectorAll(
+              ".location-checkbox:checked"
+            )
+          )
+          .map(
+            checkbox =>
+              checkbox.value.toLowerCase()
+          );
 
 
-            const employment =
-              String(
-                job.employment_type || ""
-              ).toLowerCase();
+      filteredJobs =
+        allJobs.filter(function(job) {
 
+
+          /* ================= KEYWORD ================= */
+
+          const title =
+            String(
+              job.title || ""
+            ).toLowerCase();
+
+
+          const company =
+            String(
+              job.company_name || ""
+            ).toLowerCase();
+
+
+          const location =
+            String(
+              job.location || ""
+            ).toLowerCase();
+
+
+          const keywordMatch =
+            keyword === "" ||
+            title.includes(keyword) ||
+            company.includes(keyword) ||
+            location.includes(keyword);
+
+
+          if (!keywordMatch) {
+            return false;
+          }
+
+
+          /* ================= SHIP SELECT ================= */
+
+          const vessel =
+            String(
+              job.vessel_type || ""
+            ).toLowerCase();
+
+
+          const shipSelectMatch =
+            shipSelect === "" ||
+            vessel.includes(shipSelect);
+
+
+          if (!shipSelectMatch) {
+            return false;
+          }
+
+
+          /* ================= EMPLOYMENT SELECT ================= */
+
+          const employment =
+            String(
+              job.employment_type || ""
+            ).toLowerCase();
+
+
+          const employmentSelectMatch =
+            employmentSelect === "" ||
+            employment.includes(
+              employmentSelect
+            );
+
+
+          if (!employmentSelectMatch) {
+            return false;
+          }
+
+
+          /* ================= ACTIVE ================= */
+
+          if (activeOnly) {
 
             const status =
               String(
                 job.status || ""
               ).toLowerCase();
 
-
-            const keywordMatch =
-              keyword === "" ||
-              title.includes(keyword) ||
-              company.includes(keyword);
-
-
-            const locationMatch =
-              locationKeyword === "" ||
-              location.includes(
-                locationKeyword
-              );
-
-
-            const searchShipMatch =
-              selectedShip === "" ||
-              vesselMatches(
-                vessel,
-                selectedShip
-              );
-
-
-            const checkboxShipMatch =
-              selectedShips.length === 0 ||
-              selectedShips.some(
-                function(ship) {
-
-                  return vesselMatches(
-                    vessel,
-                    ship
-                  );
-
-                }
-              );
-
-
-            const employmentMatch =
-              selectedEmployment.length === 0 ||
-              selectedEmployment.some(
-                function(type) {
-
-                  return employmentMatches(
-                    employment,
-                    type
-                  );
-
-                }
-              );
-
-
-            const statusMatch =
-              !activeOnly ||
-              status === "active" ||
-              status === "open" ||
-              status === "published";
-
-
-            return (
-              keywordMatch &&
-              locationMatch &&
-              searchShipMatch &&
-              checkboxShipMatch &&
-              employmentMatch &&
-              statusMatch
-            );
+            if (
+              status !== "active" &&
+              status !== "aktif"
+            ) {
+              return false;
+            }
 
           }
-        );
 
 
-      sortJobs(
-        filtered
-      );
+          /* ================= SHIP CHECKBOX ================= */
 
-    }
+          if (
+            selectedShips.length > 0 &&
+            !selectedShips.some(
+              selected =>
+                vessel.includes(selected)
+            )
+          ) {
 
+            return false;
 
-    /* =====================================================
-       VESSEL MATCH
-    ===================================================== */
-
-    function vesselMatches(
-      vessel,
-      filter
-    ) {
-
-      vessel =
-        vessel.toLowerCase();
-
-      filter =
-        filter.toLowerCase();
+          }
 
 
-      if (
-        filter === "tanker"
-      ) {
+          /* ================= EMPLOYMENT CHECKBOX ================= */
 
-        return vessel.includes(
-          "tanker"
-        );
+          if (
+            selectedEmployment.length > 0 &&
+            !selectedEmployment.some(
+              selected =>
+                employment.includes(selected)
+            )
+          ) {
 
-      }
+            return false;
 
-
-      if (
-        filter === "bulk"
-      ) {
-
-        return (
-          vessel.includes("bulk")
-        );
-
-      }
+          }
 
 
-      if (
-        filter === "tug"
-      ) {
+          /* ================= LOCATION CHECKBOX ================= */
 
-        return (
-          vessel.includes("tug")
-        );
+          if (
+            selectedLocations.length > 0 &&
+            !selectedLocations.some(
+              selected =>
+                location.includes(selected)
+            )
+          ) {
 
-      }
+            return false;
 
-
-      if (
-        filter === "container"
-      ) {
-
-        return (
-          vessel.includes("container")
-        );
-
-      }
+          }
 
 
-      if (
-        filter === "offshore"
-      ) {
+          return true;
 
-        return (
-          vessel.includes("offshore")
-        );
-
-      }
+        });
 
 
-      if (
-        filter === "cargo"
-      ) {
+      currentPage = 1;
 
-        return (
-          vessel.includes("cargo")
-        );
-
-      }
-
-
-      return vessel.includes(
-        filter
-      );
+      renderJobs();
 
     }
 
 
-    /* =====================================================
-       EMPLOYMENT MATCH
-    ===================================================== */
-
-    function employmentMatches(
-      employment,
-      filter
-    ) {
-
-      employment =
-        employment.toLowerCase();
-
-      filter =
-        filter.toLowerCase();
-
-
-      return (
-        employment.includes(
-          filter
-        )
-      );
-
-    }
-
-
-    /* =====================================================
+    /* ============================================
        SORT JOBS
-    ===================================================== */
+    ============================================ */
 
-    function sortJobs(
-      jobs
-    ) {
+    function sortJobs(jobs) {
 
-      const sort =
-        sortSelect.value;
+      const sortValue =
+        document
+          .getElementById("sortFilter")
+          .value;
 
 
       const sorted =
         [...jobs];
 
 
-      if (
-        sort === "newest"
-      ) {
+      if (sortValue === "newest") {
 
         sorted.sort(
-          function(a, b) {
-
-            return (
-              new Date(b.created_at) -
-              new Date(a.created_at)
-            );
-
-          }
+          (a, b) =>
+            new Date(b.created_at) -
+            new Date(a.created_at)
         );
 
       }
 
 
-      if (
-        sort === "oldest"
-      ) {
+      else if (sortValue === "oldest") {
 
         sorted.sort(
-          function(a, b) {
-
-            return (
-              new Date(a.created_at) -
-              new Date(b.created_at)
-            );
-
-          }
+          (a, b) =>
+            new Date(a.created_at) -
+            new Date(b.created_at)
         );
 
       }
 
 
-      if (
-        sort === "az"
-      ) {
+      else if (sortValue === "az") {
 
         sorted.sort(
-          function(a, b) {
-
-            return String(
-              a.title || ""
-            ).localeCompare(
-              String(
-                b.title || ""
+          (a, b) =>
+            String(a.title || "")
+              .localeCompare(
+                String(b.title || ""),
+                "id"
               )
-            );
-
-          }
         );
 
       }
 
 
-      if (
-        sort === "za"
-      ) {
+      else if (sortValue === "za") {
 
         sorted.sort(
-          function(a, b) {
-
-            return String(
-              b.title || ""
-            ).localeCompare(
-              String(
-                a.title || ""
+          (a, b) =>
+            String(b.title || "")
+              .localeCompare(
+                String(a.title || ""),
+                "id"
               )
-            );
-
-          }
         );
 
       }
 
 
-      currentPage = 1;
-
-      renderJobs(
-        sorted
-      );
+      return sorted;
 
     }
 
 
-    /* =====================================================
+    /* ============================================
        RENDER JOBS
-    ===================================================== */
+    ============================================ */
 
-    function renderJobs(
-      jobs
-    ) {
+    function renderJobs() {
 
-      jobList.innerHTML = "";
+      const jobList =
+        document.getElementById(
+          "jobList"
+        );
 
-      pagination.innerHTML = "";
+
+      const resultCount =
+        document.getElementById(
+          "resultCount"
+        );
+
+
+      const sortedJobs =
+        sortJobs(
+          filteredJobs
+        );
+
+
+      const totalJobs =
+        sortedJobs.length;
 
 
       resultCount.textContent =
-        "Menampilkan " +
-        jobs.length +
-        " lowongan pekerjaan kapal";
+        `Menampilkan ${totalJobs} lowongan pekerjaan kapal`;
 
 
-      if (
-        jobs.length === 0
-      ) {
+      if (totalJobs === 0) {
 
-        emptyBox.style.display =
-          "block";
+        jobList.innerHTML = `
+          <div class="empty-state">
+
+            <div class="icon">
+              🔎
+            </div>
+
+            <h3>
+              Lowongan tidak ditemukan
+            </h3>
+
+            <p>
+              Coba ubah kata pencarian atau filter
+              yang Anda gunakan.
+            </p>
+
+          </div>
+        `;
+
+
+        document
+          .getElementById("pagination")
+          .innerHTML = "";
 
         return;
 
       }
 
 
-      emptyBox.style.display =
-        "none";
-
-
       const totalPages =
         Math.ceil(
-          jobs.length /
-          jobsPerPage
+          totalJobs / jobsPerPage
         );
 
 
@@ -1908,87 +1984,68 @@
       }
 
 
-      const start =
-        (
-          currentPage - 1
-        ) *
+      const startIndex =
+        (currentPage - 1) *
         jobsPerPage;
 
 
-      const end =
-        start +
+      const endIndex =
+        startIndex +
         jobsPerPage;
 
 
       const pageJobs =
-        jobs.slice(
-          start,
-          end
+        sortedJobs.slice(
+          startIndex,
+          endIndex
         );
 
 
-      pageJobs.forEach(
-        function(job) {
-
-          jobList.appendChild(
-            createJobCard(
-              job
-            )
-          );
-
-        }
-      );
+      jobList.innerHTML =
+        pageJobs
+          .map(
+            job =>
+              createJobCard(job)
+          )
+          .join("");
 
 
       renderPagination(
-        jobs,
         totalPages
       );
 
     }
 
 
-    /* =====================================================
+    /* ============================================
        CREATE JOB CARD
-    ===================================================== */
+    ============================================ */
 
-    function createJobCard(
-      job
-    ) {
-
-      const article =
-        document.createElement(
-          "article"
-        );
-
-
-      article.className =
-        "job-card";
-
-
-      const companyName =
-        job.company_name ||
-        "Perusahaan Maritim";
-
+    function createJobCard(job) {
 
       const title =
         job.title ||
         "Posisi Tidak Disebutkan";
 
 
-      const vesselType =
-        job.vessel_type ||
-        "Jenis kapal tidak disebutkan";
+      const company =
+        job.company_name ||
+        "Perusahaan Maritim";
 
 
       const location =
         job.location ||
-        "Lokasi tidak disebutkan";
+        "Lokasi tidak tersedia";
+
+
+      const vessel =
+        job.vessel_type ||
+        "Jenis kapal tidak tersedia";
 
 
       const employment =
         job.employment_type ||
-        "Tidak disebutkan";
+        "Tipe pekerjaan tidak tersedia";
 
 
       const salary =
@@ -1997,162 +2054,366 @@
 
 
       const status =
-        job.status ||
-        "active";
+        String(
+          job.status || ""
+        ).toLowerCase();
+
+
+      const isActive =
+        status === "active" ||
+        status === "aktif";
+
+
+      const statusText =
+        isActive
+          ? "Aktif"
+          : job.status || "Tidak diketahui";
+
+
+      const statusClass =
+        isActive
+          ? "status-active"
+          : "status-closed";
 
 
       const initials =
-        getInitials(
-          companyName
+        getCompanyInitials(
+          company
         );
 
 
-      const postedDate =
-        formatDate(
+      const postedTime =
+        formatPostedTime(
           job.created_at
         );
 
 
-      const statusHTML =
-        createStatusBadge(
-          status
+      const detailUrl =
+        "detail.html?id=" +
+        encodeURIComponent(
+          job.id
         );
 
 
-      article.innerHTML = `
+      return `
 
-        <div class="company-logo">
-          ${escapeHTML(initials)}
-        </div>
+        <article class="job-card">
 
 
-        <div>
+          <div class="company-logo">
 
-          <div class="job-company">
-            ${escapeHTML(companyName)}
-            ${statusHTML}
-          </div>
-
-
-          <h3 class="job-title">
-            ${escapeHTML(title)}
-          </h3>
-
-
-          <div class="job-tags">
-
-            <span>
-              🚢 ${escapeHTML(vesselType)}
-            </span>
-
-            <span>
-              📍 ${escapeHTML(location)}
-            </span>
-
-            <span>
-              💼 ${escapeHTML(employment)}
-            </span>
-
-            <span class="job-salary">
-              💰 ${escapeHTML(salary)}
-            </span>
+            ${escapeHtml(initials)}
 
           </div>
 
-        </div>
+
+          <div>
 
 
-        <div class="job-date">
+            <div class="job-company">
 
-          <small>
-            Diposting ${postedDate}
-          </small>
+              ${escapeHtml(company)}
+
+              <span
+                class="status-badge ${statusClass}"
+              >
+                ${escapeHtml(statusText)}
+              </span>
+
+            </div>
 
 
-          <a
-            href="detail.html?id=${encodeURIComponent(job.id)}"
-            class="btn-detail"
-          >
-            Lihat Detail →
-          </a>
+            <h3 class="job-title">
 
-        </div>
+              ${escapeHtml(title)}
+
+            </h3>
+
+
+            <div class="job-tags">
+
+
+              <span>
+                🚢 ${escapeHtml(vessel)}
+              </span>
+
+
+              <span>
+                📍 ${escapeHtml(location)}
+              </span>
+
+
+              <span>
+                💼 ${escapeHtml(employment)}
+              </span>
+
+
+              <span class="salary-tag">
+                💰 ${escapeHtml(salary)}
+              </span>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="job-date">
+
+
+            <small>
+              ${escapeHtml(postedTime)}
+            </small>
+
+
+            <a
+              href="${detailUrl}"
+              class="btn-detail"
+            >
+              Lihat Detail →
+            </a>
+
+
+          </div>
+
+
+        </article>
 
       `;
-
-
-      return article;
 
     }
 
 
-    /* =====================================================
-       STATUS BADGE
-    ===================================================== */
+    /* ============================================
+       PAGINATION
+    ============================================ */
 
-    function createStatusBadge(
-      status
+    function renderPagination(
+      totalPages
     ) {
 
-      const normalized =
-        String(
-          status || ""
-        ).toLowerCase();
+      const pagination =
+        document.getElementById(
+          "pagination"
+        );
 
 
-      if (
-        normalized === "active" ||
-        normalized === "open" ||
-        normalized === "published"
+      if (totalPages <= 1) {
+
+        pagination.innerHTML =
+          "";
+
+        return;
+
+      }
+
+
+      let html = "";
+
+
+      /* PREVIOUS */
+
+      html += `
+
+        <button
+          onclick="changePage(${currentPage - 1})"
+          ${currentPage === 1 ? "disabled" : ""}
+        >
+          ←
+        </button>
+
+      `;
+
+
+      /* PAGE NUMBERS */
+
+      for (
+        let page = 1;
+        page <= totalPages;
+        page++
       ) {
 
-        return `
-          <span class="status-badge status-active">
-            AKTIF
-          </span>
+        html += `
+
+          <button
+            class="${page === currentPage ? "active" : ""}"
+            onclick="changePage(${page})"
+          >
+            ${page}
+          </button>
+
         `;
 
       }
 
 
-      return `
-        <span class="status-badge status-other">
-          ${escapeHTML(
-            String(status)
-          )}
-        </span>
+      /* NEXT */
+
+      html += `
+
+        <button
+          onclick="changePage(${currentPage + 1})"
+          ${currentPage === totalPages ? "disabled" : ""}
+        >
+          →
+        </button>
+
       `;
+
+
+      pagination.innerHTML =
+        html;
 
     }
 
 
-    /* =====================================================
-       GET INITIALS
-    ===================================================== */
+    /* ============================================
+       CHANGE PAGE
+    ============================================ */
 
-    function getInitials(
-      text
+    function changePage(page) {
+
+      const totalPages =
+        Math.ceil(
+          filteredJobs.length /
+          jobsPerPage
+        );
+
+
+      if (
+        page < 1 ||
+        page > totalPages
+      ) {
+
+        return;
+
+      }
+
+
+      currentPage =
+        page;
+
+
+      renderJobs();
+
+
+      window.scrollTo({
+        top: 250,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* ============================================
+       RESET FILTER
+    ============================================ */
+
+    function resetFilter() {
+
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .value = "";
+
+
+      document
+        .getElementById(
+          "shipFilter"
+        )
+        .value = "";
+
+
+      document
+        .getElementById(
+          "employmentFilter"
+        )
+        .value = "";
+
+
+      document
+        .getElementById(
+          "activeOnly"
+        )
+        .checked = false;
+
+
+      document
+        .querySelectorAll(
+          ".ship-checkbox"
+        )
+        .forEach(
+          checkbox => {
+            checkbox.checked =
+              false;
+          }
+        );
+
+
+      document
+        .querySelectorAll(
+          ".employment-checkbox"
+        )
+        .forEach(
+          checkbox => {
+            checkbox.checked =
+              false;
+          }
+        );
+
+
+      document
+        .querySelectorAll(
+          ".location-checkbox"
+        )
+        .forEach(
+          checkbox => {
+            checkbox.checked =
+              false;
+          }
+        );
+
+
+      document
+        .getElementById(
+          "sortFilter"
+        )
+        .value = "newest";
+
+
+      filteredJobs =
+        [...allJobs];
+
+
+      currentPage = 1;
+
+      renderJobs();
+
+    }
+
+
+    /* ============================================
+       COMPANY INITIALS
+    ============================================ */
+
+    function getCompanyInitials(
+      company
     ) {
 
       const words =
-        String(text)
+        String(company)
           .trim()
           .split(/\s+/)
           .filter(Boolean);
 
 
-      if (
-        words.length === 0
-      ) {
-
+      if (words.length === 0) {
         return "SM";
-
       }
 
 
-      if (
-        words.length === 1
-      ) {
+      if (words.length === 1) {
 
         return words[0]
           .substring(0, 2)
@@ -2169,27 +2430,21 @@
     }
 
 
-    /* =====================================================
-       FORMAT DATE
-    ===================================================== */
+    /* ============================================
+       POSTED TIME
+    ============================================ */
 
-    function formatDate(
-      dateString
+    function formatPostedTime(
+      dateValue
     ) {
 
-      if (
-        !dateString
-      ) {
-
-        return "baru";
-
+      if (!dateValue) {
+        return "Tanggal tidak tersedia";
       }
 
 
       const date =
-        new Date(
-          dateString
-        );
+        new Date(dateValue);
 
 
       if (
@@ -2198,7 +2453,7 @@
         )
       ) {
 
-        return "baru";
+        return "Tanggal tidak tersedia";
 
       }
 
@@ -2207,16 +2462,32 @@
         new Date();
 
 
-      const difference =
+      const diff =
         now.getTime() -
         date.getTime();
 
 
       const minutes =
         Math.floor(
-          difference /
-          60000
+          diff /
+          (1000 * 60)
         );
+
+
+      if (minutes < 1) {
+        return "Diposting baru saja";
+      }
+
+
+      if (minutes < 60) {
+
+        return (
+          "Diposting " +
+          minutes +
+          " menit lalu"
+        );
+
+      }
 
 
       const hours =
@@ -2225,38 +2496,10 @@
         );
 
 
-      const days =
-        Math.floor(
-          hours / 24
-        );
-
-
-      if (
-        minutes < 1
-      ) {
-
-        return "baru saja";
-
-      }
-
-
-      if (
-        minutes < 60
-      ) {
+      if (hours < 24) {
 
         return (
-          minutes +
-          " menit lalu"
-        );
-
-      }
-
-
-      if (
-        hours < 24
-      ) {
-
-        return (
+          "Diposting " +
           hours +
           " jam lalu"
         );
@@ -2264,11 +2507,16 @@
       }
 
 
-      if (
-        days < 7
-      ) {
+      const days =
+        Math.floor(
+          hours / 24
+        );
+
+
+      if (days < 7) {
 
         return (
+          "Diposting " +
           days +
           " hari lalu"
         );
@@ -2276,332 +2524,234 @@
       }
 
 
-      return date.toLocaleDateString(
-        "id-ID",
-        {
-          day: "numeric",
-          month: "short",
-          year: "numeric"
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       PAGINATION
-    ===================================================== */
-
-    function renderPagination(
-      jobs,
-      totalPages
-    ) {
-
-      pagination.innerHTML = "";
-
-
-      if (
-        totalPages <= 1
-      ) {
-
-        return;
-
-      }
-
-
-      const previous =
-        document.createElement(
-          "button"
-        );
-
-
-      previous.textContent =
-        "←";
-
-
-      previous.disabled =
-        currentPage === 1;
-
-
-      previous.onclick =
-        function() {
-
-          if (
-            currentPage > 1
-          ) {
-
-            currentPage--;
-
-            renderJobs(
-              jobs
-            );
-
-            window.scrollTo({
-              top: 500,
-              behavior: "smooth"
-            });
-
+      return (
+        "Diposting " +
+        date.toLocaleDateString(
+          "id-ID",
+          {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
           }
-
-        };
-
-
-      pagination.appendChild(
-        previous
-      );
-
-
-      for (
-        let page = 1;
-        page <= totalPages;
-        page++
-      ) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.textContent =
-          page;
-
-
-        if (
-          page === currentPage
-        ) {
-
-          button.classList.add(
-            "active"
-          );
-
-        }
-
-
-        button.onclick =
-          function() {
-
-            currentPage =
-              page;
-
-            renderJobs(
-              jobs
-            );
-
-            window.scrollTo({
-              top: 500,
-              behavior: "smooth"
-            });
-
-          };
-
-
-        pagination.appendChild(
-          button
-        );
-
-      }
-
-
-      const next =
-        document.createElement(
-          "button"
-        );
-
-
-      next.textContent =
-        "→";
-
-
-      next.disabled =
-        currentPage === totalPages;
-
-
-      next.onclick =
-        function() {
-
-          if (
-            currentPage < totalPages
-          ) {
-
-            currentPage++;
-
-            renderJobs(
-              jobs
-            );
-
-            window.scrollTo({
-              top: 500,
-              behavior: "smooth"
-            });
-
-          }
-
-        };
-
-
-      pagination.appendChild(
-        next
-      );
-
-    }
-
-
-    /* =====================================================
-       RESET FILTER
-    ===================================================== */
-
-    function resetFilters() {
-
-      searchInput.value =
-        "";
-
-      locationFilter.value =
-        "";
-
-      shipFilter.value =
-        "";
-
-
-      document
-        .querySelectorAll(
-          ".ship-checkbox"
         )
-        .forEach(
-          function(checkbox) {
-
-            checkbox.checked =
-              false;
-
-          }
-        );
-
-
-      document
-        .querySelectorAll(
-          ".employment-checkbox"
-        )
-        .forEach(
-          function(checkbox) {
-
-            checkbox.checked =
-              false;
-
-          }
-        );
-
-
-      document.querySelector(
-        ".status-checkbox"
-      ).checked =
-        false;
-
-
-      sortSelect.value =
-        "newest";
-
-
-      currentPage =
-        1;
-
-
-      applyFilters();
+      );
 
     }
 
 
-    /* =====================================================
+    /* ============================================
        ESCAPE HTML
-    ===================================================== */
+       ============================================ */
 
-    function escapeHTML(
+    function escapeHtml(
       value
     ) {
 
-      return String(
-        value ?? ""
-      )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+      return String(value ?? "")
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
 
-    /* =====================================================
-       SEARCH EVENTS
-    ===================================================== */
+    /* ============================================
+       ERROR STATE
+    ============================================ */
 
-    searchInput.addEventListener(
-      "input",
-      function() {
+    function showError(
+      message
+    ) {
 
-        applyFilters();
-
-      }
-    );
-
-
-    locationFilter.addEventListener(
-      "input",
-      function() {
-
-        applyFilters();
-
-      }
-    );
+      const jobList =
+        document.getElementById(
+          "jobList"
+        );
 
 
-    shipFilter.addEventListener(
-      "change",
-      function() {
+      const resultCount =
+        document.getElementById(
+          "resultCount"
+        );
 
-        applyFilters();
 
-      }
-    );
+      resultCount.textContent =
+        "Gagal memuat lowongan";
+
+
+      jobList.innerHTML = `
+
+        <div class="error-state">
+
+          <div class="icon">
+            ⚠️
+          </div>
+
+          <h3>
+            Terjadi Kesalahan
+          </h3>
+
+          <p>
+            ${escapeHtml(message)}
+          </p>
+
+          <button
+            class="btn-retry"
+            onclick="loadJobs()"
+          >
+            Coba Lagi
+          </button>
+
+        </div>
+
+      `;
+
+
+      document
+        .getElementById(
+          "pagination"
+        )
+        .innerHTML = "";
+
+    }
+
+
+    /* ============================================
+       SEARCH ENTER KEY
+    ============================================ */
+
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            applyFilters();
+
+          }
+
+        }
+      );
+
+
+    /* ============================================
+       SEARCH REALTIME
+    ============================================ */
+
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .addEventListener(
+        "input",
+        function() {
+
+          applyFilters();
+
+        }
+      );
+
+
+    /* ============================================
+       SELECT FILTER EVENTS
+    ============================================ */
+
+    document
+      .getElementById(
+        "shipFilter"
+      )
+      .addEventListener(
+        "change",
+        applyFilters
+      );
 
 
     document
+      .getElementById(
+        "employmentFilter"
+      )
+      .addEventListener(
+        "change",
+        applyFilters
+      );
+
+
+    document
+      .getElementById(
+        "activeOnly"
+      )
+      .addEventListener(
+        "change",
+        applyFilters
+      );
+
+
+    /* ============================================
+       CHECKBOX EVENTS
+    ============================================ */
+
+    document
       .querySelectorAll(
-        ".ship-checkbox, .employment-checkbox, .status-checkbox"
+        ".ship-checkbox, .employment-checkbox, .location-checkbox"
       )
       .forEach(
-        function(checkbox) {
+        checkbox => {
 
           checkbox.addEventListener(
             "change",
-            function() {
-
-              applyFilters();
-
-            }
+            applyFilters
           );
 
         }
       );
 
 
-    /* =====================================================
+    /* ============================================
+       SORT EVENT
+    ============================================ */
+
+    document
+      .getElementById(
+        "sortFilter"
+      )
+      .addEventListener(
+        "change",
+        function() {
+
+          currentPage = 1;
+
+          renderJobs();
+
+        }
+      );
+
+
+    /* ============================================
        START
-    ===================================================== */
+    ============================================ */
 
     loadJobs();
 
