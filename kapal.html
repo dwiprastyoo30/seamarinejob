@@ -4,81 +4,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Lowongan Kapal | Sea Marine Job</title>
+  <title>Lowongan Kerja Kapal | Sea Marine Job</title>
+  <meta
+    name="description"
+    content="Temukan lowongan kerja kapal dan pekerjaan maritim terbaru di Sea Marine Job."
+  >
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root {
-      --navy: #081b31;
-      --navy-light: #102b49;
-      --blue: #1877b9;
-      --blue-dark: #0e5d98;
-      --gold: #f4b72c;
-      --bg: #f4f7fb;
-      --white: #ffffff;
-      --text: #1c2d42;
-      --muted: #718096;
-      --border: #e1e8f0;
-      --green: #159957;
-      --green-bg: #e7f7ef;
-      --red: #d64545;
-      --red-bg: #fff0f0;
-      --shadow: 0 10px 30px rgba(15, 40, 70, .08);
-      --radius: 18px;
-    }
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
+    :root {
+      --primary: #075985;
+      --primary-dark: #0c4a6e;
+      --secondary: #0284c7;
+      --accent: #f59e0b;
+      --bg: #f5f8fb;
+      --white: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #15803d;
+      --danger: #b91c1c;
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
       background: var(--bg);
       color: var(--text);
+      line-height: 1.6;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     button,
-    select,
-    input {
-      font-family: inherit;
+    input,
+    select {
+      font: inherit;
     }
 
-    button {
-      cursor: pointer;
-    }
-
-    .container {
-      width: min(1400px, 92%);
-      margin: auto;
-    }
-
-    /* ================= NAVBAR ================= */
+    /* =========================
+       NAVBAR
+    ========================= */
 
     .navbar {
-      height: 76px;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .nav-wrapper {
-      width: 100%;
+    .nav-container {
+      max-width: 1180px;
+      margin: auto;
+      min-height: 72px;
+      padding: 0 20px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -89,1400 +86,1084 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: white;
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      white-space: nowrap;
     }
 
     .logo-icon {
-      font-size: 34px;
-      color: var(--gold);
-    }
-
-    .logo strong {
-      display: block;
-      font-size: 18px;
-      letter-spacing: .5px;
-    }
-
-    .logo small {
-      color: #aebed0;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 26px;
-    }
-
-    .nav-menu a {
-      color: #c9d4df;
-      font-size: 14px;
-      font-weight: bold;
-      transition: .3s;
-    }
-
-    .nav-menu a:hover,
-    .nav-menu .active {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+      );
       color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 21px;
+      box-shadow: 0 6px 18px rgba(2,132,199,0.2);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 9px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #e0f2fe;
+      color: var(--primary-dark);
     }
 
     .nav-actions {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 9px;
     }
 
     .btn-login {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 18px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
       border-radius: 9px;
-      background: transparent;
-      border: 1px solid #718096;
-      color: white;
-      font-weight: bold;
+      color: var(--primary-dark);
+      font-size: 14px;
+      font-weight: 700;
+      background: white;
     }
 
     .btn-register {
+      padding: 10px 16px;
+      border-radius: 9px;
+      background: var(--primary);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .btn-login:hover {
+      background: #f8fafc;
+    }
+
+    .btn-register:hover {
+      background: var(--primary-dark);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      background:
+        linear-gradient(
+          120deg,
+          rgba(7,89,133,0.98),
+          rgba(2,132,199,0.93)
+        );
+      color: white;
+      padding: 55px 20px 70px;
+    }
+
+    .hero-container {
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    .hero-label {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      padding: 11px 20px;
-      border-radius: 9px;
-      background: var(--gold);
-      border: none;
-      color: #1c2d42;
-      font-weight: bold;
-    }
-
-    /* ================= HERO ================= */
-
-    .page-hero {
-      background:
-        radial-gradient(
-          circle at 80% 10%,
-          rgba(33, 132, 199, .25),
-          transparent 30%
-        ),
-        linear-gradient(
-          135deg,
-          var(--navy),
-          #12395c
-        );
-
-      color: white;
-      padding: 55px 0 85px;
-    }
-
-    .breadcrumb {
-      color: #9db4c8;
+      gap: 8px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 7px 13px;
+      border-radius: 30px;
       font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 17px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.15;
+      max-width: 750px;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      color: rgba(255,255,255,0.88);
+      font-size: 16px;
+    }
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-box {
+      max-width: 1180px;
+      margin: -28px auto 0;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-inner {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 12px;
+
+      box-shadow: 0 15px 40px rgba(15,23,42,0.10);
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    .search-inner input,
+    .search-inner select {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      padding: 0 13px 0 40px;
+      background: white;
+      color: var(--text);
+    }
+
+    .search-inner select {
+      padding-left: 13px;
+      cursor: pointer;
+    }
+
+    .search-inner input:focus,
+    .search-inner select:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(2,132,199,0.10);
+    }
+
+    .search-btn {
+      height: 48px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .search-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      max-width: 1180px;
+      margin: 35px auto 70px;
+      padding: 0 20px;
+    }
+
+    .page-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
       margin-bottom: 22px;
     }
 
-    .breadcrumb a {
-      color: white;
+    .page-top h2 {
+      font-size: 24px;
+      margin-bottom: 3px;
     }
 
-    .page-hero h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
-
-    .page-hero p {
-      color: #c3d2df;
-      max-width: 700px;
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    /* ================= SEARCH ================= */
-
-    .search-wrapper {
-      margin-top: -38px;
-      position: relative;
-      z-index: 5;
-    }
-
-    .search-box {
-      background: white;
-      border-radius: 16px;
-      padding: 14px;
-      box-shadow: var(--shadow);
-
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 160px;
-      gap: 10px;
-    }
-
-    .search-field {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      padding: 0 15px;
-      min-height: 54px;
-      gap: 10px;
-      background: white;
-    }
-
-    .search-field input,
-    .search-field select {
-      border: none;
-      outline: none;
-      width: 100%;
-      color: var(--text);
-      background: transparent;
+    .result-count {
+      color: var(--muted);
       font-size: 14px;
     }
 
-    .search-field input::placeholder {
-      color: #8a98a8;
+    .sort-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .btn-search {
-      border: none;
-      border-radius: 10px;
-      background: var(--blue);
-      color: white;
-      font-weight: bold;
-      transition: .3s;
-      min-height: 54px;
-    }
-
-    .btn-search:hover {
-      background: var(--blue-dark);
-    }
-
-    /* ================= CONTENT ================= */
-
-    .content {
-      padding: 55px 0 80px;
+    .sort-box select {
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      padding: 0 12px;
+      outline: none;
+      cursor: pointer;
     }
 
     .content-layout {
       display: grid;
-      grid-template-columns: 270px 1fr;
-      gap: 28px;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
       align-items: start;
     }
 
-    /* ================= FILTER ================= */
+    /* =========================
+       SIDEBAR
+    ========================= */
 
-    .filter-box {
+    .sidebar {
       background: white;
-      border-radius: var(--radius);
       border: 1px solid var(--border);
-      padding: 22px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, .03);
+      border-radius: 14px;
+      padding: 20px;
       position: sticky;
-      top: 100px;
+      top: 92px;
     }
 
-    .filter-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-
-    .filter-header h3 {
-      font-size: 19px;
-    }
-
-    .reset-filter {
-      border: none;
-      background: none;
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: bold;
+    .sidebar-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 18px;
     }
 
     .filter-group {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .filter-group:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
-    .filter-group h4 {
-      margin-bottom: 14px;
-      font-size: 14px;
-    }
-
-    .filter-option {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 11px;
-      color: #5f6f81;
+    .filter-group label {
+      display: block;
       font-size: 13px;
-      cursor: pointer;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 7px;
     }
 
-    .filter-option:last-child {
-      margin-bottom: 0;
-    }
-
-    .filter-option input {
-      accent-color: var(--blue);
-      width: 15px;
-      height: 15px;
-    }
-
-    /* ================= RESULT TOP ================= */
-
-    .result-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      gap: 20px;
-    }
-
-    .result-top h2 {
-      font-size: 25px;
-      margin-bottom: 5px;
-    }
-
-    .result-top p {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .sort-select {
-      padding: 11px 14px;
+    .filter-group select {
+      width: 100%;
+      height: 42px;
       border: 1px solid var(--border);
       border-radius: 8px;
-      outline: none;
+      padding: 0 10px;
+      background: white;
       color: var(--text);
-      background: white;
-      min-width: 150px;
+      outline: none;
     }
 
-    /* ================= LOADING ================= */
-
-    .loading-box {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 50px 20px;
-      text-align: center;
-      color: var(--muted);
+    .filter-group select:focus {
+      border-color: var(--secondary);
     }
 
-    .loading-icon {
-      font-size: 35px;
-      margin-bottom: 12px;
+    .reset-btn {
+      width: 100%;
+      height: 42px;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      background: #f0f9ff;
+      color: var(--primary-dark);
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    /* ================= JOB LIST ================= */
+    .reset-btn:hover {
+      background: #e0f2fe;
+    }
 
-    .job-list {
-      display: grid;
-      gap: 16px;
+    /* =========================
+       JOB LIST
+    ========================= */
+
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
     .job-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 20px;
+
       display: grid;
-      grid-template-columns: 65px 1fr auto;
-      gap: 20px;
-      align-items: center;
-      transition: .3s;
+      grid-template-columns: 58px 1fr auto;
+      gap: 16px;
+      align-items: start;
+
+      transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        border-color 0.2s;
     }
 
     .job-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-      border-color: #c8d8e7;
+      transform: translateY(-2px);
+      border-color: #bae6fd;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.07);
     }
 
-    .company-logo {
+    .company-avatar {
       width: 58px;
       height: 58px;
-      border-radius: 14px;
+      border-radius: 13px;
+      background: #e0f2fe;
+      color: var(--primary-dark);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-
-      background: linear-gradient(
-        135deg,
-        #0e5d98,
-        #5baee5
-      );
+      font-weight: 800;
+      font-size: 17px;
     }
 
-    .job-company {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 7px;
+    .job-main {
+      min-width: 0;
     }
 
     .job-title {
-      font-size: 20px;
-      margin-bottom: 12px;
-      line-height: 1.3;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .company-name {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 5px 8px;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .job-salary {
+      color: var(--success);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .job-description {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 7px;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .job-right {
+      min-width: 120px;
+      text-align: right;
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
-      padding: 4px 8px;
+      gap: 5px;
+      background: #dcfce7;
+      color: #166534;
+      padding: 5px 9px;
       border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .status-active {
-      background: var(--green-bg);
-      color: var(--green);
-    }
-
-    .status-closed {
-      background: var(--red-bg);
-      color: var(--red);
-    }
-
-    .job-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .job-tags span {
-      background: #f3f7fa;
-      color: #617286;
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 7px;
-    }
-
-    .salary-tag {
-      color: #078451 !important;
-      font-weight: bold;
-      background: #eef9f4 !important;
-    }
-
-    .job-date {
-      text-align: right;
-      min-width: 135px;
-    }
-
-    .job-date small {
-      color: var(--muted);
-      display: block;
-      margin-bottom: 12px;
       font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
     }
 
-    .btn-detail {
-      display: inline-block;
-      padding: 10px 17px;
-      background: #edf6fc;
-      color: var(--blue-dark);
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: bold;
-      transition: .3s;
-    }
-
-    .btn-detail:hover {
-      background: var(--blue);
+    .detail-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 9px;
+      background: var(--primary);
       color: white;
+      font-size: 13px;
+      font-weight: 700;
+      transition: 0.2s;
     }
 
-    /* ================= EMPTY ================= */
+    .detail-btn:hover {
+      background: var(--primary-dark);
+    }
 
-    .empty-state {
+    .posted-date {
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 7px;
+    }
+
+    /* =========================
+       STATES
+    ========================= */
+
+    .state-box {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 60px 25px;
+      border-radius: 14px;
+      padding: 55px 25px;
       text-align: center;
     }
 
-    .empty-state .icon {
-      font-size: 45px;
-      margin-bottom: 15px;
+    .state-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
     }
 
-    .empty-state h3 {
-      margin-bottom: 8px;
-      font-size: 20px;
+    .state-box h3 {
+      font-size: 19px;
+      margin-bottom: 5px;
     }
 
-    .empty-state p {
+    .state-box p {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.6;
+      max-width: 500px;
+      margin: auto;
     }
 
-    /* ================= ERROR ================= */
-
-    .error-state {
-      background: white;
-      border: 1px solid #f0cccc;
-      border-radius: 16px;
-      padding: 40px 25px;
-      text-align: center;
+    .error-box {
+      border-color: #fecaca;
+      background: #fffafa;
     }
 
-    .error-state .icon {
-      font-size: 40px;
-      margin-bottom: 12px;
+    .error-box h3 {
+      color: var(--danger);
     }
 
-    .error-state h3 {
-      margin-bottom: 8px;
-    }
-
-    .error-state p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-      margin-bottom: 18px;
-    }
-
-    .btn-retry {
-      border: none;
-      background: var(--blue);
-      color: white;
-      padding: 11px 18px;
+    .retry-btn {
+      margin-top: 17px;
+      padding: 10px 17px;
+      border: 0;
       border-radius: 8px;
-      font-weight: bold;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    /* ================= PAGINATION ================= */
+    /* =========================
+       PAGINATION
+    ========================= */
 
     .pagination {
-      margin-top: 35px;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 25px;
     }
 
-    .pagination button {
-      min-width: 42px;
-      height: 42px;
-      border-radius: 9px;
+    .page-btn {
+      min-width: 38px;
+      height: 38px;
       border: 1px solid var(--border);
       background: white;
-      color: var(--text);
-      font-weight: bold;
-      padding: 0 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #475569;
+      font-weight: 700;
     }
 
-    .pagination button:hover {
-      border-color: var(--blue);
-      color: var(--blue);
+    .page-btn:hover {
+      border-color: #7dd3fc;
+      color: var(--primary);
     }
 
-    .pagination button.active {
-      background: var(--blue);
+    .page-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
       color: white;
-      border-color: var(--blue);
     }
 
-    .pagination button:disabled {
-      opacity: .4;
+    .page-btn:disabled {
+      opacity: 0.45;
       cursor: not-allowed;
     }
 
-    /* ================= CTA ================= */
+    /* =========================
+       CTA
+    ========================= */
 
-    .bottom-info {
-      margin-top: 60px;
-      background: var(--navy);
-      border-radius: 20px;
-      padding: 45px;
+    .cta {
+      margin-top: 55px;
+      border-radius: 18px;
+      padding: 35px;
+      background: linear-gradient(
+        120deg,
+        #0c4a6e,
+        #0369a1
+      );
       color: white;
 
       display: flex;
-      align-items: center;
       justify-content: space-between;
-
-      gap: 30px;
+      align-items: center;
+      gap: 25px;
     }
 
-    .bottom-info h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    .cta h2 {
+      font-size: 24px;
+      margin-bottom: 6px;
     }
 
-    .bottom-info p {
-      color: #b8c7d6;
-      max-width: 650px;
+    .cta p {
+      color: rgba(255,255,255,0.8);
       font-size: 14px;
-      line-height: 1.7;
+      max-width: 620px;
     }
 
-    .bottom-info a {
+    .cta-btn {
+      background: white;
+      color: var(--primary-dark);
+      padding: 12px 20px;
+      border-radius: 9px;
+      font-weight: 800;
       white-space: nowrap;
     }
 
-    /* ================= FOOTER ================= */
+    .cta-btn:hover {
+      background: #f0f9ff;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
-      background: #061424;
-      color: #91a6bb;
-      padding: 45px 0 20px;
+      background: #0f172a;
+      color: #cbd5e1;
+      padding: 38px 20px 25px;
     }
 
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
+    .footer-container {
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
       padding-bottom: 30px;
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
     }
 
-    .footer-content h3 {
+    .footer-brand {
+      max-width: 420px;
+    }
+
+    .footer-brand h3 {
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .footer-column h4 {
       color: white;
       margin-bottom: 10px;
+      font-size: 14px;
     }
 
-    .footer-content p {
+    .footer-column a {
+      display: block;
+      color: #94a3b8;
       font-size: 13px;
-      max-width: 500px;
-      line-height: 1.6;
+      margin-bottom: 7px;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 30px;
-      align-items: flex-start;
-    }
-
-    .footer-links a {
-      font-size: 13px;
-    }
-
-    .footer-links a:hover {
+    .footer-column a:hover {
       color: white;
     }
 
-    .copyright {
-      text-align: center;
-      font-size: 12px;
+    .footer-bottom {
+      border-top: 1px solid #1e293b;
       padding-top: 20px;
+      color: #64748b;
+      font-size: 12px;
+      text-align: center;
     }
 
-    /* ================= RESPONSIVE ================= */
+    /* =========================
+       MOBILE
+    ========================= */
 
-    @media (max-width: 1100px) {
-
-      .nav-menu {
-        gap: 15px;
+    @media (max-width: 950px) {
+      .nav-links {
+        display: none;
       }
 
-      .nav-menu a {
-        font-size: 12px;
-      }
-
-      .search-box {
+      .search-inner {
         grid-template-columns: 1fr 1fr;
       }
 
-      .content-layout {
-        grid-template-columns: 230px 1fr;
-      }
-
-    }
-
-    @media (max-width: 900px) {
-
-      .nav-menu {
-        display: none;
-      }
-
-      .content-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-box {
-        position: static;
-      }
-
-      .filter-box {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-
-      .filter-header {
-        grid-column: 1 / -1;
-        margin-bottom: 0;
-      }
-
-      .filter-group {
-        border-bottom: none;
-        padding-bottom: 0;
-        margin-bottom: 0;
-      }
-
-      .job-card {
-        grid-template-columns: 60px 1fr;
-      }
-
-      .job-date {
-        grid-column: 1 / -1;
-        text-align: left;
-        padding-top: 15px;
-        border-top: 1px solid var(--border);
-      }
-
-    }
-
-    @media (max-width: 700px) {
-
-      .navbar {
-        height: 68px;
-      }
-
-      .nav-actions {
-        display: none;
-      }
-
-      .logo-icon {
-        font-size: 28px;
-      }
-
-      .logo strong {
-        font-size: 15px;
-      }
-
-      .logo small {
-        font-size: 8px;
-      }
-
-      .page-hero {
-        padding: 40px 0 70px;
-      }
-
-      .page-hero h1 {
-        font-size: 31px;
-      }
-
-      .page-hero p {
-        font-size: 14px;
-      }
-
-      .search-box {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-box {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-header {
-        grid-column: auto;
-      }
-
-      .filter-group {
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 18px;
-        margin-bottom: 18px;
-      }
-
-      .filter-group:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-      }
-
-      .result-top {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .sort-select {
+      .search-btn {
         width: 100%;
       }
 
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .nav-container {
+        min-height: 64px;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+
+      .logo-icon {
+        width: 37px;
+        height: 37px;
+      }
+
+      .nav-actions .btn-login {
+        display: none;
+      }
+
+      .hero {
+        padding: 40px 20px 55px;
+      }
+
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .search-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .page-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .sort-box {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .sort-box select {
+        flex: 1;
+      }
+
       .job-card {
-        grid-template-columns: 52px 1fr;
-        padding: 18px;
-        gap: 14px;
+        grid-template-columns: 48px 1fr;
+        gap: 12px;
       }
 
-      .company-logo {
-        width: 50px;
-        height: 50px;
+      .company-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 14px;
       }
 
-      .job-title {
-        font-size: 18px;
+      .job-right {
+        grid-column: 2;
+        text-align: left;
+        min-width: 0;
       }
 
-      .job-tags span {
-        font-size: 11px;
+      .detail-btn {
+        width: 100%;
       }
 
-      .bottom-info {
+      .cta {
         flex-direction: column;
         align-items: flex-start;
-        padding: 30px;
+        padding: 27px;
       }
 
-      .bottom-info h2 {
-        font-size: 23px;
+      .cta-btn {
+        width: 100%;
+        text-align: center;
       }
 
-      .footer-content {
-        flex-direction: column;
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 25px;
       }
-
-      .footer-links {
-        flex-wrap: wrap;
-        gap: 18px;
-      }
-
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- =========================
+       NAVBAR
+  ========================= -->
 
-  <nav class="navbar">
-
-    <div class="container nav-wrapper">
+  <header class="navbar">
+    <div class="nav-container">
 
       <a href="index.html" class="logo">
-
-        <div class="logo-icon">
-          ⚓
-        </div>
-
-        <div>
-          <strong>SEA MARINE JOB</strong>
-          <small>PORTAL KARIER MARITIM</small>
-        </div>
-
+        <span class="logo-icon">⚓</span>
+        <span>Sea Marine Job</span>
       </a>
 
-
-      <div class="nav-menu">
-
-        <a href="index.html">
-          Beranda
-        </a>
-
-        <a href="kapal.html" class="active">
-          Lowongan Kapal
-        </a>
-
-        <a href="darat.html">
-          Lowongan Darat
-        </a>
-
-        <a href="detail.html">
-          Perusahaan
-        </a>
-
-        <a href="detail.html">
-          Artikel
-        </a>
-
-        <a href="detail.html">
-          Tentang Kami
-        </a>
-
-      </div>
-
+      <nav class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="kapal.html" class="active">Lowongan</a>
+        <a href="darat.html">Pekerjaan Darat</a>
+        <a href="profil.html">Profil</a>
+      </nav>
 
       <div class="nav-actions">
-
-        <a href="daftar.html" class="btn-login">
-          Masuk
-        </a>
-
-        <a href="daftar.html" class="btn-register">
-          Daftar
-        </a>
-
+        <a href="daftar.html" class="btn-login">Masuk</a>
+        <a href="daftar.html" class="btn-register">Daftar</a>
       </div>
 
     </div>
+  </header>
 
-  </nav>
 
+  <!-- =========================
+       HERO
+  ========================= -->
 
-  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-container">
 
-  <section class="page-hero">
-
-    <div class="container">
-
-      <div class="breadcrumb">
-
-        <a href="index.html">
-          Beranda
-        </a>
-
-        /
-        Lowongan Kapal
-
+      <div class="hero-label">
+        ⚓ LOWONGAN MARITIM
       </div>
 
-
       <h1>
-        Lowongan Kerja Kapal
+        Temukan pekerjaan maritim
+        yang tepat untuk karier Anda
       </h1>
 
-
       <p>
-        Temukan peluang karier terbaik di industri pelayaran dan maritim.
-        Cari posisi, perusahaan, jenis kapal, dan lokasi yang sesuai
-        dengan pengalaman serta keahlian Anda.
+        Jelajahi lowongan kerja kapal terbaru dari berbagai perusahaan
+        dan temukan peluang karier sesuai pengalaman serta keahlian Anda.
       </p>
 
     </div>
-
   </section>
 
 
-  <!-- ================= SEARCH ================= -->
+  <!-- =========================
+       SEARCH
+  ========================= -->
 
-  <div class="container search-wrapper">
+  <section class="search-box">
+    <div class="search-inner">
 
-    <div class="search-box">
-
-      <div class="search-field">
-
-        🔍
-
+      <div class="field">
+        <span class="field-icon">🔎</span>
         <input
           type="text"
-          id="searchInput"
-          placeholder="Cari jabatan, perusahaan, atau lokasi..."
+          id="keywordInput"
+          placeholder="Cari posisi, perusahaan, atau kata kunci..."
+          autocomplete="off"
         >
-
       </div>
 
-
-      <div class="search-field">
-
-        🚢
-
-        <select id="shipFilter">
-
-          <option value="">
-            Semua Jenis Kapal
-          </option>
-
-          <option value="tanker">
-            Tanker
-          </option>
-
-          <option value="bulk carrier">
-            Bulk Carrier
-          </option>
-
-          <option value="tug boat">
-            Tug Boat
-          </option>
-
-          <option value="container vessel">
-            Container Vessel
-          </option>
-
-          <option value="offshore">
-            Offshore
-          </option>
-
-          <option value="cargo vessel">
-            Cargo Vessel
-          </option>
-
+      <div class="field">
+        <select id="departmentSearch">
+          <option value="">Semua Departemen</option>
         </select>
-
       </div>
 
-
-      <div class="search-field">
-
-        💼
-
-        <select id="employmentFilter">
-
-          <option value="">
-            Semua Tipe Pekerjaan
-          </option>
-
-          <option value="full time">
-            Full Time
-          </option>
-
-          <option value="contract">
-            Contract
-          </option>
-
-          <option value="part time">
-            Part Time
-          </option>
-
+      <div class="field">
+        <select id="vesselSearch">
+          <option value="">Semua Jenis Kapal</option>
         </select>
-
       </div>
 
-
-      <button
-        class="btn-search"
-        onclick="applyFilters()"
-      >
+      <button class="search-btn" id="searchBtn">
         Cari Lowongan
       </button>
 
     </div>
+  </section>
 
-  </div>
 
+  <!-- =========================
+       MAIN
+  ========================= -->
 
-  <!-- ================= CONTENT ================= -->
+  <main class="main">
 
-  <section class="content">
+    <div class="page-top">
 
-    <div class="container">
-
-      <div class="content-layout">
-
-
-        <!-- ================= FILTER ================= -->
-
-        <aside class="filter-box">
-
-
-          <div class="filter-header">
-
-            <h3>
-              ⚙ Filter
-            </h3>
-
-            <button
-              class="reset-filter"
-              onclick="resetFilter()"
-            >
-              Reset
-            </button>
-
-          </div>
-
-
-          <!-- STATUS -->
-
-          <div class="filter-group">
-
-            <h4>
-              Status Lowongan
-            </h4>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                id="activeOnly"
-              >
-
-              Lowongan Aktif
-
-            </label>
-
-          </div>
-
-
-          <!-- JENIS KAPAL -->
-
-          <div class="filter-group">
-
-            <h4>
-              Jenis Kapal
-            </h4>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="tanker"
-              >
-
-              Tanker
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="bulk carrier"
-              >
-
-              Bulk Carrier
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="tug boat"
-              >
-
-              Tug Boat
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="container vessel"
-              >
-
-              Container Vessel
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="offshore"
-              >
-
-              Offshore
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="ship-checkbox"
-                value="cargo vessel"
-              >
-
-              Cargo Vessel
-
-            </label>
-
-          </div>
-
-
-          <!-- TIPE PEKERJAAN -->
-
-          <div class="filter-group">
-
-            <h4>
-              Tipe Pekerjaan
-            </h4>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="employment-checkbox"
-                value="full time"
-              >
-
-              Full Time
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="employment-checkbox"
-                value="contract"
-              >
-
-              Contract
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="employment-checkbox"
-                value="part time"
-              >
-
-              Part Time
-
-            </label>
-
-          </div>
-
-
-          <!-- LOKASI -->
-
-          <div class="filter-group">
-
-            <h4>
-              Lokasi
-            </h4>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="location-checkbox"
-                value="jakarta"
-              >
-
-              Jakarta
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="location-checkbox"
-                value="surabaya"
-              >
-
-              Surabaya
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="location-checkbox"
-                value="batam"
-              >
-
-              Batam
-
-            </label>
-
-
-            <label class="filter-option">
-
-              <input
-                type="checkbox"
-                class="location-checkbox"
-                value="indonesia"
-              >
-
-              Indonesia
-
-            </label>
-
-          </div>
-
-
-        </aside>
-
-
-        <!-- ================= JOB RESULT ================= -->
-
-        <main>
-
-
-          <div class="result-top">
-
-            <div>
-
-              <h2>
-                Lowongan Tersedia
-              </h2>
-
-              <p id="resultCount">
-                Memuat lowongan...
-              </p>
-
-            </div>
-
-
-            <select
-              class="sort-select"
-              id="sortFilter"
-            >
-
-              <option value="newest">
-                Terbaru
-              </option>
-
-              <option value="oldest">
-                Terlama
-              </option>
-
-              <option value="az">
-                Posisi A - Z
-              </option>
-
-              <option value="za">
-                Posisi Z - A
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <!-- JOB LIST -->
-
-          <div
-            class="job-list"
-            id="jobList"
-          >
-
-            <div class="loading-box">
-
-              <div class="loading-icon">
-                ⚓
-              </div>
-
-              <p>
-                Memuat lowongan dari database...
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <!-- PAGINATION -->
-
-          <div
-            class="pagination"
-            id="pagination"
-          ></div>
-
-
-        </main>
-
+      <div>
+        <h2>Lowongan Terbaru</h2>
+        <div class="result-count" id="resultCount">
+          Memuat lowongan...
+        </div>
       </div>
 
+      <div class="sort-box">
+        <span>Urutkan:</span>
 
-      <!-- ================= CTA ================= -->
-
-      <div class="bottom-info">
-
-        <div>
-
-          <h2>
-            Tidak menemukan posisi yang Anda cari?
-          </h2>
-
-          <p>
-            Lengkapi profil Sea Marine Job Anda agar perusahaan
-            dapat menemukan pengalaman dan keahlian Anda ketika
-            membuka lowongan yang sesuai.
-          </p>
-
-        </div>
-
-
-        <a
-          href="profil.html"
-          class="btn-register"
-        >
-          Buat Profil →
-        </a>
-
+        <select id="sortSelect">
+          <option value="newest">Terbaru</option>
+          <option value="oldest">Terlama</option>
+          <option value="title">Nama Posisi A-Z</option>
+        </select>
       </div>
 
     </div>
 
-  </section>
+
+    <div class="content-layout">
+
+      <!-- SIDEBAR -->
+
+      <aside class="sidebar">
+
+        <div class="sidebar-title">
+          Filter Lowongan
+        </div>
+
+        <div class="filter-group">
+          <label for="departmentFilter">
+            Departemen
+          </label>
+
+          <select id="departmentFilter">
+            <option value="">Semua Departemen</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="vesselFilter">
+            Jenis Kapal
+          </label>
+
+          <select id="vesselFilter">
+            <option value="">Semua Jenis Kapal</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="locationFilter">
+            Lokasi
+          </label>
+
+          <select id="locationFilter">
+            <option value="">Semua Lokasi</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="employmentFilter">
+            Tipe Pekerjaan
+          </label>
+
+          <select id="employmentFilter">
+            <option value="">Semua Tipe</option>
+          </select>
+        </div>
+
+        <button class="reset-btn" id="resetBtn">
+          ↻ Reset Filter
+        </button>
+
+      </aside>
 
 
-  <!-- ================= FOOTER ================= -->
+      <!-- JOBS -->
 
-  <footer>
+      <section>
 
-    <div class="container">
+        <div id="loadingState" class="state-box">
+          <div class="state-icon">⚓</div>
+          <h3>Memuat lowongan...</h3>
+          <p>
+            Sedang mengambil data lowongan terbaru.
+          </p>
+        </div>
 
-      <div class="footer-content">
+        <div
+          id="errorState"
+          class="state-box error-box"
+          style="display:none;"
+        >
+          <div class="state-icon">⚠️</div>
+          <h3>Gagal memuat lowongan</h3>
+          <p id="errorMessage">
+            Terjadi kesalahan saat mengambil data.
+          </p>
 
+          <button
+            class="retry-btn"
+            id="retryBtn"
+          >
+            Coba Lagi
+          </button>
+        </div>
 
-        <div>
+        <div
+          id="emptyState"
+          class="state-box"
+          style="display:none;"
+        >
+          <div class="state-icon">🔎</div>
 
           <h3>
-            ⚓ SEA MARINE JOB
+            Lowongan tidak ditemukan
           </h3>
 
           <p>
-            Portal lowongan kerja dan informasi karier
-            untuk pelaut dan profesional maritim Indonesia.
+            Tidak ada lowongan yang sesuai dengan pencarian atau filter Anda.
           </p>
-
         </div>
 
+        <div
+          id="jobsList"
+          class="jobs-list"
+          style="display:none;"
+        ></div>
 
-        <div class="footer-links">
+        <div
+          id="pagination"
+          class="pagination"
+          style="display:none;"
+        ></div>
 
-          <a href="index.html">
-            Beranda
-          </a>
+      </section>
 
-          <a href="kapal.html">
-            Lowongan Kapal
-          </a>
+    </div>
 
-          <a href="darat.html">
-            Lowongan Darat
-          </a>
 
-          <a href="detail.html">
-            Tentang Kami
-          </a>
+    <!-- =========================
+         CTA
+    ========================= -->
 
+    <section class="cta">
+
+      <div>
+        <h2>Belum menemukan pekerjaan yang sesuai?</h2>
+
+        <p>
+          Lengkapi profil Anda agar lebih siap melamar berbagai peluang
+          kerja maritim yang tersedia di Sea Marine Job.
+        </p>
+      </div>
+
+      <a href="profil.html" class="cta-btn">
+        Lengkapi Profil →
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div class="footer-container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <h3>⚓ Sea Marine Job</h3>
+
+          <p>
+            Platform pencarian kerja yang menghubungkan tenaga profesional
+            maritim dengan peluang kerja di industri pelayaran.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Menu</h4>
+
+          <a href="index.html">Beranda</a>
+          <a href="kapal.html">Lowongan</a>
+          <a href="darat.html">Pekerjaan Darat</a>
+          <a href="profil.html">Profil</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Akun</h4>
+
+          <a href="daftar.html">Masuk</a>
+          <a href="daftar.html">Daftar</a>
+          <a href="profil.html">Profil Saya</a>
         </div>
 
       </div>
 
-
-      <div class="copyright">
-
-        © 2026 Sea Marine Job. All Rights Reserved.
-
+      <div class="footer-bottom">
+        © 2026 Sea Marine Job. Semua hak dilindungi.
       </div>
 
     </div>
@@ -1490,19 +1171,21 @@
   </footer>
 
 
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
 
   <script>
 
-    /* ============================================
-       SUPABASE CONFIG
-    ============================================ */
+    /* =========================
+       SUPABASE
+    ========================= */
 
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
 
     const SUPABASE_KEY =
-      "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
+      "sb_publishable_O4NAGKMZpJIk8fGfHkAxjQ_ZpegzAfA";
 
     const supabaseClient =
       supabase.createClient(
@@ -1511,35 +1194,200 @@
       );
 
 
-    /* ============================================
-       GLOBAL DATA
-    ============================================ */
+    /* =========================
+       STATE
+    ========================= */
 
     let allJobs = [];
-
     let filteredJobs = [];
 
     let currentPage = 1;
 
-    const jobsPerPage = 10;
+    const JOBS_PER_PAGE = 8;
 
 
-    /* ============================================
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const keywordInput =
+      document.getElementById("keywordInput");
+
+    const departmentSearch =
+      document.getElementById("departmentSearch");
+
+    const vesselSearch =
+      document.getElementById("vesselSearch");
+
+    const searchBtn =
+      document.getElementById("searchBtn");
+
+    const departmentFilter =
+      document.getElementById("departmentFilter");
+
+    const vesselFilter =
+      document.getElementById("vesselFilter");
+
+    const locationFilter =
+      document.getElementById("locationFilter");
+
+    const employmentFilter =
+      document.getElementById("employmentFilter");
+
+    const sortSelect =
+      document.getElementById("sortSelect");
+
+    const resetBtn =
+      document.getElementById("resetBtn");
+
+    const loadingState =
+      document.getElementById("loadingState");
+
+    const errorState =
+      document.getElementById("errorState");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+    const emptyState =
+      document.getElementById("emptyState");
+
+    const jobsList =
+      document.getElementById("jobsList");
+
+    const pagination =
+      document.getElementById("pagination");
+
+    const resultCount =
+      document.getElementById("resultCount");
+
+    const retryBtn =
+      document.getElementById("retryBtn");
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getInitials(companyName) {
+
+      const name =
+        String(companyName || "SMJ")
+          .trim();
+
+      if (!name) {
+        return "SMJ";
+      }
+
+      const words =
+        name
+          .split(/\s+/)
+          .filter(Boolean);
+
+      if (words.length === 1) {
+        return words[0]
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+      return (
+        words[0][0] +
+        words[1][0]
+      ).toUpperCase();
+
+    }
+
+
+    function formatDate(dateString) {
+
+      if (!dateString) {
+        return "Tanggal tidak tersedia";
+      }
+
+      const date =
+        new Date(dateString);
+
+      if (Number.isNaN(date.getTime())) {
+        return "Tanggal tidak tersedia";
+      }
+
+      return date.toLocaleDateString(
+        "id-ID",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function uniqueSorted(values) {
+
+      return [
+        ...new Set(
+          values
+            .map(value =>
+              String(value || "").trim()
+            )
+            .filter(Boolean)
+        )
+      ].sort(
+        (a, b) =>
+          a.localeCompare(
+            b,
+            "id",
+            { sensitivity: "base" }
+          )
+      );
+
+    }
+
+
+    function addOptions(
+      selectElement,
+      values,
+      defaultLabel
+    ) {
+
+      selectElement.innerHTML =
+        `<option value="">${defaultLabel}</option>`;
+
+      values.forEach(value => {
+
+        const option =
+          document.createElement("option");
+
+        option.value = value;
+        option.textContent = value;
+
+        selectElement.appendChild(option);
+
+      });
+
+    }
+
+
+    /* =========================
        LOAD JOBS
-    ============================================ */
+    ========================= */
 
     async function loadJobs() {
 
-      const jobList =
-        document.getElementById("jobList");
-
-      jobList.innerHTML = `
-        <div class="loading-box">
-          <div class="loading-icon">⚓</div>
-          <p>Memuat lowongan dari database...</p>
-        </div>
-      `;
-
+      showLoading();
 
       try {
 
@@ -1560,8 +1408,10 @@
             description,
             requirements,
             status,
-            posted_by
+            posted_by,
+            department
           `)
+          .eq("status", "published")
           .order(
             "created_at",
             {
@@ -1569,41 +1419,26 @@
             }
           );
 
-
         if (error) {
-
-          console.error(
-            "Supabase error:",
-            error
-          );
-
-          showError(
-            "Gagal mengambil data lowongan dari database."
-          );
-
-          return;
+          throw error;
         }
-
 
         allJobs = data || [];
 
-        filteredJobs = [...allJobs];
+        populateFilters();
 
-        currentPage = 1;
+        applyFilters();
 
-        renderJobs();
-
-      }
-
-      catch (error) {
+      } catch (error) {
 
         console.error(
-          "Load jobs error:",
+          "Gagal mengambil jobs:",
           error
         );
 
         showError(
-          "Terjadi kesalahan saat memuat lowongan."
+          error?.message ||
+          "Tidak dapat mengambil data lowongan dari database."
         );
 
       }
@@ -1611,221 +1446,167 @@
     }
 
 
-    /* ============================================
+    /* =========================
+       FILTER OPTIONS
+    ========================= */
+
+    function populateFilters() {
+
+      const departments =
+        uniqueSorted(
+          allJobs.map(
+            job => job.department
+          )
+        );
+
+      const vessels =
+        uniqueSorted(
+          allJobs.map(
+            job => job.vessel_type
+          )
+        );
+
+      const locations =
+        uniqueSorted(
+          allJobs.map(
+            job => job.location
+          )
+        );
+
+      const employmentTypes =
+        uniqueSorted(
+          allJobs.map(
+            job => job.employment_type
+          )
+        );
+
+
+      addOptions(
+        departmentSearch,
+        departments,
+        "Semua Departemen"
+      );
+
+      addOptions(
+        departmentFilter,
+        departments,
+        "Semua Departemen"
+      );
+
+      addOptions(
+        vesselSearch,
+        vessels,
+        "Semua Jenis Kapal"
+      );
+
+      addOptions(
+        vesselFilter,
+        vessels,
+        "Semua Jenis Kapal"
+      );
+
+      addOptions(
+        locationFilter,
+        locations,
+        "Semua Lokasi"
+      );
+
+      addOptions(
+        employmentFilter,
+        employmentTypes,
+        "Semua Tipe"
+      );
+
+    }
+
+
+    /* =========================
        APPLY FILTERS
-    ============================================ */
+    ========================= */
 
     function applyFilters() {
 
       const keyword =
-        document
-          .getElementById("searchInput")
-          .value
+        keywordInput.value
           .trim()
           .toLowerCase();
 
+      const department =
+        departmentFilter.value ||
+        departmentSearch.value;
 
-      const shipSelect =
-        document
-          .getElementById("shipFilter")
-          .value
-          .toLowerCase();
+      const vessel =
+        vesselFilter.value ||
+        vesselSearch.value;
 
+      const location =
+        locationFilter.value;
 
-      const employmentSelect =
-        document
-          .getElementById("employmentFilter")
-          .value
-          .toLowerCase();
-
-
-      const activeOnly =
-        document
-          .getElementById("activeOnly")
-          .checked;
-
-
-      const selectedShips =
-        Array
-          .from(
-            document.querySelectorAll(
-              ".ship-checkbox:checked"
-            )
-          )
-          .map(
-            checkbox =>
-              checkbox.value.toLowerCase()
-          );
-
-
-      const selectedEmployment =
-        Array
-          .from(
-            document.querySelectorAll(
-              ".employment-checkbox:checked"
-            )
-          )
-          .map(
-            checkbox =>
-              checkbox.value.toLowerCase()
-          );
-
-
-      const selectedLocations =
-        Array
-          .from(
-            document.querySelectorAll(
-              ".location-checkbox:checked"
-            )
-          )
-          .map(
-            checkbox =>
-              checkbox.value.toLowerCase()
-          );
+      const employment =
+        employmentFilter.value;
 
 
       filteredJobs =
-        allJobs.filter(function(job) {
+        allJobs.filter(job => {
 
-
-          /* ================= KEYWORD ================= */
-
-          const title =
-            String(
-              job.title || ""
-            ).toLowerCase();
-
-
-          const company =
-            String(
-              job.company_name || ""
-            ).toLowerCase();
-
-
-          const location =
-            String(
-              job.location || ""
-            ).toLowerCase();
+          const searchText = [
+            job.title,
+            job.company_name,
+            job.location,
+            job.vessel_type,
+            job.department,
+            job.employment_type
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
 
           const keywordMatch =
-            keyword === "" ||
-            title.includes(keyword) ||
-            company.includes(keyword) ||
-            location.includes(keyword);
+            !keyword ||
+            searchText.includes(keyword);
 
 
-          if (!keywordMatch) {
-            return false;
-          }
+          const departmentMatch =
+            !department ||
+            String(job.department || "")
+              .toLowerCase() ===
+            department.toLowerCase();
 
 
-          /* ================= SHIP SELECT ================= */
-
-          const vessel =
-            String(
-              job.vessel_type || ""
-            ).toLowerCase();
-
-
-          const shipSelectMatch =
-            shipSelect === "" ||
-            vessel.includes(shipSelect);
+          const vesselMatch =
+            !vessel ||
+            String(job.vessel_type || "")
+              .toLowerCase() ===
+            vessel.toLowerCase();
 
 
-          if (!shipSelectMatch) {
-            return false;
-          }
+          const locationMatch =
+            !location ||
+            String(job.location || "")
+              .toLowerCase() ===
+            location.toLowerCase();
 
 
-          /* ================= EMPLOYMENT SELECT ================= */
-
-          const employment =
-            String(
-              job.employment_type || ""
-            ).toLowerCase();
-
-
-          const employmentSelectMatch =
-            employmentSelect === "" ||
-            employment.includes(
-              employmentSelect
-            );
+          const employmentMatch =
+            !employment ||
+            String(job.employment_type || "")
+              .toLowerCase() ===
+            employment.toLowerCase();
 
 
-          if (!employmentSelectMatch) {
-            return false;
-          }
-
-
-          /* ================= ACTIVE ================= */
-
-          if (activeOnly) {
-
-            const status =
-              String(
-                job.status || ""
-              ).toLowerCase();
-
-            if (
-              status !== "active" &&
-              status !== "aktif"
-            ) {
-              return false;
-            }
-
-          }
-
-
-          /* ================= SHIP CHECKBOX ================= */
-
-          if (
-            selectedShips.length > 0 &&
-            !selectedShips.some(
-              selected =>
-                vessel.includes(selected)
-            )
-          ) {
-
-            return false;
-
-          }
-
-
-          /* ================= EMPLOYMENT CHECKBOX ================= */
-
-          if (
-            selectedEmployment.length > 0 &&
-            !selectedEmployment.some(
-              selected =>
-                employment.includes(selected)
-            )
-          ) {
-
-            return false;
-
-          }
-
-
-          /* ================= LOCATION CHECKBOX ================= */
-
-          if (
-            selectedLocations.length > 0 &&
-            !selectedLocations.some(
-              selected =>
-                location.includes(selected)
-            )
-          ) {
-
-            return false;
-
-          }
-
-
-          return true;
+          return (
+            keywordMatch &&
+            departmentMatch &&
+            vesselMatch &&
+            locationMatch &&
+            employmentMatch
+          );
 
         });
 
+
+      sortJobs();
 
       currentPage = 1;
 
@@ -1834,174 +1615,123 @@
     }
 
 
-    /* ============================================
-       SORT JOBS
-    ============================================ */
+    /* =========================
+       SORT
+    ========================= */
 
-    function sortJobs(jobs) {
+    function sortJobs() {
 
-      const sortValue =
-        document
-          .getElementById("sortFilter")
-          .value;
+      const sort =
+        sortSelect.value;
 
 
-      const sorted =
-        [...jobs];
+      if (sort === "oldest") {
 
-
-      if (sortValue === "newest") {
-
-        sorted.sort(
-          (a, b) =>
-            new Date(b.created_at) -
-            new Date(a.created_at)
-        );
-
-      }
-
-
-      else if (sortValue === "oldest") {
-
-        sorted.sort(
+        filteredJobs.sort(
           (a, b) =>
             new Date(a.created_at) -
             new Date(b.created_at)
         );
 
+        return;
       }
 
 
-      else if (sortValue === "az") {
+      if (sort === "title") {
 
-        sorted.sort(
+        filteredJobs.sort(
           (a, b) =>
             String(a.title || "")
               .localeCompare(
                 String(b.title || ""),
-                "id"
+                "id",
+                {
+                  sensitivity: "base"
+                }
               )
         );
 
+        return;
       }
 
 
-      else if (sortValue === "za") {
-
-        sorted.sort(
-          (a, b) =>
-            String(b.title || "")
-              .localeCompare(
-                String(a.title || ""),
-                "id"
-              )
-        );
-
-      }
-
-
-      return sorted;
+      filteredJobs.sort(
+        (a, b) =>
+          new Date(b.created_at) -
+          new Date(a.created_at)
+      );
 
     }
 
 
-    /* ============================================
+    /* =========================
        RENDER JOBS
-    ============================================ */
+    ========================= */
 
     function renderJobs() {
 
-      const jobList =
-        document.getElementById(
-          "jobList"
-        );
+      loadingState.style.display =
+        "none";
 
-
-      const resultCount =
-        document.getElementById(
-          "resultCount"
-        );
-
-
-      const sortedJobs =
-        sortJobs(
-          filteredJobs
-        );
-
-
-      const totalJobs =
-        sortedJobs.length;
+      errorState.style.display =
+        "none";
 
 
       resultCount.textContent =
-        `Menampilkan ${totalJobs} lowongan pekerjaan kapal`;
+        `${filteredJobs.length} lowongan ditemukan`;
 
 
-      if (totalJobs === 0) {
+      if (filteredJobs.length === 0) {
 
-        jobList.innerHTML = `
-          <div class="empty-state">
+        jobsList.style.display =
+          "none";
 
-            <div class="icon">
-              🔎
-            </div>
+        pagination.style.display =
+          "none";
 
-            <h3>
-              Lowongan tidak ditemukan
-            </h3>
-
-            <p>
-              Coba ubah kata pencarian atau filter
-              yang Anda gunakan.
-            </p>
-
-          </div>
-        `;
-
-
-        document
-          .getElementById("pagination")
-          .innerHTML = "";
+        emptyState.style.display =
+          "block";
 
         return;
 
       }
 
 
+      emptyState.style.display =
+        "none";
+
+      jobsList.style.display =
+        "flex";
+
+
       const totalPages =
         Math.ceil(
-          totalJobs / jobsPerPage
+          filteredJobs.length /
+          JOBS_PER_PAGE
         );
 
 
-      if (
-        currentPage > totalPages
-      ) {
-
-        currentPage =
-          totalPages;
-
+      if (currentPage > totalPages) {
+        currentPage = totalPages;
       }
 
 
-      const startIndex =
+      const start =
         (currentPage - 1) *
-        jobsPerPage;
+        JOBS_PER_PAGE;
 
-
-      const endIndex =
-        startIndex +
-        jobsPerPage;
+      const end =
+        start + JOBS_PER_PAGE;
 
 
       const pageJobs =
-        sortedJobs.slice(
-          startIndex,
-          endIndex
+        filteredJobs.slice(
+          start,
+          end
         );
 
 
-      jobList.innerHTML =
+      jobsList.innerHTML =
         pageJobs
           .map(
             job =>
@@ -2010,222 +1740,191 @@
           .join("");
 
 
-      renderPagination(
-        totalPages
-      );
+      renderPagination(totalPages);
 
     }
 
 
-    /* ============================================
-       CREATE JOB CARD
-    ============================================ */
+    /* =========================
+       JOB CARD
+    ========================= */
 
     function createJobCard(job) {
 
       const title =
-        job.title ||
-        "Posisi Tidak Disebutkan";
-
-
-      const company =
-        job.company_name ||
-        "Perusahaan Maritim";
-
-
-      const location =
-        job.location ||
-        "Lokasi tidak tersedia";
-
-
-      const vessel =
-        job.vessel_type ||
-        "Jenis kapal tidak tersedia";
-
-
-      const employment =
-        job.employment_type ||
-        "Tipe pekerjaan tidak tersedia";
-
-
-      const salary =
-        job.salary ||
-        "Gaji sesuai ketentuan perusahaan";
-
-
-      const status =
-        String(
-          job.status || ""
-        ).toLowerCase();
-
-
-      const isActive =
-        status === "active" ||
-        status === "aktif";
-
-
-      const statusText =
-        isActive
-          ? "Aktif"
-          : job.status || "Tidak diketahui";
-
-
-      const statusClass =
-        isActive
-          ? "status-active"
-          : "status-closed";
-
-
-      const initials =
-        getCompanyInitials(
-          company
+        escapeHtml(
+          job.title ||
+          "Posisi Tidak Disebutkan"
         );
 
+      const company =
+        escapeHtml(
+          job.company_name ||
+          "Perusahaan Tidak Disebutkan"
+        );
 
-      const postedTime =
-        formatPostedTime(
-          job.created_at
+      const location =
+        escapeHtml(
+          job.location ||
+          "Lokasi tidak tersedia"
+        );
+
+      const vessel =
+        escapeHtml(
+          job.vessel_type ||
+          "Jenis kapal tidak tersedia"
+        );
+
+      const employment =
+        escapeHtml(
+          job.employment_type ||
+          "Tipe tidak tersedia"
+        );
+
+      const department =
+        escapeHtml(
+          job.department ||
+          "Maritim"
+        );
+
+      const salary =
+        escapeHtml(
+          job.salary ||
+          "Negosiasi"
+        );
+
+      const description =
+        escapeHtml(
+          job.description ||
+          "Informasi pekerjaan belum tersedia."
+        );
+
+      const initials =
+        escapeHtml(
+          getInitials(
+            job.company_name
+          )
+        );
+
+      const date =
+        escapeHtml(
+          formatDate(
+            job.created_at
+          )
         );
 
 
       const detailUrl =
-        "detail.html?id=" +
-        encodeURIComponent(
-          job.id
-        );
+        `detail.html?id=${encodeURIComponent(job.id)}`;
 
 
       return `
-
         <article class="job-card">
 
-
-          <div class="company-logo">
-
-            ${escapeHtml(initials)}
-
+          <div class="company-avatar">
+            ${initials}
           </div>
 
+          <div class="job-main">
 
-          <div>
+            <div class="job-title">
+              ${title}
+            </div>
 
+            <div class="company-name">
+              ${company}
+            </div>
 
-            <div class="job-company">
+            <div class="job-meta">
 
-              ${escapeHtml(company)}
+              <span class="meta-tag">
+                📍 ${location}
+              </span>
 
-              <span
-                class="status-badge ${statusClass}"
-              >
-                ${escapeHtml(statusText)}
+              <span class="meta-tag">
+                ⚓ ${vessel}
+              </span>
+
+              <span class="meta-tag">
+                💼 ${employment}
+              </span>
+
+              <span class="meta-tag">
+                🧭 ${department}
               </span>
 
             </div>
 
+            <div class="job-salary">
+              💰 ${salary}
+            </div>
 
-            <h3 class="job-title">
-
-              ${escapeHtml(title)}
-
-            </h3>
-
-
-            <div class="job-tags">
-
-
-              <span>
-                🚢 ${escapeHtml(vessel)}
-              </span>
-
-
-              <span>
-                📍 ${escapeHtml(location)}
-              </span>
-
-
-              <span>
-                💼 ${escapeHtml(employment)}
-              </span>
-
-
-              <span class="salary-tag">
-                💰 ${escapeHtml(salary)}
-              </span>
-
-
+            <div class="job-description">
+              ${description}
             </div>
 
           </div>
 
+          <div class="job-right">
 
-          <div class="job-date">
-
-
-            <small>
-              ${escapeHtml(postedTime)}
-            </small>
-
+            <div class="status-badge">
+              ● Aktif
+            </div>
 
             <a
               href="${detailUrl}"
-              class="btn-detail"
+              class="detail-btn"
             >
               Lihat Detail →
             </a>
 
+            <div class="posted-date">
+              Diposting ${date}
+            </div>
 
           </div>
 
-
         </article>
-
       `;
 
     }
 
 
-    /* ============================================
+    /* =========================
        PAGINATION
-    ============================================ */
+    ========================= */
 
     function renderPagination(
       totalPages
     ) {
 
-      const pagination =
-        document.getElementById(
-          "pagination"
-        );
-
-
       if (totalPages <= 1) {
 
-        pagination.innerHTML =
-          "";
+        pagination.style.display =
+          "none";
 
         return;
 
       }
 
 
+      pagination.style.display =
+        "flex";
+
+
       let html = "";
 
 
-      /* PREVIOUS */
-
       html += `
-
         <button
+          class="page-btn"
           onclick="changePage(${currentPage - 1})"
           ${currentPage === 1 ? "disabled" : ""}
         >
-          ←
+          ‹
         </button>
-
       `;
 
-
-      /* PAGE NUMBERS */
 
       for (
         let page = 1;
@@ -2234,30 +1933,25 @@
       ) {
 
         html += `
-
           <button
-            class="${page === currentPage ? "active" : ""}"
+            class="page-btn ${page === currentPage ? "active" : ""}"
             onclick="changePage(${page})"
           >
             ${page}
           </button>
-
         `;
 
       }
 
 
-      /* NEXT */
-
       html += `
-
         <button
+          class="page-btn"
           onclick="changePage(${currentPage + 1})"
           ${currentPage === totalPages ? "disabled" : ""}
         >
-          →
+          ›
         </button>
-
       `;
 
 
@@ -2267,16 +1961,12 @@
     }
 
 
-    /* ============================================
-       CHANGE PAGE
-    ============================================ */
-
     function changePage(page) {
 
       const totalPages =
         Math.ceil(
           filteredJobs.length /
-          jobsPerPage
+          JOBS_PER_PAGE
         );
 
 
@@ -2284,474 +1974,218 @@
         page < 1 ||
         page > totalPages
       ) {
-
         return;
-
       }
 
 
-      currentPage =
-        page;
-
+      currentPage = page;
 
       renderJobs();
 
 
       window.scrollTo({
-        top: 250,
+        top: 360,
         behavior: "smooth"
       });
 
     }
 
 
-    /* ============================================
-       RESET FILTER
-    ============================================ */
+    /* =========================
+       UI STATES
+    ========================= */
 
-    function resetFilter() {
+    function showLoading() {
 
-      document
-        .getElementById(
-          "searchInput"
-        )
-        .value = "";
+      loadingState.style.display =
+        "block";
 
+      errorState.style.display =
+        "none";
 
-      document
-        .getElementById(
-          "shipFilter"
-        )
-        .value = "";
+      emptyState.style.display =
+        "none";
 
+      jobsList.style.display =
+        "none";
 
-      document
-        .getElementById(
-          "employmentFilter"
-        )
-        .value = "";
+      pagination.style.display =
+        "none";
 
-
-      document
-        .getElementById(
-          "activeOnly"
-        )
-        .checked = false;
-
-
-      document
-        .querySelectorAll(
-          ".ship-checkbox"
-        )
-        .forEach(
-          checkbox => {
-            checkbox.checked =
-              false;
-          }
-        );
-
-
-      document
-        .querySelectorAll(
-          ".employment-checkbox"
-        )
-        .forEach(
-          checkbox => {
-            checkbox.checked =
-              false;
-          }
-        );
-
-
-      document
-        .querySelectorAll(
-          ".location-checkbox"
-        )
-        .forEach(
-          checkbox => {
-            checkbox.checked =
-              false;
-          }
-        );
-
-
-      document
-        .getElementById(
-          "sortFilter"
-        )
-        .value = "newest";
-
-
-      filteredJobs =
-        [...allJobs];
-
-
-      currentPage = 1;
-
-      renderJobs();
+      resultCount.textContent =
+        "Memuat lowongan...";
 
     }
 
 
-    /* ============================================
-       COMPANY INITIALS
-    ============================================ */
+    function showError(message) {
 
-    function getCompanyInitials(
-      company
-    ) {
+      loadingState.style.display =
+        "none";
 
-      const words =
-        String(company)
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean);
+      errorState.style.display =
+        "block";
 
+      emptyState.style.display =
+        "none";
 
-      if (words.length === 0) {
-        return "SM";
-      }
+      jobsList.style.display =
+        "none";
 
-
-      if (words.length === 1) {
-
-        return words[0]
-          .substring(0, 2)
-          .toUpperCase();
-
-      }
-
-
-      return (
-        words[0][0] +
-        words[1][0]
-      ).toUpperCase();
-
-    }
-
-
-    /* ============================================
-       POSTED TIME
-    ============================================ */
-
-    function formatPostedTime(
-      dateValue
-    ) {
-
-      if (!dateValue) {
-        return "Tanggal tidak tersedia";
-      }
-
-
-      const date =
-        new Date(dateValue);
-
-
-      if (
-        Number.isNaN(
-          date.getTime()
-        )
-      ) {
-
-        return "Tanggal tidak tersedia";
-
-      }
-
-
-      const now =
-        new Date();
-
-
-      const diff =
-        now.getTime() -
-        date.getTime();
-
-
-      const minutes =
-        Math.floor(
-          diff /
-          (1000 * 60)
-        );
-
-
-      if (minutes < 1) {
-        return "Diposting baru saja";
-      }
-
-
-      if (minutes < 60) {
-
-        return (
-          "Diposting " +
-          minutes +
-          " menit lalu"
-        );
-
-      }
-
-
-      const hours =
-        Math.floor(
-          minutes / 60
-        );
-
-
-      if (hours < 24) {
-
-        return (
-          "Diposting " +
-          hours +
-          " jam lalu"
-        );
-
-      }
-
-
-      const days =
-        Math.floor(
-          hours / 24
-        );
-
-
-      if (days < 7) {
-
-        return (
-          "Diposting " +
-          days +
-          " hari lalu"
-        );
-
-      }
-
-
-      return (
-        "Diposting " +
-        date.toLocaleDateString(
-          "id-ID",
-          {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-          }
-        )
-      );
-
-    }
-
-
-    /* ============================================
-       ESCAPE HTML
-       ============================================ */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(value ?? "")
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
-
-
-    /* ============================================
-       ERROR STATE
-    ============================================ */
-
-    function showError(
-      message
-    ) {
-
-      const jobList =
-        document.getElementById(
-          "jobList"
-        );
-
-
-      const resultCount =
-        document.getElementById(
-          "resultCount"
-        );
-
+      pagination.style.display =
+        "none";
 
       resultCount.textContent =
         "Gagal memuat lowongan";
 
-
-      jobList.innerHTML = `
-
-        <div class="error-state">
-
-          <div class="icon">
-            ⚠️
-          </div>
-
-          <h3>
-            Terjadi Kesalahan
-          </h3>
-
-          <p>
-            ${escapeHtml(message)}
-          </p>
-
-          <button
-            class="btn-retry"
-            onclick="loadJobs()"
-          >
-            Coba Lagi
-          </button>
-
-        </div>
-
-      `;
-
-
-      document
-        .getElementById(
-          "pagination"
-        )
-        .innerHTML = "";
+      errorMessage.textContent =
+        message;
 
     }
 
 
-    /* ============================================
-       SEARCH ENTER KEY
-    ============================================ */
+    /* =========================
+       SEARCH
+    ========================= */
 
-    document
-      .getElementById(
-        "searchInput"
-      )
-      .addEventListener(
-        "keydown",
-        function(event) {
+    function runSearch() {
 
-          if (
-            event.key === "Enter"
-          ) {
+      departmentFilter.value =
+        departmentSearch.value;
 
-            applyFilters();
+      vesselFilter.value =
+        vesselSearch.value;
 
-          }
+      applyFilters();
 
+    }
+
+
+    searchBtn.addEventListener(
+      "click",
+      runSearch
+    );
+
+
+    keywordInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Enter") {
+          runSearch();
         }
-      );
+
+      }
+    );
 
 
-    /* ============================================
-       SEARCH REALTIME
-    ============================================ */
-
-    document
-      .getElementById(
-        "searchInput"
-      )
-      .addEventListener(
-        "input",
-        function() {
-
-          applyFilters();
-
-        }
-      );
+    departmentSearch.addEventListener(
+      "change",
+      runSearch
+    );
 
 
-    /* ============================================
-       SELECT FILTER EVENTS
-    ============================================ */
-
-    document
-      .getElementById(
-        "shipFilter"
-      )
-      .addEventListener(
-        "change",
-        applyFilters
-      );
+    vesselSearch.addEventListener(
+      "change",
+      runSearch
+    );
 
 
-    document
-      .getElementById(
-        "employmentFilter"
-      )
-      .addEventListener(
-        "change",
-        applyFilters
-      );
+    /* =========================
+       FILTER EVENTS
+    ========================= */
+
+    departmentFilter.addEventListener(
+      "change",
+      () => {
+
+        departmentSearch.value =
+          departmentFilter.value;
+
+        applyFilters();
+
+      }
+    );
 
 
-    document
-      .getElementById(
-        "activeOnly"
-      )
-      .addEventListener(
-        "change",
-        applyFilters
-      );
+    vesselFilter.addEventListener(
+      "change",
+      () => {
+
+        vesselSearch.value =
+          vesselFilter.value;
+
+        applyFilters();
+
+      }
+    );
 
 
-    /* ============================================
-       CHECKBOX EVENTS
-    ============================================ */
-
-    document
-      .querySelectorAll(
-        ".ship-checkbox, .employment-checkbox, .location-checkbox"
-      )
-      .forEach(
-        checkbox => {
-
-          checkbox.addEventListener(
-            "change",
-            applyFilters
-          );
-
-        }
-      );
+    locationFilter.addEventListener(
+      "change",
+      applyFilters
+    );
 
 
-    /* ============================================
-       SORT EVENT
-    ============================================ */
-
-    document
-      .getElementById(
-        "sortFilter"
-      )
-      .addEventListener(
-        "change",
-        function() {
-
-          currentPage = 1;
-
-          renderJobs();
-
-        }
-      );
+    employmentFilter.addEventListener(
+      "change",
+      applyFilters
+    );
 
 
-    /* ============================================
+    sortSelect.addEventListener(
+      "change",
+      () => {
+
+        sortJobs();
+
+        currentPage = 1;
+
+        renderJobs();
+
+      }
+    );
+
+
+    /* =========================
+       RESET
+    ========================= */
+
+    resetBtn.addEventListener(
+      "click",
+      () => {
+
+        keywordInput.value = "";
+
+        departmentSearch.value = "";
+        vesselSearch.value = "";
+
+        departmentFilter.value = "";
+        vesselFilter.value = "";
+        locationFilter.value = "";
+        employmentFilter.value = "";
+
+        sortSelect.value = "newest";
+
+        applyFilters();
+
+      }
+    );
+
+
+    /* =========================
+       RETRY
+    ========================= */
+
+    retryBtn.addEventListener(
+      "click",
+      loadJobs
+    );
+
+
+    /* =========================
        START
-    ============================================ */
+    ========================= */
 
     loadJobs();
 
