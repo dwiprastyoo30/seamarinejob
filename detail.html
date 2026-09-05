@@ -9,7 +9,7 @@
   <style>
     :root {
       --navy: #081b31;
-      --navy-light: #12395c;
+      --navy-light: #102b49;
       --blue: #1877b9;
       --blue-dark: #0e5d98;
       --gold: #f4b72c;
@@ -18,7 +18,9 @@
       --text: #1c2d42;
       --muted: #718096;
       --border: #e1e8f0;
-      --success: #1d9b62;
+      --green: #15803d;
+      --green-bg: #e9f8ef;
+      --red: #dc2626;
       --shadow: 0 10px 30px rgba(15, 40, 70, .08);
       --radius: 18px;
     }
@@ -37,7 +39,6 @@
       font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
     }
 
     a {
@@ -51,7 +52,7 @@
     }
 
     .container {
-      width: min(1250px, 92%);
+      width: min(1200px, 92%);
       margin: auto;
     }
 
@@ -101,373 +102,330 @@
 
     .nav-menu {
       display: flex;
-      gap: 22px;
+      gap: 26px;
     }
 
     .nav-menu a {
       color: #c9d4df;
       font-size: 14px;
       font-weight: bold;
-      transition: .3s;
     }
 
-    .nav-menu a:hover {
+    .nav-menu a:hover,
+    .nav-menu .active {
       color: white;
     }
 
     .nav-actions {
       display: flex;
       gap: 10px;
-      align-items: center;
+    }
+
+    .btn-login,
+    .btn-register {
+      border-radius: 9px;
+      font-weight: bold;
     }
 
     .btn-login {
-      padding: 10px 17px;
-      border-radius: 9px;
+      padding: 10px 18px;
+      background: transparent;
       border: 1px solid #718096;
       color: white;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     .btn-register {
       padding: 11px 20px;
-      border-radius: 9px;
       background: var(--gold);
+      border: none;
       color: #1c2d42;
-      font-size: 13px;
-      font-weight: bold;
     }
 
     /* ================= HERO ================= */
 
     .hero {
       background:
-        radial-gradient(circle at 85% 20%, rgba(40, 137, 205, .25), transparent 28%),
-        linear-gradient(135deg, var(--navy), var(--navy-light));
+        radial-gradient(
+          circle at 80% 10%,
+          rgba(33, 132, 199, .25),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          var(--navy),
+          #12395c
+        );
 
       color: white;
-      padding: 45px 0 95px;
+      padding: 55px 0 75px;
     }
 
     .breadcrumb {
-      color: #a9bfd1;
+      color: #9db4c8;
       font-size: 13px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .breadcrumb a {
       color: white;
     }
 
-    .job-hero {
-      display: flex;
-      gap: 24px;
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
       align-items: center;
+    }
+
+    .company-name {
+      color: #b9cbdc;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 18px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 20px;
+      background: var(--green-bg);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .hero-date {
+      color: #b9cbdc;
+      font-size: 12px;
+      margin-top: 15px;
     }
 
     .company-logo {
-      width: 90px;
-      height: 90px;
-      flex-shrink: 0;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #1877b9, #5baee5);
+      width: 100px;
+      height: 100px;
+      border-radius: 22px;
+      background: linear-gradient(
+        135deg,
+        #0e5d98,
+        #5baee5
+      );
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       color: white;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: bold;
-      box-shadow: 0 10px 30px rgba(0,0,0,.18);
-    }
-
-    .job-hero-company {
-      color: #b8c9d8;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .job-hero h1 {
-      font-size: 40px;
-      line-height: 1.2;
-      margin-bottom: 14px;
-    }
-
-    .job-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .job-meta span {
-      padding: 7px 12px;
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 8px;
-      font-size: 12px;
-      color: #dce8f1;
+      box-shadow: 0 12px 30px rgba(0,0,0,.2);
     }
 
     /* ================= CONTENT ================= */
 
-    .detail-section {
-      padding: 0 0 80px;
+    .content {
+      padding: 55px 0 80px;
     }
 
     .detail-layout {
       display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 30px;
+      grid-template-columns: 1fr 330px;
+      gap: 28px;
       align-items: start;
-      margin-top: -45px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .main-content {
-      display: grid;
-      gap: 22px;
     }
 
     .card {
       background: white;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 32px;
-      box-shadow: var(--shadow);
+      box-shadow: 0 5px 15px rgba(0,0,0,.03);
     }
 
-    .card h2 {
+    .main-card {
+      padding: 35px;
+    }
+
+    .section {
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section h2 {
       font-size: 22px;
       margin-bottom: 18px;
     }
 
-    .card p {
-      color: #566779;
-      font-size: 15px;
-      margin-bottom: 14px;
+    .section p {
+      color: #596b7e;
+      line-height: 1.8;
+      font-size: 14px;
+      white-space: pre-line;
     }
 
-    .card ul {
-      padding-left: 20px;
-      color: #566779;
+    .requirements {
+      display: grid;
+      gap: 12px;
     }
 
-    .card li {
-      margin-bottom: 12px;
-      font-size: 15px;
+    .requirement-item {
+      display: flex;
+      gap: 10px;
+      color: #596b7e;
+      font-size: 14px;
+      line-height: 1.6;
     }
 
-    .card li::marker {
+    .requirement-item::before {
+      content: "✓";
       color: var(--blue);
+      font-weight: bold;
     }
 
-    /* ================= JOB INFO ================= */
+    /* ================= INFO ================= */
 
     .info-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 15px;
     }
 
     .info-item {
-      padding: 17px;
-      background: #f7fafc;
-      border: 1px solid var(--border);
+      background: #f6f9fc;
       border-radius: 12px;
+      padding: 17px;
     }
 
     .info-label {
       color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 5px;
+      font-size: 11px;
+      margin-bottom: 7px;
     }
 
     .info-value {
+      color: var(--text);
       font-size: 14px;
       font-weight: bold;
-      color: var(--text);
     }
 
     /* ================= SIDEBAR ================= */
 
     .sidebar {
-      display: grid;
-      gap: 20px;
       position: sticky;
       top: 100px;
     }
 
     .apply-card {
-      background: white;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
       padding: 25px;
-      box-shadow: var(--shadow);
+      margin-bottom: 18px;
     }
 
-    .deadline {
-      background: #fff8e6;
-      border: 1px solid #f8dfa0;
-      padding: 13px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+    .apply-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .apply-card p {
+      color: var(--muted);
       font-size: 13px;
-      color: #80631b;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
 
     .btn-apply {
       width: 100%;
+      padding: 14px;
       border: none;
+      border-radius: 10px;
       background: var(--blue);
       color: white;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 15px;
       font-weight: bold;
+      font-size: 14px;
       transition: .3s;
-      display: block;
-      text-align: center;
     }
 
     .btn-apply:hover {
       background: var(--blue-dark);
-      transform: translateY(-2px);
     }
 
-    .apply-note {
-      color: var(--muted);
-      text-align: center;
-      font-size: 11px;
-      margin-top: 13px;
-    }
-
-    .share-card {
-      background: white;
-      border-radius: var(--radius);
+    .btn-back {
+      width: 100%;
+      padding: 13px;
       border: 1px solid var(--border);
-      padding: 22px;
-    }
-
-    .share-card h3 {
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-
-    .share-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .share-buttons button {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       background: white;
-      font-size: 13px;
-    }
-
-    /* ================= COMPANY ================= */
-
-    .company-info {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-    }
-
-    .company-small-logo {
-      width: 60px;
-      height: 60px;
-      flex-shrink: 0;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #1877b9, #5baee5);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--text);
       font-weight: bold;
-    }
-
-    .company-info h3 {
-      font-size: 17px;
-      margin-bottom: 3px;
-    }
-
-    .company-info p {
-      margin: 0;
       font-size: 13px;
     }
 
-    /* ================= RELATED JOBS ================= */
-
-    .related-section {
-      padding: 20px 0 80px;
+    .company-card {
+      padding: 25px;
     }
 
-    .section-heading {
-      margin-bottom: 25px;
+    .company-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
 
-    .section-heading h2 {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .section-heading p {
+    .company-card p {
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    /* ================= LOADING ================= */
+
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
     }
 
-    .related-card {
+    .loading h2 {
+      margin-bottom: 10px;
+    }
+
+    .loading p {
+      color: var(--muted);
+    }
+
+    .error-box {
+      max-width: 600px;
+      margin: 70px auto;
+      padding: 35px;
+      text-align: center;
       background: white;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      transition: .3s;
+      border-radius: 18px;
     }
 
-    .related-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
+    .error-box h2 {
+      margin-bottom: 12px;
     }
 
-    .related-company {
+    .error-box p {
       color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .related-card h3 {
-      font-size: 18px;
-      margin-bottom: 14px;
-    }
-
-    .related-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
+      line-height: 1.7;
       margin-bottom: 20px;
     }
 
-    .related-meta span {
-      background: #f2f6f9;
-      color: #637589;
-      padding: 6px 9px;
-      border-radius: 7px;
-      font-size: 11px;
-    }
-
-    .related-link {
-      color: var(--blue);
-      font-size: 13px;
+    .error-box a {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 9px;
+      background: var(--blue);
+      color: white;
       font-weight: bold;
+      font-size: 13px;
     }
 
     /* ================= FOOTER ================= */
@@ -494,12 +452,13 @@
     .footer-content p {
       font-size: 13px;
       max-width: 500px;
+      line-height: 1.6;
     }
 
     .footer-links {
       display: flex;
-      gap: 25px;
-      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-start;
     }
 
     .footer-links a {
@@ -514,7 +473,7 @@
 
     /* ================= RESPONSIVE ================= */
 
-    @media (max-width: 1000px) {
+    @media (max-width: 900px) {
 
       .nav-menu {
         display: none;
@@ -526,16 +485,20 @@
 
       .sidebar {
         position: static;
-        grid-template-columns: 1fr 1fr;
       }
 
-      .related-grid {
-        grid-template-columns: 1fr 1fr;
+      .hero-layout {
+        grid-template-columns: 1fr;
       }
 
+      .company-logo {
+        width: 75px;
+        height: 75px;
+        font-size: 22px;
+      }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
 
       .navbar {
         height: 68px;
@@ -546,40 +509,18 @@
       }
 
       .hero {
-        padding: 35px 0 75px;
+        padding: 40px 0 55px;
       }
 
-      .job-hero {
-        align-items: flex-start;
+      .hero h1 {
+        font-size: 30px;
       }
 
-      .company-logo {
-        width: 70px;
-        height: 70px;
-        font-size: 22px;
-      }
-
-      .job-hero h1 {
-        font-size: 28px;
-      }
-
-      .detail-layout {
-        margin-top: -30px;
-      }
-
-      .card {
-        padding: 23px;
+      .main-card {
+        padding: 22px;
       }
 
       .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        grid-template-columns: 1fr;
-      }
-
-      .related-grid {
         grid-template-columns: 1fr;
       }
 
@@ -587,14 +528,17 @@
         flex-direction: column;
       }
 
+      .footer-links {
+        flex-wrap: wrap;
+      }
     }
-
   </style>
 </head>
 
 <body>
 
   <!-- NAVBAR -->
+
   <nav class="navbar">
 
     <div class="container nav-wrapper">
@@ -611,26 +555,49 @@
       </a>
 
       <div class="nav-menu">
-        <a href="index.html">Beranda</a>
-        <a href="kapal.html">Lowongan Kapal</a>
-        <a href="darat.html">Lowongan Darat</a>
-        <a href="index.html#perusahaan">Perusahaan</a>
-        <a href="index.html#artikel">Artikel</a>
-        <a href="index.html#tentang">Tentang Kami</a>
+
+        <a href="index.html">
+          Beranda
+        </a>
+
+        <a href="kapal.html" class="active">
+          Lowongan Kapal
+        </a>
+
+        <a href="darat.html">
+          Lowongan Darat
+        </a>
+
+        <a href="detail.html">
+          Perusahaan
+        </a>
+
+        <a href="detail.html">
+          Artikel
+        </a>
+
+        <a href="detail.html">
+          Tentang Kami
+        </a>
+
       </div>
 
       <div class="nav-actions">
-        <a href="index.html#lowongan" class="btn-login">
-          🔍 Cari Lowongan
-        </a>
 
-        <a href="daftar.html" class="btn-login">
-          ♙ Masuk
-        </a>
+        <button
+          class="btn-login"
+          onclick="window.location.href='daftar.html'"
+        >
+          Masuk
+        </button>
 
-        <a href="daftar.html" class="btn-register">
+        <button
+          class="btn-register"
+          onclick="window.location.href='daftar.html'"
+        >
           Daftar
-        </a>
+        </button>
+
       </div>
 
     </div>
@@ -646,45 +613,64 @@
 
       <div class="breadcrumb">
 
-        <a href="index.html">Beranda</a>
-        /
-        <a href="darat.html">Lowongan</a>
-        /
+        <a href="index.html">
+          Beranda
+        </a>
+
+        &nbsp;/&nbsp;
+
+        <a href="kapal.html">
+          Lowongan Kapal
+        </a>
+
+        &nbsp;/&nbsp;
+
         Detail Lowongan
 
       </div>
 
 
-      <div class="job-hero">
-
-        <div class="company-logo">
-          SI
-        </div>
-
+      <div
+        id="heroContent"
+        class="hero-layout"
+        style="display:none;"
+      >
 
         <div>
 
-          <div class="job-hero-company">
-            PT Samudera Indonesia
+          <div
+            id="companyName"
+            class="company-name"
+          >
+            -
           </div>
 
           <h1 id="jobTitle">
-            Port Captain
+            -
           </h1>
 
+          <span
+            id="jobStatus"
+            class="status"
+          >
+            AKTIF
+          </span>
 
-          <div class="job-meta">
-
-            <span>📍 Jakarta</span>
-
-            <span>⚓ Operational</span>
-
-            <span>💼 Full Time</span>
-
-            <span>📈 Minimal 5 Tahun</span>
-
+          <div
+            id="jobDate"
+            class="hero-date"
+          >
+            -
           </div>
 
+        </div>
+
+
+        <div
+          id="companyLogo"
+          class="company-logo"
+        >
+          SM
         </div>
 
       </div>
@@ -694,130 +680,73 @@
   </section>
 
 
-  <!-- DETAIL CONTENT -->
+  <!-- CONTENT -->
 
-  <section class="detail-section">
+  <main class="content">
 
     <div class="container">
 
-      <div class="detail-layout">
+      <!-- LOADING -->
+
+      <div
+        id="loading"
+        class="loading"
+      >
+
+        <h2>
+          Memuat lowongan...
+        </h2>
+
+        <p>
+          Mohon tunggu sebentar.
+        </p>
+
+      </div>
 
 
-        <!-- MAIN CONTENT -->
+      <!-- ERROR -->
 
-        <main class="main-content">
+      <div
+        id="errorBox"
+        class="error-box"
+        style="display:none;"
+      >
 
+        <h2>
+          Lowongan tidak ditemukan
+        </h2>
 
-          <!-- JOB DESCRIPTION -->
+        <p id="errorMessage">
+          Data lowongan tidak tersedia.
+        </p>
 
-          <div class="card">
+        <a href="kapal.html">
+          ← Kembali ke Lowongan Kapal
+        </a>
 
-            <h2>
-              Deskripsi Pekerjaan
-            </h2>
-
-            <p>
-              PT Samudera Indonesia membuka kesempatan bagi
-              profesional maritim yang berpengalaman untuk bergabung
-              sebagai Port Captain.
-            </p>
-
-            <p>
-              Posisi ini bertanggung jawab dalam pengawasan kegiatan
-              operasional kapal, koordinasi dengan pihak pelabuhan,
-              monitoring keselamatan, serta memastikan seluruh kegiatan
-              berjalan sesuai standar perusahaan dan regulasi yang berlaku.
-            </p>
-
-          </div>
+      </div>
 
 
-          <!-- RESPONSIBILITIES -->
+      <!-- DETAIL -->
 
-          <div class="card">
+      <div
+        id="detailContent"
+        class="detail-layout"
+        style="display:none;"
+      >
 
-            <h2>
-              Tanggung Jawab
-            </h2>
+        <!-- MAIN -->
 
-            <ul>
-
-              <li>
-                Mengawasi kegiatan operasional kapal di area pelabuhan.
-              </li>
-
-              <li>
-                Berkoordinasi dengan Captain, Chief Officer,
-                agen pelabuhan dan pihak terkait.
-              </li>
-
-              <li>
-                Memastikan kegiatan operasional berjalan sesuai
-                prosedur keselamatan.
-              </li>
-
-              <li>
-                Membuat laporan operasional dan evaluasi kegiatan kapal.
-              </li>
-
-              <li>
-                Memastikan kepatuhan terhadap regulasi maritim
-                dan kebijakan perusahaan.
-              </li>
-
-            </ul>
-
-          </div>
+        <div class="card main-card">
 
 
-          <!-- REQUIREMENTS -->
+          <!-- INFORMASI -->
 
-          <div class="card">
+          <section class="section">
 
             <h2>
-              Persyaratan
+              Informasi Lowongan
             </h2>
-
-            <ul>
-
-              <li>
-                Memiliki pengalaman kerja minimal 5 tahun
-                di industri maritim atau pelayaran.
-              </li>
-
-              <li>
-                Memahami operasional kapal dan kegiatan pelabuhan.
-              </li>
-
-              <li>
-                Memiliki kemampuan komunikasi dan koordinasi yang baik.
-              </li>
-
-              <li>
-                Mampu bekerja secara mandiri maupun dalam tim.
-              </li>
-
-              <li>
-                Memahami regulasi keselamatan dan standar operasional kapal.
-              </li>
-
-              <li>
-                Bersedia ditempatkan sesuai kebutuhan perusahaan.
-              </li>
-
-            </ul>
-
-          </div>
-
-
-          <!-- JOB INFORMATION -->
-
-          <div class="card">
-
-            <h2>
-              Informasi Pekerjaan
-            </h2>
-
 
             <div class="info-grid">
 
@@ -827,8 +756,27 @@
                   Posisi
                 </div>
 
-                <div class="info-value">
-                  Port Captain
+                <div
+                  id="infoTitle"
+                  class="info-value"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Perusahaan
+                </div>
+
+                <div
+                  id="infoCompany"
+                  class="info-value"
+                >
+                  -
                 </div>
 
               </div>
@@ -840,8 +788,11 @@
                   Lokasi
                 </div>
 
-                <div class="info-value">
-                  Jakarta
+                <div
+                  id="infoLocation"
+                  class="info-value"
+                >
+                  -
                 </div>
 
               </div>
@@ -850,24 +801,14 @@
               <div class="info-item">
 
                 <div class="info-label">
-                  Jenis Pekerjaan
+                  Jenis Kapal
                 </div>
 
-                <div class="info-value">
-                  Full Time
-                </div>
-
-              </div>
-
-
-              <div class="info-item">
-
-                <div class="info-label">
-                  Bidang
-                </div>
-
-                <div class="info-value">
-                  Marine Operation
+                <div
+                  id="infoVessel"
+                  class="info-value"
+                >
+                  -
                 </div>
 
               </div>
@@ -876,11 +817,14 @@
               <div class="info-item">
 
                 <div class="info-label">
-                  Pengalaman
+                  Tipe Pekerjaan
                 </div>
 
-                <div class="info-value">
-                  Minimal 5 Tahun
+                <div
+                  id="infoEmployment"
+                  class="info-value"
+                >
+                  -
                 </div>
 
               </div>
@@ -892,62 +836,69 @@
                   Gaji
                 </div>
 
-                <div class="info-value">
-                  Negotiable
+                <div
+                  id="infoSalary"
+                  class="info-value"
+                >
+                  -
                 </div>
 
               </div>
 
             </div>
 
-          </div>
+          </section>
 
 
-          <!-- COMPANY -->
+          <!-- DESKRIPSI -->
 
-          <div class="card">
+          <section class="section">
 
             <h2>
-              Tentang Perusahaan
+              Deskripsi Pekerjaan
             </h2>
 
-
-            <div class="company-info">
-
-              <div class="company-small-logo">
-                SI
-              </div>
-
-
-              <div>
-
-                <h3>
-                  PT Samudera Indonesia
-                </h3>
-
-                <p>
-                  Perusahaan yang bergerak di bidang pelayaran,
-                  logistik dan layanan maritim di Indonesia.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <p style="margin-top:20px;">
-
-              PT Samudera Indonesia merupakan salah satu perusahaan
-              yang bergerak dalam industri transportasi laut dan logistik,
-              dengan berbagai layanan yang mendukung aktivitas perdagangan
-              dan industri maritim.
-
+            <p id="description">
+              -
             </p>
 
-          </div>
+          </section>
 
 
-        </main>
+          <!-- PERSYARATAN -->
+
+          <section class="section">
+
+            <h2>
+              Persyaratan
+            </h2>
+
+            <div
+              id="requirements"
+              class="requirements"
+            >
+            </div>
+
+          </section>
+
+
+          <!-- CATATAN -->
+
+          <section class="section">
+
+            <h2>
+              Informasi Penting
+            </h2>
+
+            <p>
+              Pastikan data profil dan dokumen Anda sudah lengkap sebelum melamar.
+              Sea Marine Job tidak memungut biaya kepada pencari kerja untuk
+              mengakses informasi lowongan.
+            </p>
+
+          </section>
+
+        </div>
 
 
         <!-- SIDEBAR -->
@@ -955,195 +906,68 @@
         <aside class="sidebar">
 
 
-          <div class="apply-card">
+          <!-- APPLY -->
 
-            <div class="deadline">
-              ⏳ Batas pendaftaran:
-              <strong>30 September 2026</strong>
-            </div>
+          <div class="card apply-card">
 
+            <h3>
+              Tertarik dengan posisi ini?
+            </h3>
 
-            <a href="daftar.html" class="btn-apply">
+            <p>
+              Lengkapi profil Anda terlebih dahulu agar dapat melanjutkan
+              proses lamaran.
+            </p>
 
+            <button
+              class="btn-apply"
+              onclick="applyJob()"
+            >
               Lamar Sekarang →
+            </button>
 
-            </a>
+          </div>
 
 
-            <p class="apply-note">
+          <!-- COMPANY -->
 
-              Pastikan profil dan CV Anda sudah lengkap
-              sebelum melamar.
+          <div class="card company-card">
 
+            <h3>
+              Tentang Perusahaan
+            </h3>
+
+            <p id="companyDescription">
+              Informasi perusahaan akan tersedia pada tahap berikutnya.
             </p>
 
           </div>
 
 
-          <div class="share-card">
+          <br>
 
-            <h3>
-              Bagikan Lowongan
-            </h3>
+          <button
+            class="btn-back"
+            onclick="window.location.href='kapal.html'"
+          >
+            ← Kembali ke Lowongan
 
-
-            <div class="share-buttons">
-
-              <button onclick="shareJob()">
-                🔗 Bagikan
-              </button>
-
-              <button onclick="copyLink()">
-                📋 Salin Link
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="share-card">
-
-            <h3>
-              Status Lowongan
-            </h3>
-
-            <p style="color: var(--success); font-weight: bold;">
-
-              ● Masih Dibuka
-
-            </p>
-
-          </div>
-
+          </button>
 
         </aside>
 
-
       </div>
 
     </div>
 
-  </section>
-
-
-  <!-- RELATED JOBS -->
-
-  <section class="related-section">
-
-    <div class="container">
-
-
-      <div class="section-heading">
-
-        <h2>
-          Lowongan Terkait
-        </h2>
-
-        <p>
-          Temukan peluang karier lainnya di industri maritim.
-        </p>
-
-      </div>
-
-
-      <div class="related-grid">
-
-
-        <article class="related-card">
-
-          <div class="related-company">
-            Ocean Pacific Marine
-          </div>
-
-          <h3>
-            Marine Superintendent
-          </h3>
-
-
-          <div class="related-meta">
-
-            <span>📍 Surabaya</span>
-
-            <span>💼 Full Time</span>
-
-          </div>
-
-
-          <a href="detail.html" class="related-link">
-            Lihat Detail →
-          </a>
-
-        </article>
-
-
-        <article class="related-card">
-
-          <div class="related-company">
-            Pacific Marine Indonesia
-          </div>
-
-          <h3>
-            Technical Superintendent
-          </h3>
-
-
-          <div class="related-meta">
-
-            <span>📍 Batam</span>
-
-            <span>💼 Full Time</span>
-
-          </div>
-
-
-          <a href="detail.html" class="related-link">
-            Lihat Detail →
-          </a>
-
-        </article>
-
-
-        <article class="related-card">
-
-          <div class="related-company">
-            Sea Marine Logistics
-          </div>
-
-          <h3>
-            Logistics Officer
-          </h3>
-
-
-          <div class="related-meta">
-
-            <span>📍 Jakarta</span>
-
-            <span>💼 Full Time</span>
-
-          </div>
-
-
-          <a href="detail.html" class="related-link">
-            Lihat Detail →
-          </a>
-
-        </article>
-
-
-      </div>
-
-    </div>
-
-  </section>
+  </main>
 
 
   <!-- FOOTER -->
 
-  <footer id="tentang">
+  <footer>
 
     <div class="container">
-
 
       <div class="footer-content">
 
@@ -1175,7 +999,7 @@
             Lowongan Darat
           </a>
 
-          <a href="index.html#tentang">
+          <a href="detail.html">
             Tentang Kami
           </a>
 
@@ -1190,42 +1014,481 @@
 
       </div>
 
-
     </div>
 
   </footer>
 
 
-  <!-- JAVASCRIPT -->
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
   <script>
 
-    function shareJob() {
+    const SUPABASE_URL =
+      "https://pnyqdhcaabpxbatpubcb.supabase.co";
 
-      if (navigator.share) {
+    const SUPABASE_KEY =
+      "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
 
-        navigator.share({
-          title: document.getElementById("jobTitle").innerText,
-          text: "Lihat lowongan pekerjaan di Sea Marine Job",
-          url: window.location.href
-        });
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-      } else {
 
-        alert("Fitur share tidak didukung. Silakan gunakan tombol Salin Link.");
+    let currentJob = null;
+
+
+    /* ================= HELPERS ================= */
+
+    function escapeHTML(value) {
+
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getInitials(companyName) {
+
+      if (!companyName) {
+        return "SM";
+      }
+
+      const words =
+        companyName
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+
+      if (words.length === 1) {
+        return words[0]
+          .substring(0, 2)
+          .toUpperCase();
+      }
+
+      return (
+        words[0][0] +
+        words[1][0]
+      ).toUpperCase();
+
+    }
+
+
+    function formatDate(dateString) {
+
+      if (!dateString) {
+        return "Tanggal tidak tersedia";
+      }
+
+      const date =
+        new Date(dateString);
+
+      if (isNaN(date.getTime())) {
+        return "Tanggal tidak tersedia";
+      }
+
+      return date.toLocaleDateString(
+        "id-ID",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    /* ================= GET JOB ID ================= */
+
+    function getJobId() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      return params.get("id");
+
+    }
+
+
+    /* ================= LOAD JOB ================= */
+
+    async function loadJob() {
+
+      const jobId =
+        getJobId();
+
+
+      if (!jobId) {
+
+        showError(
+          "ID lowongan tidak ditemukan. Silakan kembali ke halaman Lowongan Kapal dan pilih lowongan yang ingin dilihat."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("jobs")
+            .select(
+              "id, created_at, title, company_name, location, vessel_type, employment_type, salary, description, requirements, status, posted_by"
+            )
+            .eq("id", jobId)
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(error);
+
+          showError(
+            "Terjadi kesalahan saat mengambil data lowongan."
+          );
+
+          return;
+
+        }
+
+
+        if (!data) {
+
+          showError(
+            "Lowongan yang Anda cari tidak tersedia atau sudah tidak ditemukan."
+          );
+
+          return;
+
+        }
+
+
+        currentJob = data;
+
+        renderJob(data);
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          "Terjadi kesalahan saat memuat lowongan."
+        );
 
       }
 
     }
 
 
-    function copyLink() {
+    /* ================= RENDER ================= */
 
-      navigator.clipboard.writeText(window.location.href);
+    function renderJob(job) {
 
-      alert("Link lowongan berhasil disalin!");
+      document.title =
+        job.title +
+        " | Sea Marine Job";
+
+
+      document.getElementById(
+        "companyName"
+      ).textContent =
+        job.company_name ||
+        "Perusahaan Maritim";
+
+
+      document.getElementById(
+        "jobTitle"
+      ).textContent =
+        job.title ||
+        "Posisi Tidak Tersedia";
+
+
+      document.getElementById(
+        "jobStatus"
+      ).textContent =
+        (job.status || "aktif")
+          .toUpperCase();
+
+
+      document.getElementById(
+        "jobDate"
+      ).textContent =
+        "Diposting " +
+        formatDate(job.created_at);
+
+
+      document.getElementById(
+        "companyLogo"
+      ).textContent =
+        getInitials(
+          job.company_name
+        );
+
+
+      document.getElementById(
+        "infoTitle"
+      ).textContent =
+        job.title ||
+        "-";
+
+
+      document.getElementById(
+        "infoCompany"
+      ).textContent =
+        job.company_name ||
+        "-";
+
+
+      document.getElementById(
+        "infoLocation"
+      ).textContent =
+        job.location ||
+        "-";
+
+
+      document.getElementById(
+        "infoVessel"
+      ).textContent =
+        job.vessel_type ||
+        "-";
+
+
+      document.getElementById(
+        "infoEmployment"
+      ).textContent =
+        job.employment_type ||
+        "-";
+
+
+      document.getElementById(
+        "infoSalary"
+      ).textContent =
+        job.salary ||
+        "Negosiasi";
+
+
+      document.getElementById(
+        "description"
+      ).textContent =
+        job.description ||
+        "Deskripsi pekerjaan belum tersedia.";
+
+
+      renderRequirements(
+        job.requirements
+      );
+
+
+      document.getElementById(
+        "companyDescription"
+      ).textContent =
+        job.company_name
+          ? "Lowongan ini dipublikasikan oleh " +
+            job.company_name +
+            ". Informasi profil perusahaan akan dikembangkan pada tahap berikutnya."
+          : "Informasi perusahaan belum tersedia.";
+
+
+      document.getElementById(
+        "loading"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "heroContent"
+      ).style.display =
+        "grid";
+
+
+      document.getElementById(
+        "detailContent"
+      ).style.display =
+        "grid";
 
     }
+
+
+    /* ================= REQUIREMENTS ================= */
+
+    function renderRequirements(
+      requirements
+    ) {
+
+      const container =
+        document.getElementById(
+          "requirements"
+        );
+
+
+      container.innerHTML = "";
+
+
+      if (!requirements) {
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+        item.className =
+          "requirement-item";
+
+        item.textContent =
+          "Persyaratan belum tersedia.";
+
+        container.appendChild(item);
+
+        return;
+
+      }
+
+
+      const text =
+        String(requirements)
+          .trim();
+
+
+      const lines =
+        text
+          .split(/\r?\n/)
+          .map(
+            line =>
+              line
+                .replace(
+                  /^[-•*]\s*/,
+                  ""
+                )
+                .trim()
+          )
+          .filter(Boolean);
+
+
+      if (lines.length === 0) {
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+        item.className =
+          "requirement-item";
+
+        item.textContent =
+          "Persyaratan belum tersedia.";
+
+        container.appendChild(item);
+
+        return;
+
+      }
+
+
+      lines.forEach(
+        function(line) {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+          item.className =
+            "requirement-item";
+
+          item.textContent =
+            line;
+
+          container.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ================= ERROR ================= */
+
+    function showError(message) {
+
+      document.getElementById(
+        "loading"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "heroContent"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "detailContent"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "errorBox"
+      ).style.display =
+        "block";
+
+
+      document.getElementById(
+        "errorMessage"
+      ).textContent =
+        message;
+
+    }
+
+
+    /* ================= APPLY ================= */
+
+    function applyJob() {
+
+      if (!currentJob) {
+        return;
+      }
+
+
+      const jobId =
+        currentJob.id;
+
+
+      window.location.href =
+        "daftar.html?apply=" +
+        encodeURIComponent(
+          jobId
+        );
+
+    }
+
+
+    /* ================= START ================= */
+
+    loadJob();
 
   </script>
 
