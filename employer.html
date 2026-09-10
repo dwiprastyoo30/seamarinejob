@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dashboard Employer - Sea Marine Job</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid #e5eaf1;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 800;
+      color: #0b4f8a;
+    }
+
+    .brand span {
+      color: #172033;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-link {
+      color: #536174;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      border: 1px solid #d9e0e9;
+      background: #ffffff;
+      color: #344054;
+      padding: 10px 15px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .logout-btn:hover {
+      background: #f5f7fa;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b4f8a, #0a6ca8);
+      color: #ffffff;
+      padding: 42px 0;
+    }
+
+    .hero-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .hero h1 {
+      font-size: 31px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #e7f2fb;
+      line-height: 1.6;
+    }
+
+    .company-badge {
+      min-width: 220px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .company-badge strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .company-badge span {
+      font-size: 13px;
+      color: #dceefa;
+    }
+
+    .main {
+      padding: 32px 0 60px;
+    }
+
+    .message {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #9f1239;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf3;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #e5eaf1;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 800;
+      color: #0b4f8a;
+    }
+
+    .section {
+      background: #ffffff;
+      border: 1px solid #e5eaf1;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      color: #667085;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .job-card {
+      border: 1px solid #e5eaf1;
+      border-radius: 12px;
+      padding: 20px;
+      background: #fbfcfe;
+    }
+
+    .job-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #172033;
+    }
+
+    .company {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0b4f8a;
+      margin-bottom: 14px;
+    }
+
+    .job-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: #eef5fb;
+      color: #365b7a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .app-count {
+      font-size: 13px;
+      color: #667085;
+      margin-top: 10px;
+    }
+
+    .applications {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th {
+      text-align: left;
+      padding: 13px 12px;
+      background: #f7f9fc;
+      border-bottom: 1px solid #e5eaf1;
+      color: #475467;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    td {
+      padding: 15px 12px;
+      border-bottom: 1px solid #edf0f4;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    .candidate-name {
+      font-weight: 800;
+      color: #172033;
+    }
+
+    .candidate-email {
+      color: #667085;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+
+    .status.submitted {
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .status.reviewing {
+      background: #fff7ed;
+      color: #9a3412;
+    }
+
+    .status.interview {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .status.accepted {
+      background: #ecfdf3;
+      color: #166534;
+    }
+
+    .status.rejected {
+      background: #fff1f2;
+      color: #be123c;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px 15px;
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 45px 15px;
+      color: #667085;
+    }
+
+    .footer {
+      background: #10243a;
+      color: #cbd5e1;
+      padding: 28px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .navbar {
+        padding: 0 4%;
+      }
+
+      .nav-link {
+        display: none;
+      }
+
+      .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .company-badge {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .jobs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a href="index.html" class="brand">
+      Sea <span>Marine Job</span>
+    </a>
+
+    <div class="nav-right">
+      <a href="kapal.html" class="nav-link">Cari Lowongan</a>
+      <button class="logout-btn" onclick="logout()">Keluar</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <div>
+        <h1>Dashboard Employer</h1>
+        <p>
+          Kelola lowongan dan pantau kandidat yang melamar
+          pekerjaan di perusahaan Anda.
+        </p>
+      </div>
+
+      <div class="company-badge">
+        <strong id="companyName">Memuat...</strong>
+        <span id="companyEmail">Memuat...</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="container">
+
+      <div id="message" class="message"></div>
+
+      <div id="loading" class="loading">
+        Memuat dashboard employer...
+      </div>
+
+      <div id="dashboardContent" style="display:none;">
+
+        <section class="stats">
+          <div class="stat-card">
+            <div class="stat-label">Lowongan Saya</div>
+            <div class="stat-value" id="totalJobs">0</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Total Lamaran</div>
+            <div class="stat-value" id="totalApplications">0</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Sedang Diproses</div>
+            <div class="stat-value" id="processingApplications">0</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title">Lowongan Saya</div>
+              <div class="section-subtitle">
+                Lowongan yang terhubung dengan akun employer ini.
+              </div>
+            </div>
+          </div>
+
+          <div id="jobsContainer" class="jobs-grid"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <div class="section-title">Lamaran Kandidat</div>
+              <div class="section-subtitle">
+                Kandidat yang melamar lowongan milik perusahaan Anda.
+              </div>
+            </div>
+          </div>
+
+          <div class="applications">
+            <div id="applicationsContainer"></div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © 2026 Sea Marine Job. Platform lowongan kerja maritim.
+  </footer>
+
+  <script>
+    const SUPABASE_URL =
+      "https://pnyqdhcaabpxbatpubcb.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    let currentUser = null;
+    let employerProfile = null;
+    let employerJobs = [];
+    let employerApplications = [];
+
+    function escapeHtml(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showMessage(type, text) {
+      const element = document.getElementById("message");
+
+      element.className = "message " + type;
+      element.textContent = text;
+      element.style.display = "block";
+    }
+
+    function normalizeStatus(status) {
+      return String(status || "submitted")
+        .toLowerCase()
+        .trim();
+    }
+
+    function statusLabel(status) {
+      const labels = {
+        submitted: "Dikirim",
+        reviewing: "Sedang Diproses",
+        interview: "Interview",
+        accepted: "Diterima",
+        rejected: "Ditolak"
+      };
+
+      const normalized = normalizeStatus(status);
+
+      return labels[normalized] || normalized;
+    }
+
+    function formatDate(dateValue) {
+      if (!dateValue) {
+        return "-";
+      }
+
+      const date = new Date(dateValue);
+
+      if (Number.isNaN(date.getTime())) {
+        return "-";
+      }
+
+      return date.toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    async function getCurrentUser() {
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.getUser();
+
+      if (error) {
+        throw error;
+      }
+
+      return data.user;
+    }
+
+    async function loadEmployerProfile() {
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("profiles")
+        .select(`
+          id,
+          user_id,
+          full_name,
+          email,
+          account_type
+        `)
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error(
+          "Profil employer tidak ditemukan."
+        );
+      }
+
+      if (data.account_type !== "employer") {
+        throw new Error(
+          "Akun ini bukan akun employer."
+        );
+      }
+
+      employerProfile = data;
+
+      document.getElementById("companyName").textContent =
+        data.full_name || "Perusahaan";
+
+      document.getElementById("companyEmail").textContent =
+        data.email || currentUser.email || "-";
+    }
+
+    async function loadEmployerJobs() {
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("jobs")
+        .select(`
+          id,
+          created_at,
+          title,
+          company_name,
+          location,
+          vessel_type,
+          employment_type,
+          salary,
+          status,
+          posted_by
+        `)
+        .eq("posted_by", currentUser.id)
+        .order("created_at", {
+          ascending: false
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      employerJobs = data || [];
+    }
+
+    async function loadEmployerApplications() {
+      if (employerJobs.length === 0) {
+        employerApplications = [];
+        return;
+      }
+
+      const jobIds = employerJobs.map(function(job) {
+        return job.id;
+      });
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("applications")
+        .select(`
+          id,
+          job_id,
+          user_id,
+          status,
+          interview_date,
+          employer_note,
+          created_at,
+          cover_letter,
+          cv_path
+        `)
+        .in("job_id", jobIds)
+        .order("created_at", {
+          ascending: false
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      employerApplications = data || [];
+    }
+
+    async function loadCandidateProfiles() {
+      const userIds = [
+        ...new Set(
+          employerApplications.map(function(application) {
+            return application.user_id;
+          })
+        )
+      ];
+
+      if (userIds.length === 0) {
+        return {};
+      }
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("profiles")
+        .select(`
+          user_id,
+          full_name,
+          email,
+          phone,
+          city,
+          position
+        `)
+        .in("user_id", userIds);
+
+      if (error) {
+        throw error;
+      }
+
+      const profiles = {};
+
+      (data || []).forEach(function(profile) {
+        profiles[profile.user_id] = profile;
+      });
+
+      return profiles;
+    }
+
+    function renderStats() {
+      document.getElementById("totalJobs").textContent =
+        employerJobs.length;
+
+      document.getElementById("totalApplications").textContent =
+        employerApplications.length;
+
+      const processingStatuses = [
+        "submitted",
+        "reviewing",
+        "interview"
+      ];
+
+      const processingCount =
+        employerApplications.filter(function(application) {
+          return processingStatuses.includes(
+            normalizeStatus(application.status)
+          );
+        }).length;
+
+      document.getElementById("processingApplications").textContent =
+        processingCount;
+    }
+
+    function renderJobs() {
+      const container =
+        document.getElementById("jobsContainer");
+
+      if (employerJobs.length === 0) {
+        container.innerHTML = `
+          <div class="empty" style="grid-column:1/-1;">
+            Belum ada lowongan yang terhubung dengan akun employer ini.
+          </div>
+        `;
+
+        return;
+      }
+
+      container.innerHTML =
+        employerJobs.map(function(job) {
+
+          const applicationCount =
+            employerApplications.filter(function(application) {
+              return application.job_id === job.id;
+            }).length;
+
+          return `
+            <article class="job-card">
+
+              <h3>
+                ${escapeHtml(job.title)}
+              </h3>
+
+              <div class="company">
+                ${escapeHtml(job.company_name)}
+              </div>
+
+              <div class="job-info">
+
+                ${
+                  job.location
+                    ? `<span class="tag">
+                        ${escapeHtml(job.location)}
+                       </span>`
+                    : ""
+                }
+
+                ${
+                  job.vessel_type
+                    ? `<span class="tag">
+                        ${escapeHtml(job.vessel_type)}
+                       </span>`
+                    : ""
+                }
+
+                ${
+                  job.employment_type
+                    ? `<span class="tag">
+                        ${escapeHtml(job.employment_type)}
+                       </span>`
+                    : ""
+                }
+
+                ${
+                  job.salary
+                    ? `<span class="tag">
+                        ${escapeHtml(job.salary)}
+                       </span>`
+                    : ""
+                }
+
+              </div>
+
+              <div class="app-count">
+                ${applicationCount} kandidat melamar
+              </div>
+
+            </article>
+          `;
+        }).join("");
+    }
+
+    async function renderApplications() {
+      const container =
+        document.getElementById("applicationsContainer");
+
+      if (employerApplications.length === 0) {
+        container.innerHTML = `
+          <div class="empty">
+            Belum ada kandidat yang melamar lowongan Anda.
+          </div>
+        `;
+
+        return;
+      }
+
+      const candidateProfiles =
+        await loadCandidateProfiles();
+
+      const jobMap = {};
+
+      employerJobs.forEach(function(job) {
+        jobMap[job.id] = job;
+      });
+
+      const rows =
+        employerApplications.map(function(application) {
+
+          const candidate =
+            candidateProfiles[application.user_id] || {};
+
+          const job =
+            jobMap[application.job_id] || {};
+
+          const status =
+            normalizeStatus(application.status);
+
+          return `
+            <tr>
+
+              <td>
+                <div class="candidate-name">
+                  ${
+                    escapeHtml(
+                      candidate.full_name ||
+                      "Kandidat"
+                    )
+                  }
+                </div>
+
+                <div class="candidate-email">
+                  ${
+                    escapeHtml(
+                      candidate.email || "-"
+                    )
+                  }
+                </div>
+              </td>
+
+              <td>
+                <strong>
+                  ${escapeHtml(job.title || "-")}
+                </strong>
+
+                <div style="margin-top:4px;color:#667085;font-size:12px;">
+                  ${escapeHtml(job.company_name || "")}
+                </div>
+              </td>
+
+              <td>
+                ${formatDate(application.created_at)}
+              </td>
+
+              <td>
+                <span class="status ${escapeHtml(status)}">
+                  ${escapeHtml(statusLabel(status))}
+                </span>
+              </td>
+
+              <td>
+                ${
+                  application.interview_date
+                    ? formatDate(application.interview_date)
+                    : "-"
+                }
+              </td>
+
+            </tr>
+          `;
+        }).join("");
+
+      container.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Kandidat</th>
+              <th>Lowongan</th>
+              <th>Tanggal Lamaran</th>
+              <th>Status</th>
+              <th>Interview</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function initializeDashboard() {
+      try {
+
+        currentUser =
+          await getCurrentUser();
+
+        if (!currentUser) {
+          window.location.href =
+            "daftar.html#login";
+
+          return;
+        }
+
+        await loadEmployerProfile();
+
+        await loadEmployerJobs();
+
+        await loadEmployerApplications();
+
+        renderStats();
+
+        renderJobs();
+
+        await renderApplications();
+
+        document.getElementById("loading").style.display =
+          "none";
+
+        document.getElementById("dashboardContent").style.display =
+          "block";
+
+      } catch (error) {
+
+        console.error(
+          "Employer dashboard error:",
+          error
+        );
+
+        document.getElementById("loading").style.display =
+          "none";
+
+        showMessage(
+          "error",
+          error.message ||
+          "Gagal memuat dashboard employer."
+        );
+      }
+    }
+
+    async function logout() {
+      const {
+        error
+      } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        alert(
+          "Gagal logout: " +
+          error.message
+        );
+
+        return;
+      }
+
+      window.location.href =
+        "index.html";
+    }
+
+    initializeDashboard();
+  </script>
+
+</body>
+</html>
