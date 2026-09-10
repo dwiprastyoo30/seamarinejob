@@ -1951,23 +1951,83 @@
 
 
           setTimeout(
-            function() {
+  async function() {
 
-              if (applyJobId) {
+    try {
 
-                initializeApplication();
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("account_type")
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle();
 
-              } else {
+      if (profileError) {
+        throw profileError;
+      }
 
-                window.location.href =
-                  "dashboard.html";
+      const accountType =
+        (
+          profile?.account_type
+          || "jobseeker"
+        )
+          .trim()
+          .toLowerCase();
 
-              }
+      /*
+        EMPLOYER / COMPANY
+      */
+      if (
+        accountType === "employer"
+        ||
+        accountType === "company"
+      ) {
 
-            },
-            900
-          );
+        window.location.href =
+          "employer.html";
 
+        return;
+
+      }
+
+      /*
+        PENCARI KERJA
+      */
+      if (applyJobId) {
+
+        initializeApplication();
+
+      } else {
+
+        window.location.href =
+          "dashboard.html";
+
+      }
+
+    } catch (routeError) {
+
+      console.error(
+        "Account routing error:",
+        routeError
+      );
+
+      showMessage(
+        "loginMessage",
+        "error",
+        "Login berhasil, tetapi akun belum dapat diarahkan. Silakan coba lagi."
+      );
+
+    }
+
+  },
+  600
+);
           return;
         }
 
@@ -2656,73 +2716,127 @@
 
     async function initializeApplication() {
 
-      if (!applyJobId) {
-        return;
-      }
+  if (!applyJobId) {
+    return;
+  }
+
+  try {
+
+    /*
+      CEK USER TERLEBIH DAHULU
+    */
+    currentUser =
+      await getCurrentUser();
 
 
-      get("authSection").style.display =
+    /*
+      BELUM LOGIN
+    */
+    if (!currentUser) {
+
+      get("applicationSection").style.display =
         "none";
 
       get("applicationSuccessSection").style.display =
         "none";
 
-      get("applicationSection").style.display =
+      get("authSection").style.display =
         "block";
 
+      showForm("login");
 
-      try {
+      showMessage(
+        "loginMessage",
+        "warning",
+        "Silakan masuk terlebih dahulu untuk melanjutkan lamaran."
+      );
 
-        currentUser =
-          await getCurrentUser();
-
-
-        if (!currentUser) {
-
-          get("applicationSection").style.display =
-            "none";
-
-          get("authSection").style.display =
-            "block";
-
-          showForm("login");
-
-          showMessage(
-            "loginMessage",
-            "warning",
-            "Silakan masuk terlebih dahulu untuk melanjutkan lamaran."
-          );
-
-          return;
-
-        }
-
-
-        await loadApplicationJob();
-
-        await loadApplicationProfile();
-
-        updateProfileChecks();
-
-
-      } catch (error) {
-
-        console.error(
-          "Application initialization error:",
-          error
-        );
-
-
-        showMessage(
-          "applicationMessage",
-          "error",
-          error.message ||
-          "Gagal menyiapkan halaman lamaran."
-        );
-
-      }
-
+      return;
     }
+
+
+    /*
+      LOAD PROFILE
+    */
+    await loadApplicationProfile();
+
+
+    /*
+      CEK JENIS AKUN
+    */
+    const accountType =
+      (
+        currentProfile?.account_type
+        || "jobseeker"
+      )
+        .trim()
+        .toLowerCase();
+
+
+    /*
+      EMPLOYER / COMPANY
+      TIDAK BOLEH MASUK FORM LAMARAN
+    */
+    if (
+      accountType === "employer"
+      ||
+      accountType === "company"
+    ) {
+
+      window.location.href =
+        "employer.html";
+
+      return;
+    }
+
+
+    /*
+      BARU TAMPILKAN FORM LAMARAN
+    */
+    get("authSection").style.display =
+      "none";
+
+    get("applicationSuccessSection").style.display =
+      "none";
+
+    get("applicationSection").style.display =
+      "block";
+
+
+    /*
+      LOAD LOWONGAN
+    */
+    await loadApplicationJob();
+
+
+    /*
+      UPDATE CHECK PROFILE
+    */
+    updateProfileChecks();
+
+
+  } catch (error) {
+
+    console.error(
+      "Application initialization error:",
+      error
+    );
+
+
+    get("applicationSection").style.display =
+      "block";
+
+
+    showMessage(
+      "applicationMessage",
+      "error",
+      error.message ||
+      "Gagal menyiapkan halaman lamaran."
+    );
+
+  }
+
+}
 
 
     /* =====================================================
