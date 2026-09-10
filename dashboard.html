@@ -2,7 +2,6 @@
 <html lang="id">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -41,6 +40,10 @@
 
       --info-bg: #e8f4fc;
       --info-text: #1877b9;
+
+      --interview-bg: #eef9f1;
+      --interview-text: #19733f;
+      --interview-border: #c9ead5;
     }
 
     body {
@@ -55,15 +58,18 @@
       color:
         var(--text);
 
-      min-height: 100vh;
+      min-height:
+        100vh;
     }
 
     a {
-      text-decoration: none;
+      text-decoration:
+        none;
     }
 
     button {
-      font-family: inherit;
+      font-family:
+        inherit;
     }
 
     /* =========================
@@ -71,7 +77,8 @@
        ========================= */
 
     .navbar {
-      min-height: 72px;
+      min-height:
+        72px;
 
       background:
         var(--navy);
@@ -519,7 +526,7 @@
         column;
 
       gap:
-        13px;
+        14px;
     }
 
     .application-item {
@@ -530,10 +537,13 @@
         12px;
 
       padding:
-        17px;
+        18px;
 
       transition:
         .2s;
+
+      background:
+        white;
     }
 
     .application-item:hover {
@@ -580,6 +590,10 @@
         13px;
     }
 
+    /* =========================
+       STATUS
+       ========================= */
+
     .status-badge {
       display:
         inline-flex;
@@ -614,13 +628,20 @@
         var(--info-text);
     }
 
-    .status-reviewing,
-    .status-interview {
+    .status-reviewing {
       background:
         var(--warning-bg);
 
       color:
         var(--warning-text);
+    }
+
+    .status-interview {
+      background:
+        var(--interview-bg);
+
+      color:
+        var(--interview-text);
     }
 
     .status-accepted {
@@ -631,14 +652,17 @@
         var(--success-text);
     }
 
-    .status-rejected,
-    .status-withdrawn {
+    .status-rejected {
       background:
         var(--danger-bg);
 
       color:
         var(--danger-text);
     }
+
+    /* =========================
+       META
+       ========================= */
 
     .application-meta {
       display:
@@ -659,6 +683,92 @@
       font-size:
         11px;
     }
+
+    /* =========================
+       INTERVIEW INFO
+       ========================= */
+
+    .interview-box {
+      margin-top:
+        16px;
+
+      padding:
+        15px;
+
+      border:
+        1px solid var(--interview-border);
+
+      background:
+        var(--interview-bg);
+
+      border-radius:
+        11px;
+    }
+
+    .interview-title {
+      font-size:
+        13px;
+
+      font-weight:
+        bold;
+
+      color:
+        var(--interview-text);
+
+      margin-bottom:
+        11px;
+    }
+
+    .interview-row {
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+
+      margin-bottom:
+        10px;
+    }
+
+    .interview-row:last-child {
+      margin-bottom:
+        0;
+    }
+
+    .interview-label {
+      font-size:
+        10px;
+
+      color:
+        var(--muted);
+
+      font-weight:
+        bold;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .4px;
+    }
+
+    .interview-value {
+      font-size:
+        13px;
+
+      color:
+        var(--text);
+
+      line-height:
+        1.5;
+    }
+
+    /* =========================
+       ACTION
+       ========================= */
 
     .application-actions {
       margin-top:
@@ -768,6 +878,12 @@
 
       font-weight:
         bold;
+
+      border:
+        none;
+
+      cursor:
+        pointer;
     }
 
     .primary-btn:hover {
@@ -776,7 +892,7 @@
     }
 
     /* =========================
-       PROFILE CARD
+       PROFILE
        ========================= */
 
     .profile-summary {
@@ -1007,7 +1123,7 @@
     }
 
     /* =========================
-       RECOMMENDED JOBS
+       RECOMMENDATIONS
        ========================= */
 
     .recommendations {
@@ -1268,9 +1384,7 @@
 
 </head>
 
-
 <body>
-
 
   <!-- =========================
        NAVBAR
@@ -1300,7 +1414,6 @@
       </div>
 
     </a>
-
 
     <div class="nav-right">
 
@@ -1332,11 +1445,10 @@
 
 
   <!-- =========================
-       MAIN DASHBOARD
+       MAIN
        ========================= -->
 
   <main class="dashboard">
-
 
     <!-- WELCOME -->
 
@@ -1372,7 +1484,6 @@
          ========================= -->
 
     <section class="stats">
-
 
       <div class="stat-card">
 
@@ -1453,7 +1564,6 @@
 
       </div>
 
-
     </section>
 
 
@@ -1463,9 +1573,8 @@
 
     <section class="main-grid">
 
-
       <!-- =========================
-           LAMARAN SAYA
+           APPLICATIONS
            ========================= -->
 
       <div class="card">
@@ -1517,7 +1626,6 @@
            ========================= -->
 
       <aside>
-
 
         <!-- PROFILE -->
 
@@ -1638,12 +1746,9 @@
 
         </div>
 
-
       </aside>
 
-
     </section>
-
 
   </main>
 
@@ -1657,10 +1762,9 @@
 
   <script>
 
-
-    // ==========================================
-    // SUPABASE
-    // ==========================================
+    /* ==========================================
+       SUPABASE
+       ========================================== */
 
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
@@ -1675,9 +1779,9 @@
       );
 
 
-    // ==========================================
-    // GLOBAL VARIABLES
-    // ==========================================
+    /* ==========================================
+       GLOBAL
+       ========================================== */
 
     let currentUser = null;
 
@@ -1688,9 +1792,9 @@
     let applicationJobs = {};
 
 
-    // ==========================================
-    // ESCAPE HTML
-    // ==========================================
+    /* ==========================================
+       ESCAPE HTML
+       ========================================== */
 
     function escapeHTML(value) {
 
@@ -1711,9 +1815,9 @@
     }
 
 
-    // ==========================================
-    // SHOW MESSAGE
-    // ==========================================
+    /* ==========================================
+       MESSAGE
+       ========================================== */
 
     function showMessage(
       type,
@@ -1734,9 +1838,9 @@
     }
 
 
-    // ==========================================
-    // FORMAT DATE
-    // ==========================================
+    /* ==========================================
+       DATE
+       ========================================== */
 
     function formatDate(
       dateValue
@@ -1757,21 +1861,59 @@
         return "-";
       }
 
-      return date.toLocaleDateString(
+      return new Intl.DateTimeFormat(
         "id-ID",
         {
           day: "2-digit",
           month: "long",
           year: "numeric"
         }
-      );
+      ).format(date);
 
     }
 
 
-    // ==========================================
-    // STATUS
-    // ==========================================
+    function formatDateTime(
+      dateValue
+    ) {
+
+      if (!dateValue) {
+        return "-";
+      }
+
+      const date =
+        new Date(dateValue);
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return "-";
+      }
+
+      const formatted =
+        new Intl.DateTimeFormat(
+          "id-ID",
+          {
+            timeZone: "Asia/Jakarta",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          }
+        ).format(date);
+
+      return formatted + " WIB";
+
+    }
+
+
+    /* ==========================================
+       STATUS
+       ========================================== */
 
     function normalizeStatus(
       status
@@ -1823,7 +1965,8 @@
 
       return (
         labels[normalized]
-        || normalized
+        ||
+        normalized
           .replace(/_/g, " ")
           .replace(
             /\b\w/g,
@@ -1857,9 +2000,14 @@
       }
 
       if (
-        normalized === "reviewing" ||
-        normalized === "review" ||
         normalized === "interview"
+      ) {
+        return "status-interview";
+      }
+
+      if (
+        normalized === "reviewing" ||
+        normalized === "review"
       ) {
         return "status-reviewing";
       }
@@ -1869,9 +2017,9 @@
     }
 
 
-    // ==========================================
-    // LOAD CURRENT USER
-    // ==========================================
+    /* ==========================================
+       LOAD USER
+       ========================================== */
 
     async function loadCurrentUser() {
 
@@ -1884,10 +2032,12 @@
           .getUser();
 
       if (error) {
+
         console.error(
           "Auth error:",
           error
         );
+
       }
 
       currentUser =
@@ -1903,15 +2053,14 @@
 
       }
 
-
       return true;
 
     }
 
 
-    // ==========================================
-    // LOAD PROFILE
-    // ==========================================
+    /* ==========================================
+       LOAD PROFILE
+       ========================================== */
 
     async function loadProfile() {
 
@@ -1961,6 +2110,33 @@
         data || null;
 
 
+      /*
+        IMPORTANT:
+        Jika employer membuka dashboard kandidat,
+        otomatis diarahkan ke employer.html.
+      */
+
+      const accountType =
+        currentProfile
+          ?.account_type
+          ?.toLowerCase()
+          || "jobseeker";
+
+
+      if (
+        accountType === "employer"
+        ||
+        accountType === "company"
+      ) {
+
+        window.location.href =
+          "employer.html";
+
+        return;
+
+      }
+
+
       const fullName =
         currentProfile?.full_name
         ||
@@ -1990,18 +2166,10 @@
         || "-";
 
 
-      const accountType =
-        currentProfile
-          ?.account_type
-          || "jobseeker";
-
-
       document.getElementById(
         "accountType"
       ).textContent =
-        accountType === "company"
-          ? "PERUSAHAAN"
-          : "PENCARI KERJA";
+        "PENCARI KERJA";
 
 
       updateProfileCompleteness();
@@ -2011,9 +2179,9 @@
     }
 
 
-    // ==========================================
-    // PROFILE PHOTO
-    // ==========================================
+    /* ==========================================
+       PROFILE PHOTO
+       ========================================== */
 
     function loadProfilePhoto() {
 
@@ -2021,7 +2189,6 @@
         document.getElementById(
           "profileAvatar"
         );
-
 
       const photoUrl =
         currentProfile
@@ -2049,9 +2216,9 @@
     }
 
 
-    // ==========================================
-    // PROFILE COMPLETENESS
-    // ==========================================
+    /* ==========================================
+       PROFILE COMPLETENESS
+       ========================================== */
 
     function updateProfileCompleteness() {
 
@@ -2145,9 +2312,9 @@
     }
 
 
-    // ==========================================
-    // LOAD APPLICATIONS
-    // ==========================================
+    /* ==========================================
+       LOAD APPLICATIONS
+       ========================================== */
 
     async function loadApplications() {
 
@@ -2182,7 +2349,9 @@
             cover_letter,
             cv_path,
             status,
-            created_at
+            created_at,
+            interview_date,
+            employer_note
           `)
           .eq(
             "user_id",
@@ -2232,9 +2401,10 @@
             </div>
           `;
 
+
         showMessage(
           "error",
-          "Data lamaran tidak dapat dimuat. Periksa policy RLS pada tabel applications."
+          "Data lamaran tidak dapat dimuat. Silakan coba lagi."
         );
 
         return;
@@ -2256,9 +2426,9 @@
     }
 
 
-    // ==========================================
-    // LOAD JOBS FOR APPLICATIONS
-    // ==========================================
+    /* ==========================================
+       LOAD JOBS
+       ========================================== */
 
     async function loadApplicationJobs() {
 
@@ -2337,9 +2507,9 @@
     }
 
 
-    // ==========================================
-    // APPLICATION STATS
-    // ==========================================
+    /* ==========================================
+       STATS
+       ========================================== */
 
     function renderApplicationStats() {
 
@@ -2359,12 +2529,18 @@
             );
 
 
+          /*
+            Sedang Diproses hanya:
+            submitted + reviewing
+
+            Interview sudah menjadi tahap tersendiri.
+          */
+
           if (
             [
               "submitted",
               "reviewing",
-              "review",
-              "interview"
+              "review"
             ].includes(status)
           ) {
 
@@ -2423,9 +2599,9 @@
     }
 
 
-    // ==========================================
-    // RENDER APPLICATIONS
-    // ==========================================
+    /* ==========================================
+       RENDER APPLICATIONS
+       ========================================== */
 
     function renderApplications() {
 
@@ -2485,9 +2661,9 @@
     }
 
 
-    // ==========================================
-    // RENDER SINGLE APPLICATION
-    // ==========================================
+    /* ==========================================
+       RENDER SINGLE APPLICATION
+       ========================================== */
 
     function renderApplication(
       application
@@ -2501,12 +2677,14 @@
 
       const title =
         job?.title
-        || "Lowongan tidak tersedia";
+        ||
+        "Lowongan tidak tersedia";
 
 
       const company =
         job?.company_name
-        || "Perusahaan tidak tersedia";
+        ||
+        "Perusahaan tidak tersedia";
 
 
       const location =
@@ -2542,7 +2720,98 @@
         );
 
 
+      let interviewHTML =
+        "";
+
+
+      /*
+        Tampilkan jadwal dan catatan
+        jika sudah masuk tahap interview.
+      */
+
+      if (
+        status === "interview"
+      ) {
+
+        const interviewDate =
+          application.interview_date
+            ? formatDateTime(
+                application.interview_date
+              )
+            : "-";
+
+
+        const employerNote =
+          application.employer_note
+            ? escapeHTML(
+                application.employer_note
+              )
+            : "-";
+
+
+        interviewHTML =
+          `
+            <div class="interview-box">
+
+              <div class="interview-title">
+                🎯 Informasi Interview
+              </div>
+
+              <div class="interview-row">
+
+                <div class="interview-label">
+                  Jadwal Interview
+                </div>
+
+                <div class="interview-value">
+                  ${escapeHTML(interviewDate)}
+                </div>
+
+              </div>
+
+
+              <div class="interview-row">
+
+                <div class="interview-label">
+                  Catatan Perusahaan
+                </div>
+
+                <div class="interview-value">
+                  ${employerNote}
+                </div>
+
+              </div>
+
+            </div>
+          `;
+
+      }
+      else if (
+        application.employer_note
+      ) {
+
+        interviewHTML =
+          `
+            <div class="interview-box">
+
+              <div class="interview-title">
+                📝 Catatan Perusahaan
+              </div>
+
+              <div class="interview-value">
+                ${escapeHTML(
+                  application.employer_note
+                )}
+              </div>
+
+            </div>
+          `;
+
+      }
+
+
       return `
+
         <div class="application-item">
 
           <div class="application-top">
@@ -2558,6 +2827,7 @@
               </div>
 
             </div>
+
 
             <span
               class="status-badge ${statusClass}"
@@ -2593,6 +2863,9 @@
           </div>
 
 
+          ${interviewHTML}
+
+
           <div class="application-actions">
 
             ${
@@ -2613,14 +2886,15 @@
           </div>
 
         </div>
+
       `;
 
     }
 
 
-    // ==========================================
-    // LOAD RECOMMENDED JOBS
-    // ==========================================
+    /* ==========================================
+       RECOMMENDATIONS
+       ========================================== */
 
     async function loadRecommendations() {
 
@@ -2747,6 +3021,7 @@
           .map(
             job =>
               `
+
                 <div class="recommendation-item">
 
                   <div class="recommendation-title">
@@ -2755,11 +3030,13 @@
                     )}
                   </div>
 
+
                   <div class="recommendation-company">
                     ${escapeHTML(
                       job.company_name
                     )}
                   </div>
+
 
                   <div class="recommendation-meta">
 
@@ -2783,6 +3060,7 @@
 
                   </div>
 
+
                   <a
                     href="detail.html?id=${encodeURIComponent(
                       job.id
@@ -2793,6 +3071,7 @@
                   </a>
 
                 </div>
+
               `
           )
           .join("");
@@ -2800,9 +3079,9 @@
     }
 
 
-    // ==========================================
-    // LOGOUT
-    // ==========================================
+    /* ==========================================
+       LOGOUT
+       ========================================== */
 
     async function logout() {
 
@@ -2832,9 +3111,9 @@
     }
 
 
-    // ==========================================
-    // INITIALIZE
-    // ==========================================
+    /* ==========================================
+       INITIALIZE
+       ========================================== */
 
     async function initializeDashboard() {
 
@@ -2850,23 +3129,37 @@
       await loadProfile();
 
 
-      await loadApplications();
+      /*
+        Jika employer diarahkan ke employer.html
+        oleh loadProfile(), jangan lanjut
+        memuat dashboard kandidat.
+      */
 
+      if (
+        currentProfile?.account_type ===
+          "employer"
+        ||
+        currentProfile?.account_type ===
+          "company"
+      ) {
+        return;
+      }
+
+
+      await loadApplications();
 
       await loadRecommendations();
 
     }
 
 
-    // ==========================================
-    // START
-    // ==========================================
+    /* ==========================================
+       START
+       ========================================== */
 
     initializeDashboard();
 
-
   </script>
-
 
 </body>
 
