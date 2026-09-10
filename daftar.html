@@ -2100,22 +2100,94 @@
 
 
         setTimeout(
-          function() {
+  async function() {
 
-            if (applyJobId) {
+    try {
 
-              initializeApplication();
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("account_type")
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .maybeSingle();
 
-            } else {
 
-              window.location.href =
-                "dashboard.html";
+      if (profileError) {
+        throw profileError;
+      }
 
-            }
 
-          },
-          600
-        );
+      const accountType =
+        (
+          profile?.account_type
+          || "jobseeker"
+        )
+          .trim()
+          .toLowerCase();
+
+
+      /*
+        ==========================================
+        EMPLOYER
+        ==========================================
+      */
+
+      if (
+        accountType === "employer"
+        ||
+        accountType === "company"
+      ) {
+
+        window.location.href =
+          "employer.html";
+
+        return;
+
+      }
+
+
+      /*
+        ==========================================
+        CANDIDATE
+        ==========================================
+      */
+
+      if (applyJobId) {
+
+        initializeApplication();
+
+      } else {
+
+        window.location.href =
+          "dashboard.html";
+
+      }
+
+    } catch (routeError) {
+
+      console.error(
+        "Account routing error:",
+        routeError
+      );
+
+
+      showMessage(
+        "loginMessage",
+        "error",
+        "Login berhasil, tetapi akun belum dapat diarahkan. Silakan coba lagi."
+      );
+
+    }
+
+  },
+  600
+);
 
 
       } catch (error) {
@@ -2554,10 +2626,15 @@
       */
 
       if (
-        currentProfile &&
-        currentProfile.account_type ===
-        "company"
-      ) {
+  currentProfile &&
+  (
+    currentProfile.account_type ===
+      "company"
+    ||
+    currentProfile.account_type ===
+      "employer"
+  )
+) {
 
         showMessage(
           "applicationMessage",
@@ -2732,9 +2809,12 @@
 
 
       if (
-        currentProfile.account_type ===
-        "company"
-      ) {
+  currentProfile.account_type ===
+    "company"
+  ||
+  currentProfile.account_type ===
+    "employer"
+) {
 
         showMessage(
           "applicationMessage",
