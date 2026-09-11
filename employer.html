@@ -383,6 +383,153 @@
       margin-top: 5px;
     }
 
+    .add-job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .add-job-btn {
+      white-space: nowrap;
+    }
+
+    .job-status {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef2ff;
+      color: #3949ab;
+    }
+
+    .job-status-published {
+      background: #dff7e8;
+      color: #087333;
+    }
+
+    .job-status-active {
+      background: #eaf8f0;
+      color: #167343;
+    }
+
+    .job-status-draft {
+      background: #fff7df;
+      color: #946800;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 35, 63, 0.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 25px 70px rgba(16, 35, 63, 0.22);
+      padding: 28px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .modal-header h2 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .modal-header p {
+      margin: 0;
+      color: #60738d;
+      font-size: 14px;
+    }
+
+    .close-modal {
+      border: 1px solid #d8e0eb;
+      background: white;
+      color: #425a76;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .close-modal:hover {
+      background: #f3f7fb;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-help {
+      margin-top: 6px;
+      color: #71839b;
+      font-size: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e4eaf2;
+    }
+
+    @media (max-width: 700px) {
+      .add-job-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .add-job-btn {
+        width: 100%;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-full {
+        grid-column: auto;
+      }
+
+      .modal {
+        padding: 20px;
+      }
+    }
+
     .empty {
       text-align: center;
       padding: 35px 20px;
@@ -522,9 +669,21 @@
     </div>
 
     <section class="section">
-      <h2>Lowongan Saya</h2>
-      <div class="section-description">
-        Lowongan yang terhubung dengan akun employer ini.
+      <div class="add-job-header">
+        <div>
+          <h2 style="margin:0 0 8px;">Lowongan Saya</h2>
+          <div class="section-description" style="margin:0;">
+            Lowongan yang terhubung dengan akun employer ini.
+          </div>
+        </div>
+
+        <button
+          class="btn btn-primary add-job-btn"
+          id="addJobBtn"
+          type="button"
+        >
+          + Tambah Lowongan
+        </button>
       </div>
 
       <div id="jobsContainer">
@@ -544,6 +703,136 @@
     </section>
 
   </main>
+
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="jobModalTitle">
+      <div class="modal-header">
+        <div>
+          <h2 id="jobModalTitle">Tambah Lowongan</h2>
+          <p>Buat lowongan baru untuk perusahaan Anda.</p>
+        </div>
+
+        <button
+          class="close-modal"
+          id="closeJobModalBtn"
+          type="button"
+          aria-label="Tutup"
+        >
+          ×
+        </button>
+      </div>
+
+      <form id="jobForm">
+        <div class="form-grid">
+
+          <div class="field-box">
+            <label for="jobTitle">Posisi / Jabatan *</label>
+            <input
+              id="jobTitle"
+              type="text"
+              maxlength="120"
+              placeholder="Contoh: Chief Engineer"
+              required
+            />
+          </div>
+
+          <div class="field-box">
+            <label for="jobDepartment">Departemen</label>
+            <input
+              id="jobDepartment"
+              type="text"
+              maxlength="100"
+              placeholder="Contoh: Deck / Engine / Crewing"
+            />
+          </div>
+
+          <div class="field-box">
+            <label for="jobLocation">Lokasi *</label>
+            <input
+              id="jobLocation"
+              type="text"
+              maxlength="120"
+              placeholder="Contoh: Jakarta"
+              required
+            />
+          </div>
+
+          <div class="field-box">
+            <label for="jobVesselType">Jenis Kapal</label>
+            <input
+              id="jobVesselType"
+              type="text"
+              maxlength="120"
+              placeholder="Contoh: Container Vessel"
+            />
+          </div>
+
+          <div class="field-box">
+            <label for="jobEmploymentType">Tipe Pekerjaan *</label>
+            <select id="jobEmploymentType" required>
+              <option value="">Pilih tipe pekerjaan</option>
+              <option value="Full Time">Full Time</option>
+              <option value="Contract">Contract</option>
+              <option value="Part Time">Part Time</option>
+              <option value="Temporary">Temporary</option>
+            </select>
+          </div>
+
+          <div class="field-box">
+            <label for="jobSalary">Gaji</label>
+            <input
+              id="jobSalary"
+              type="text"
+              maxlength="120"
+              placeholder="Contoh: Rp 20.000.000 - Rp 30.000.000"
+            />
+          </div>
+
+          <div class="field-box form-full">
+            <label for="jobDescription">Deskripsi Pekerjaan *</label>
+            <textarea
+              id="jobDescription"
+              maxlength="5000"
+              placeholder="Jelaskan tanggung jawab dan ruang lingkup pekerjaan..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="field-box form-full">
+            <label for="jobRequirements">Persyaratan *</label>
+            <textarea
+              id="jobRequirements"
+              maxlength="5000"
+              placeholder="Contoh: Sertifikat STCW, pengalaman minimal 2 tahun, sehat jasmani..."
+              required
+            ></textarea>
+            <div class="form-help">
+              Gunakan baris baru untuk memisahkan beberapa persyaratan.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+          <button
+            class="btn btn-secondary"
+            id="cancelJobBtn"
+            type="button"
+          >
+            Batal
+          </button>
+
+          <button
+            class="btn btn-primary"
+            id="saveJobBtn"
+            type="submit"
+          >
+            Simpan sebagai Draft
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <footer>
     © 2026 Sea Marine Job — Maritime Career Platform
@@ -587,6 +876,24 @@
 
     const successBox =
       document.getElementById("successBox");
+
+    const jobModal =
+      document.getElementById("jobModal");
+
+    const jobForm =
+      document.getElementById("jobForm");
+
+    const addJobBtn =
+      document.getElementById("addJobBtn");
+
+    const closeJobModalBtn =
+      document.getElementById("closeJobModalBtn");
+
+    const cancelJobBtn =
+      document.getElementById("cancelJobBtn");
+
+    const saveJobBtn =
+      document.getElementById("saveJobBtn");
 
     function escapeHtml(value) {
       if (value === null || value === undefined) {
@@ -692,6 +999,159 @@
       };
 
       return classes[status] || "status-submitted";
+    }
+
+    function openJobModal() {
+      hideMessages();
+      jobForm.reset();
+      jobModal.classList.add("show");
+      document.getElementById("jobTitle").focus();
+    }
+
+    function closeJobModal() {
+      jobModal.classList.remove("show");
+      jobForm.reset();
+    }
+
+    function jobStatusLabel(status) {
+      const labels = {
+        draft: "Draft",
+        published: "Published",
+        active: "Aktif",
+        closed: "Ditutup",
+        inactive: "Nonaktif"
+      };
+
+      return labels[status] || status || "Draft";
+    }
+
+    function jobStatusClass(status) {
+      if (status === "published") {
+        return "job-status job-status-published";
+      }
+
+      if (status === "active") {
+        return "job-status job-status-active";
+      }
+
+      return "job-status job-status-draft";
+    }
+
+    async function createJob(event) {
+      event.preventDefault();
+      hideMessages();
+
+      if (!currentUser || !employerProfile) {
+        showError("Sesi employer belum siap. Silakan login kembali.");
+        return;
+      }
+
+      const title =
+        document.getElementById("jobTitle").value.trim();
+
+      const department =
+        document.getElementById("jobDepartment").value.trim();
+
+      const location =
+        document.getElementById("jobLocation").value.trim();
+
+      const vesselType =
+        document.getElementById("jobVesselType").value.trim();
+
+      const employmentType =
+        document.getElementById("jobEmploymentType").value;
+
+      const salary =
+        document.getElementById("jobSalary").value.trim();
+
+      const description =
+        document.getElementById("jobDescription").value.trim();
+
+      const requirements =
+        document.getElementById("jobRequirements").value.trim();
+
+      if (!title || !location || !employmentType ||
+          !description || !requirements) {
+        showError(
+          "Mohon lengkapi semua field yang wajib diisi."
+        );
+        return;
+      }
+
+      saveJobBtn.disabled = true;
+      saveJobBtn.textContent = "Menyimpan...";
+
+      try {
+        const {
+          data,
+          error
+        } = await supabaseClient
+          .from("jobs")
+          .insert({
+            title,
+            company_name:
+              employerProfile.full_name ||
+              "Perusahaan",
+            location,
+            vessel_type: vesselType || null,
+            employment_type: employmentType,
+            salary: salary || null,
+            description,
+            requirements,
+            status: "draft",
+            posted_by: currentUser.id,
+            department: department || null
+          })
+          .select(`
+            id,
+            created_at,
+            title,
+            company_name,
+            location,
+            vessel_type,
+            employment_type,
+            salary,
+            description,
+            requirements,
+            status,
+            posted_by,
+            department
+          `)
+          .single();
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          employerJobs.unshift(data);
+        }
+
+        totalJobsEl.textContent =
+          employerJobs.length;
+
+        closeJobModal();
+        renderJobs();
+
+        showSuccess(
+          "Lowongan berhasil dibuat sebagai Draft. Lowongan belum tampil untuk pencari kerja."
+        );
+
+      } catch (error) {
+        console.error(
+          "Create job error:",
+          error
+        );
+
+        showError(
+          "Gagal membuat lowongan: " +
+          error.message
+        );
+
+      } finally {
+        saveJobBtn.disabled = false;
+        saveJobBtn.textContent = "Simpan sebagai Draft";
+      }
     }
 
     async function loadEmployer() {
@@ -885,6 +1345,12 @@
 
                   <span class="tag">
                     ${escapeHtml(job.salary || "-")}
+                  </span>
+                </div>
+
+                <div>
+                  <span class="${jobStatusClass(job.status)}">
+                    ${escapeHtml(jobStatusLabel(job.status))}
                   </span>
                 </div>
 
@@ -1360,6 +1826,47 @@
         "click",
         logout
       );
+
+    addJobBtn.addEventListener(
+      "click",
+      openJobModal
+    );
+
+    closeJobModalBtn.addEventListener(
+      "click",
+      closeJobModal
+    );
+
+    cancelJobBtn.addEventListener(
+      "click",
+      closeJobModal
+    );
+
+    jobForm.addEventListener(
+      "submit",
+      createJob
+    );
+
+    jobModal.addEventListener(
+      "click",
+      function(event) {
+        if (event.target === jobModal) {
+          closeJobModal();
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+        if (
+          event.key === "Escape" &&
+          jobModal.classList.contains("show")
+        ) {
+          closeJobModal();
+        }
+      }
+    );
 
     loadEmployer();
   </script>
