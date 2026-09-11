@@ -1154,6 +1154,76 @@
       }
     }
 
+    async function publishJob(jobId) {
+      hideMessages();
+
+      if (!currentUser || !employerProfile) {
+        showError("Sesi employer belum siap. Silakan login kembali.");
+        return;
+      }
+
+      const job = employerJobs.find(item => item.id === jobId);
+      if (!job) {
+        showError("Lowongan tidak ditemukan.");
+        return;
+      }
+
+      if (job.posted_by !== currentUser.id) {
+        showError("Anda tidak memiliki akses ke lowongan ini.");
+        return;
+      }
+
+      if (job.status === "published" || job.status === "active") {
+        showSuccess("Lowongan ini sudah dipublikasikan.");
+        return;
+      }
+
+      const confirmed = window.confirm(
+        "Publish lowongan ini? Setelah dipublish, lowongan akan tampil untuk pencari kerja."
+      );
+
+      if (!confirmed) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("jobs")
+          .update({ status: "published" })
+          .eq("id", jobId)
+          .eq("posted_by", currentUser.id)
+          .select(`
+            id,
+            created_at,
+            title,
+            company_name,
+            location,
+            vessel_type,
+            employment_type,
+            salary,
+            description,
+            requirements,
+            status,
+            posted_by,
+            department
+          `)
+          .single();
+
+        if (error) throw error;
+
+        const index = employerJobs.findIndex(item => item.id === jobId);
+        if (index !== -1 && data) {
+          employerJobs[index] = data;
+        }
+
+        renderJobs();
+        showSuccess(
+          "Lowongan berhasil dipublish dan sekarang dapat dilihat oleh pencari kerja."
+        );
+      } catch (error) {
+        console.error("Publish job error:", error);
+        showError("Gagal mempublish lowongan: " + error.message);
+      }
+    }
+
     async function loadEmployer() {
       hideMessages();
 
@@ -1359,11 +1429,29 @@
                   kandidat melamar
                 </div>
 
+                ${job.status === "draft" ? `
+                  <div style="margin-top:16px;">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-publish-job="${escapeHtml(job.id)}"
+                    >
+                      Publish Lowongan
+                    </button>
+                  </div>
+                ` : ""}
+
               </div>
             `;
           })
           .join("");
     }
+
+    jobsContainer.querySelectorAll("[data-publish-job]").forEach(button => {
+      button.addEventListener("click", function() {
+        publishJob(this.getAttribute("data-publish-job"));
+      });
+    });
 
     function renderApplications() {
       if (!applications.length) {
