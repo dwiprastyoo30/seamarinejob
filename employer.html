@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Dashboard Employer - Sea Marine Job</title>
 
@@ -150,11 +150,25 @@
       margin-bottom: 24px;
     }
 
+    .add-job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
     .job-card {
       border: 1px solid #dfe7f1;
       border-radius: 14px;
       padding: 22px;
       margin-bottom: 15px;
+      transition: 0.2s ease;
+    }
+
+    .job-card:hover {
+      border-color: #b9cbe0;
+      box-shadow: 0 8px 22px rgba(20, 50, 90, 0.05);
     }
 
     .job-card:last-child {
@@ -192,6 +206,36 @@
       margin-top: 14px;
       color: #60738d;
       font-size: 14px;
+    }
+
+    .job-status {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .job-status-draft {
+      background: #fff7df;
+      color: #946800;
+    }
+
+    .job-status-published {
+      background: #dff7e8;
+      color: #087333;
+    }
+
+    .job-status-active {
+      background: #eaf8f0;
+      color: #167343;
+    }
+
+    .job-status-closed,
+    .job-status-inactive {
+      background: #edf2f7;
+      color: #60738d;
     }
 
     .application-card {
@@ -356,12 +400,17 @@
       font-size: 14px;
     }
 
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .btn-primary {
       background: #0d5ea6;
       color: white;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: #094c88;
     }
 
@@ -370,55 +419,12 @@
       color: #29415f;
     }
 
-    .btn-secondary:hover {
+    .btn-secondary:hover:not(:disabled) {
       background: #e2e9f1;
     }
 
-    .cv-link {
-      display: inline-block;
-      text-decoration: none;
-      color: #0d5ea6;
-      font-weight: 700;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    .add-job-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .add-job-btn {
-      white-space: nowrap;
-    }
-
-    .job-status {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      background: #eef2ff;
-      color: #3949ab;
-    }
-
-    .job-status-published {
-      background: #dff7e8;
-      color: #087333;
-    }
-
-    .job-status-active {
-      background: #eaf8f0;
-      color: #167343;
-    }
-
-    .job-status-draft {
-      background: #fff7df;
-      color: #946800;
+    .publish-btn {
+      margin-top: 16px;
     }
 
     .modal-overlay {
@@ -507,29 +513,6 @@
       border-top: 1px solid #e4eaf2;
     }
 
-    @media (max-width: 700px) {
-      .add-job-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .add-job-btn {
-        width: 100%;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-full {
-        grid-column: auto;
-      }
-
-      .modal {
-        padding: 20px;
-      }
-    }
-
     .empty {
       text-align: center;
       padding: 35px 20px;
@@ -589,6 +572,29 @@
       }
     }
 
+    @media (max-width: 700px) {
+      .add-job-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .add-job-header .btn {
+        width: 100%;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-full {
+        grid-column: auto;
+      }
+
+      .modal {
+        padding: 20px;
+      }
+    }
+
     @media (max-width: 600px) {
       nav {
         padding: 0 4%;
@@ -634,15 +640,23 @@
 
     <div class="nav-right">
       <a href="kapal.html">Cari Lowongan</a>
-      <button class="logout-btn" id="logoutBtn">Keluar</button>
+      <button class="logout-btn" id="logoutBtn" type="button">
+        Keluar
+      </button>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-inner">
       <small>Employer Portal</small>
-      <h1 id="welcomeTitle">Dashboard Employer</h1>
-      <p>Kelola lowongan dan proses kandidat yang melamar perusahaan Anda.</p>
+
+      <h1 id="welcomeTitle">
+        Dashboard Employer
+      </h1>
+
+      <p>
+        Kelola lowongan dan proses kandidat yang melamar perusahaan Anda.
+      </p>
     </div>
   </section>
 
@@ -652,64 +666,118 @@
     <div id="successBox" class="success-box"></div>
 
     <div class="stats">
+
       <div class="stat-card">
-        <div class="stat-label">Lowongan Saya</div>
-        <div class="stat-number" id="totalJobs">0</div>
+        <div class="stat-label">
+          Lowongan Saya
+        </div>
+
+        <div class="stat-number" id="totalJobs">
+          0
+        </div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-label">Total Lamaran</div>
-        <div class="stat-number" id="totalApplications">0</div>
+        <div class="stat-label">
+          Total Lamaran
+        </div>
+
+        <div class="stat-number" id="totalApplications">
+          0
+        </div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-label">Sedang Diproses</div>
-        <div class="stat-number" id="processingApplications">0</div>
+        <div class="stat-label">
+          Sedang Diproses
+        </div>
+
+        <div class="stat-number" id="processingApplications">
+          0
+        </div>
       </div>
+
     </div>
 
     <section class="section">
+
       <div class="add-job-header">
+
         <div>
-          <h2 style="margin:0 0 8px;">Lowongan Saya</h2>
-          <div class="section-description" style="margin:0;">
+          <h2 style="margin:0 0 8px;">
+            Lowongan Saya
+          </h2>
+
+          <div
+            class="section-description"
+            style="margin:0;"
+          >
             Lowongan yang terhubung dengan akun employer ini.
           </div>
         </div>
 
         <button
-          class="btn btn-primary add-job-btn"
+          class="btn btn-primary"
           id="addJobBtn"
           type="button"
         >
           + Tambah Lowongan
         </button>
+
       </div>
 
       <div id="jobsContainer">
-        <div class="loading">Memuat lowongan...</div>
+        <div class="loading">
+          Memuat lowongan...
+        </div>
       </div>
+
     </section>
 
     <section class="section">
-      <h2>Lamaran Kandidat</h2>
+
+      <h2>
+        Lamaran Kandidat
+      </h2>
+
       <div class="section-description">
         Kandidat yang melamar lowongan milik perusahaan Anda.
       </div>
 
       <div id="applicationsContainer">
-        <div class="loading">Memuat lamaran...</div>
+        <div class="loading">
+          Memuat lamaran...
+        </div>
       </div>
+
     </section>
 
   </main>
 
-  <div class="modal-overlay" id="jobModal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="jobModalTitle">
+  <!-- MODAL TAMBAH LOWONGAN -->
+
+  <div
+    class="modal-overlay"
+    id="jobModal"
+  >
+
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="jobModalTitle"
+    >
+
       <div class="modal-header">
+
         <div>
-          <h2 id="jobModalTitle">Tambah Lowongan</h2>
-          <p>Buat lowongan baru untuk perusahaan Anda.</p>
+          <h2 id="jobModalTitle">
+            Tambah Lowongan
+          </h2>
+
+          <p>
+            Buat lowongan baru untuk perusahaan Anda.
+          </p>
         </div>
 
         <button
@@ -720,100 +788,161 @@
         >
           ×
         </button>
+
       </div>
 
       <form id="jobForm">
+
         <div class="form-grid">
 
           <div class="field-box">
-            <label for="jobTitle">Posisi / Jabatan *</label>
+
+            <label for="jobTitle">
+              Posisi / Jabatan *
+            </label>
+
             <input
               id="jobTitle"
               type="text"
               maxlength="120"
               placeholder="Contoh: Chief Engineer"
               required
-            />
+            >
+
           </div>
 
           <div class="field-box">
-            <label for="jobDepartment">Departemen</label>
+
+            <label for="jobDepartment">
+              Departemen
+            </label>
+
             <input
               id="jobDepartment"
               type="text"
               maxlength="100"
               placeholder="Contoh: Deck / Engine / Crewing"
-            />
+            >
+
           </div>
 
           <div class="field-box">
-            <label for="jobLocation">Lokasi *</label>
+
+            <label for="jobLocation">
+              Lokasi *
+            </label>
+
             <input
               id="jobLocation"
               type="text"
               maxlength="120"
               placeholder="Contoh: Jakarta"
               required
-            />
+            >
+
           </div>
 
           <div class="field-box">
-            <label for="jobVesselType">Jenis Kapal</label>
+
+            <label for="jobVesselType">
+              Jenis Kapal
+            </label>
+
             <input
               id="jobVesselType"
               type="text"
               maxlength="120"
               placeholder="Contoh: Container Vessel"
-            />
+            >
+
           </div>
 
           <div class="field-box">
-            <label for="jobEmploymentType">Tipe Pekerjaan *</label>
-            <select id="jobEmploymentType" required>
-              <option value="">Pilih tipe pekerjaan</option>
-              <option value="Full Time">Full Time</option>
-              <option value="Contract">Contract</option>
-              <option value="Part Time">Part Time</option>
-              <option value="Temporary">Temporary</option>
+
+            <label for="jobEmploymentType">
+              Tipe Pekerjaan *
+            </label>
+
+            <select
+              id="jobEmploymentType"
+              required
+            >
+              <option value="">
+                Pilih tipe pekerjaan
+              </option>
+
+              <option value="Full Time">
+                Full Time
+              </option>
+
+              <option value="Contract">
+                Contract
+              </option>
+
+              <option value="Part Time">
+                Part Time
+              </option>
+
+              <option value="Temporary">
+                Temporary
+              </option>
             </select>
+
           </div>
 
           <div class="field-box">
-            <label for="jobSalary">Gaji</label>
+
+            <label for="jobSalary">
+              Gaji
+            </label>
+
             <input
               id="jobSalary"
               type="text"
               maxlength="120"
               placeholder="Contoh: Rp 20.000.000 - Rp 30.000.000"
-            />
+            >
+
           </div>
 
           <div class="field-box form-full">
-            <label for="jobDescription">Deskripsi Pekerjaan *</label>
+
+            <label for="jobDescription">
+              Deskripsi Pekerjaan *
+            </label>
+
             <textarea
               id="jobDescription"
               maxlength="5000"
               placeholder="Jelaskan tanggung jawab dan ruang lingkup pekerjaan..."
               required
             ></textarea>
+
           </div>
 
           <div class="field-box form-full">
-            <label for="jobRequirements">Persyaratan *</label>
+
+            <label for="jobRequirements">
+              Persyaratan *
+            </label>
+
             <textarea
               id="jobRequirements"
               maxlength="5000"
               placeholder="Contoh: Sertifikat STCW, pengalaman minimal 2 tahun, sehat jasmani..."
               required
             ></textarea>
+
             <div class="form-help">
               Gunakan baris baru untuk memisahkan beberapa persyaratan.
             </div>
+
           </div>
 
         </div>
 
         <div class="modal-actions">
+
           <button
             class="btn btn-secondary"
             id="cancelJobBtn"
@@ -829,9 +958,13 @@
           >
             Simpan sebagai Draft
           </button>
+
         </div>
+
       </form>
+
     </div>
+
   </div>
 
   <footer>
@@ -839,6 +972,11 @@
   </footer>
 
   <script>
+
+    /* =========================================================
+       SUPABASE
+    ========================================================= */
+
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
 
@@ -851,10 +989,20 @@
         SUPABASE_KEY
       );
 
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
     let currentUser = null;
     let employerProfile = null;
     let employerJobs = [];
     let applications = [];
+
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
 
     const totalJobsEl =
       document.getElementById("totalJobs");
@@ -895,8 +1043,17 @@
     const saveJobBtn =
       document.getElementById("saveJobBtn");
 
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
     function escapeHtml(value) {
-      if (value === null || value === undefined) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
@@ -908,15 +1065,26 @@
         .replace(/'/g, "&#039;");
     }
 
+
     function showError(message) {
+
       errorBox.textContent = message;
+
       errorBox.style.display = "block";
 
       successBox.style.display = "none";
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
+
     function showSuccess(message) {
+
       successBox.textContent = message;
+
       successBox.style.display = "block";
 
       errorBox.style.display = "none";
@@ -927,42 +1095,64 @@
       });
     }
 
+
     function hideMessages() {
+
       errorBox.style.display = "none";
+
       successBox.style.display = "none";
     }
 
+
     function formatDate(dateValue) {
+
       if (!dateValue) {
         return "-";
       }
 
-      const date = new Date(dateValue);
+      const date =
+        new Date(dateValue);
 
-      if (Number.isNaN(date.getTime())) {
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
         return "-";
       }
 
-      return date.toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-      });
+      return date.toLocaleDateString(
+        "id-ID",
+        {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }
+      );
     }
 
+
     function formatDateTimeLocal(dateValue) {
+
       if (!dateValue) {
         return "";
       }
 
-      const date = new Date(dateValue);
+      const date =
+        new Date(dateValue);
 
-      if (Number.isNaN(date.getTime())) {
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
         return "";
       }
 
-      const pad = number =>
-        String(number).padStart(2, "0");
+      const pad =
+        number =>
+          String(number)
+            .padStart(2, "0");
 
       return (
         date.getFullYear() +
@@ -977,55 +1167,100 @@
       );
     }
 
+
+    /* =========================================================
+       APPLICATION STATUS
+    ========================================================= */
+
     function statusLabel(status) {
+
       const labels = {
-        submitted: "Dikirim",
-        reviewing: "Diproses",
-        interview: "Interview",
-        accepted: "Diterima",
-        rejected: "Ditolak"
+
+        submitted:
+          "Dikirim",
+
+        reviewing:
+          "Diproses",
+
+        interview:
+          "Interview",
+
+        accepted:
+          "Diterima",
+
+        rejected:
+          "Ditolak"
       };
 
-      return labels[status] || status || "Dikirim";
+      return (
+        labels[status] ||
+        status ||
+        "Dikirim"
+      );
     }
+
 
     function statusClass(status) {
+
       const classes = {
-        submitted: "status-submitted",
-        reviewing: "status-reviewing",
-        interview: "status-interview",
-        accepted: "status-accepted",
-        rejected: "status-rejected"
+
+        submitted:
+          "status-submitted",
+
+        reviewing:
+          "status-reviewing",
+
+        interview:
+          "status-interview",
+
+        accepted:
+          "status-accepted",
+
+        rejected:
+          "status-rejected"
       };
 
-      return classes[status] || "status-submitted";
+      return (
+        classes[status] ||
+        "status-submitted"
+      );
     }
 
-    function openJobModal() {
-      hideMessages();
-      jobForm.reset();
-      jobModal.classList.add("show");
-      document.getElementById("jobTitle").focus();
-    }
 
-    function closeJobModal() {
-      jobModal.classList.remove("show");
-      jobForm.reset();
-    }
+    /* =========================================================
+       JOB STATUS
+    ========================================================= */
 
     function jobStatusLabel(status) {
+
       const labels = {
-        draft: "Draft",
-        published: "Published",
-        active: "Aktif",
-        closed: "Ditutup",
-        inactive: "Nonaktif"
+
+        draft:
+          "Draft",
+
+        published:
+          "Published",
+
+        active:
+          "Aktif",
+
+        closed:
+          "Ditutup",
+
+        inactive:
+          "Nonaktif"
       };
 
-      return labels[status] || status || "Draft";
+      return (
+        labels[status] ||
+        status ||
+        "Draft"
+      );
     }
 
+
     function jobStatusClass(status) {
+
       if (status === "published") {
         return "job-status job-status-published";
       }
@@ -1034,110 +1269,233 @@
         return "job-status job-status-active";
       }
 
+      if (status === "closed") {
+        return "job-status job-status-closed";
+      }
+
+      if (status === "inactive") {
+        return "job-status job-status-inactive";
+      }
+
       return "job-status job-status-draft";
     }
 
-    async function createJob(event) {
-      event.preventDefault();
+
+    /* =========================================================
+       JOB MODAL
+    ========================================================= */
+
+    function openJobModal() {
+
       hideMessages();
 
-      if (!currentUser || !employerProfile) {
-        showError("Sesi employer belum siap. Silakan login kembali.");
+      jobForm.reset();
+
+      jobModal.classList.add("show");
+
+      document
+        .getElementById("jobTitle")
+        .focus();
+    }
+
+
+    function closeJobModal() {
+
+      jobModal.classList.remove("show");
+
+      jobForm.reset();
+    }
+
+
+    /* =========================================================
+       CREATE JOB
+    ========================================================= */
+
+    async function createJob(event) {
+
+      event.preventDefault();
+
+      hideMessages();
+
+      if (
+        !currentUser ||
+        !employerProfile
+      ) {
+
+        showError(
+          "Sesi employer belum siap. Silakan login kembali."
+        );
+
         return;
       }
 
+
       const title =
-        document.getElementById("jobTitle").value.trim();
+        document
+          .getElementById("jobTitle")
+          .value
+          .trim();
+
 
       const department =
-        document.getElementById("jobDepartment").value.trim();
+        document
+          .getElementById("jobDepartment")
+          .value
+          .trim();
+
 
       const location =
-        document.getElementById("jobLocation").value.trim();
+        document
+          .getElementById("jobLocation")
+          .value
+          .trim();
+
 
       const vesselType =
-        document.getElementById("jobVesselType").value.trim();
+        document
+          .getElementById("jobVesselType")
+          .value
+          .trim();
+
 
       const employmentType =
-        document.getElementById("jobEmploymentType").value;
+        document
+          .getElementById("jobEmploymentType")
+          .value;
+
 
       const salary =
-        document.getElementById("jobSalary").value.trim();
+        document
+          .getElementById("jobSalary")
+          .value
+          .trim();
+
 
       const description =
-        document.getElementById("jobDescription").value.trim();
+        document
+          .getElementById("jobDescription")
+          .value
+          .trim();
+
 
       const requirements =
-        document.getElementById("jobRequirements").value.trim();
+        document
+          .getElementById("jobRequirements")
+          .value
+          .trim();
 
-      if (!title || !location || !employmentType ||
-          !description || !requirements) {
+
+      if (
+        !title ||
+        !location ||
+        !employmentType ||
+        !description ||
+        !requirements
+      ) {
+
         showError(
           "Mohon lengkapi semua field yang wajib diisi."
         );
+
         return;
       }
 
+
       saveJobBtn.disabled = true;
-      saveJobBtn.textContent = "Menyimpan...";
+
+      saveJobBtn.textContent =
+        "Menyimpan...";
+
 
       try {
+
         const {
           data,
           error
-        } = await supabaseClient
-          .from("jobs")
-          .insert({
-            title,
-            company_name:
-              employerProfile.full_name ||
-              "Perusahaan",
-            location,
-            vessel_type: vesselType || null,
-            employment_type: employmentType,
-            salary: salary || null,
-            description,
-            requirements,
-            status: "draft",
-            posted_by: currentUser.id,
-            department: department || null
-          })
-          .select(`
-            id,
-            created_at,
-            title,
-            company_name,
-            location,
-            vessel_type,
-            employment_type,
-            salary,
-            description,
-            requirements,
-            status,
-            posted_by,
-            department
-          `)
-          .single();
+        } =
+          await supabaseClient
+            .from("jobs")
+            .insert({
+
+              title,
+
+              company_name:
+                employerProfile.full_name ||
+                "Perusahaan",
+
+              location,
+
+              vessel_type:
+                vesselType ||
+                null,
+
+              employment_type:
+                employmentType,
+
+              salary:
+                salary ||
+                null,
+
+              description,
+
+              requirements,
+
+              status:
+                "draft",
+
+              posted_by:
+                currentUser.id,
+
+              department:
+                department ||
+                null
+
+            })
+            .select(`
+              id,
+              created_at,
+              title,
+              company_name,
+              location,
+              vessel_type,
+              employment_type,
+              salary,
+              description,
+              requirements,
+              status,
+              posted_by,
+              department
+            `)
+            .single();
+
 
         if (error) {
           throw error;
         }
 
+
         if (data) {
           employerJobs.unshift(data);
         }
 
+
         totalJobsEl.textContent =
           employerJobs.length;
 
+
         closeJobModal();
+
         renderJobs();
+
 
         showSuccess(
           "Lowongan berhasil dibuat sebagai Draft. Lowongan belum tampil untuk pencari kerja."
         );
 
-      } catch (error) {
+      }
+
+      catch (error) {
+
         console.error(
           "Create job error:",
           error
@@ -1148,48 +1506,334 @@
           error.message
         );
 
-      } finally {
+      }
+
+      finally {
+
         saveJobBtn.disabled = false;
-        saveJobBtn.textContent = "Simpan sebagai Draft";
+
+        saveJobBtn.textContent =
+          "Simpan sebagai Draft";
       }
     }
 
+
+    /* =========================================================
+       PUBLISH JOB
+    ========================================================= */
+
     async function publishJob(jobId) {
+
       hideMessages();
 
-      if (!currentUser || !employerProfile) {
-        showError("Sesi employer belum siap. Silakan login kembali.");
+
+      if (
+        !currentUser ||
+        !employerProfile
+      ) {
+
+        showError(
+          "Sesi employer belum siap. Silakan login kembali."
+        );
+
         return;
       }
 
-      const job = employerJobs.find(item => item.id === jobId);
+
+      const job =
+        employerJobs.find(
+          item =>
+            item.id === jobId
+        );
+
+
       if (!job) {
-        showError("Lowongan tidak ditemukan.");
+
+        showError(
+          "Lowongan tidak ditemukan."
+        );
+
         return;
       }
 
-      if (job.posted_by !== currentUser.id) {
-        showError("Anda tidak memiliki akses ke lowongan ini.");
+
+      if (
+        job.posted_by !==
+        currentUser.id
+      ) {
+
+        showError(
+          "Anda tidak memiliki akses ke lowongan ini."
+        );
+
         return;
       }
 
-      if (job.status === "published" || job.status === "active") {
-        showSuccess("Lowongan ini sudah dipublikasikan.");
+
+      if (
+        job.status === "published" ||
+        job.status === "active"
+      ) {
+
+        showSuccess(
+          "Lowongan ini sudah dipublikasikan."
+        );
+
         return;
       }
 
-      const confirmed = window.confirm(
-        "Publish lowongan ini? Setelah dipublish, lowongan akan tampil untuk pencari kerja."
+
+      const confirmed =
+        window.confirm(
+          "Publish lowongan ini? Setelah dipublish, lowongan akan tampil untuk pencari kerja."
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      const buttons =
+        jobsContainer.querySelectorAll(
+          "[data-publish-job]"
+        );
+
+
+      buttons.forEach(
+        button => {
+          button.disabled = true;
+        }
       );
 
-      if (!confirmed) return;
 
       try {
-        const { data, error } = await supabaseClient
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("jobs")
+            .update({
+              status: "published"
+            })
+            .eq(
+              "id",
+              jobId
+            )
+            .eq(
+              "posted_by",
+              currentUser.id
+            )
+            .select(`
+              id,
+              created_at,
+              title,
+              company_name,
+              location,
+              vessel_type,
+              employment_type,
+              salary,
+              description,
+              requirements,
+              status,
+              posted_by,
+              department
+            `)
+            .single();
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        if (!data) {
+
+          throw new Error(
+            "Lowongan tidak ditemukan atau bukan milik akun employer ini."
+          );
+        }
+
+
+        const index =
+          employerJobs.findIndex(
+            item =>
+              item.id === jobId
+          );
+
+
+        if (index !== -1) {
+
+          employerJobs[index] =
+            data;
+        }
+
+
+        renderJobs();
+
+
+        showSuccess(
+          "Lowongan berhasil dipublish dan sekarang dapat dilihat oleh pencari kerja."
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Publish job error:",
+          error
+        );
+
+        showError(
+          "Gagal mempublish lowongan: " +
+          error.message
+        );
+
+      }
+
+      finally {
+
+        jobsContainer
+          .querySelectorAll(
+            "[data-publish-job]"
+          )
+          .forEach(
+            button => {
+              button.disabled = false;
+            }
+          );
+      }
+    }
+
+
+    /* =========================================================
+       LOAD EMPLOYER
+    ========================================================= */
+
+    async function loadEmployer() {
+
+      hideMessages();
+
+
+      const {
+        data: {
+          user
+        },
+        error: userError
+      } =
+        await supabaseClient
+          .auth
+          .getUser();
+
+
+      if (
+        userError ||
+        !user
+      ) {
+
+        window.location.href =
+          "daftar.html";
+
+        return;
+      }
+
+
+      currentUser =
+        user;
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(`
+            user_id,
+            full_name,
+            email,
+            account_type
+          `)
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .single();
+
+
+      if (profileError) {
+
+        showError(
+          "Profil employer tidak dapat dimuat."
+        );
+
+        return;
+      }
+
+
+      if (
+        profile.account_type !==
+        "employer"
+      ) {
+
+        showError(
+          "Akun ini bukan akun employer."
+        );
+
+
+        setTimeout(
+          () => {
+            window.location.href =
+              "dashboard.html";
+          },
+          1800
+        );
+
+
+        return;
+      }
+
+
+      employerProfile =
+        profile;
+
+
+      document
+        .getElementById("welcomeTitle")
+        .textContent =
+          "Dashboard " +
+          (
+            profile.full_name ||
+            "Employer"
+          );
+
+
+      await Promise.all([
+        loadJobs(),
+        loadApplications()
+      ]);
+    }
+
+
+    /* =========================================================
+       LOAD JOBS
+    ========================================================= */
+
+    async function loadJobs() {
+
+      jobsContainer.innerHTML =
+        '<div class="loading">Memuat lowongan...</div>';
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
           .from("jobs")
-          .update({ status: "published" })
-          .eq("id", jobId)
-          .eq("posted_by", currentUser.id)
           .select(`
             id,
             created_at,
@@ -1205,146 +1849,68 @@
             posted_by,
             department
           `)
-          .single();
+          .eq(
+            "posted_by",
+            currentUser.id
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
 
-        if (error) throw error;
-
-        const index = employerJobs.findIndex(item => item.id === jobId);
-        if (index !== -1 && data) {
-          employerJobs[index] = data;
-        }
-
-        renderJobs();
-        showSuccess(
-          "Lowongan berhasil dipublish dan sekarang dapat dilihat oleh pencari kerja."
-        );
-      } catch (error) {
-        console.error("Publish job error:", error);
-        showError("Gagal mempublish lowongan: " + error.message);
-      }
-    }
-
-    async function loadEmployer() {
-      hideMessages();
-
-      const {
-        data: {
-          user
-        },
-        error: userError
-      } = await supabaseClient.auth.getUser();
-
-      if (userError || !user) {
-        window.location.href = "daftar.html";
-        return;
-      }
-
-      currentUser = user;
-
-      const {
-        data: profile,
-        error: profileError
-      } = await supabaseClient
-        .from("profiles")
-        .select(`
-          user_id,
-          full_name,
-          email,
-          account_type
-        `)
-        .eq("user_id", currentUser.id)
-        .single();
-
-      if (profileError) {
-        showError(
-          "Profil employer tidak dapat dimuat."
-        );
-        return;
-      }
-
-      if (profile.account_type !== "employer") {
-        showError(
-          "Akun ini bukan akun employer."
-        );
-
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 1800);
-
-        return;
-      }
-
-      employerProfile = profile;
-
-      document.getElementById("welcomeTitle").textContent =
-        "Dashboard " +
-        (profile.full_name || "Employer");
-
-      await Promise.all([
-        loadJobs(),
-        loadApplications()
-      ]);
-    }
-
-    async function loadJobs() {
-      jobsContainer.innerHTML =
-        '<div class="loading">Memuat lowongan...</div>';
-
-      const {
-        data,
-        error
-      } = await supabaseClient
-        .from("jobs")
-        .select(`
-          id,
-          created_at,
-          title,
-          company_name,
-          location,
-          vessel_type,
-          employment_type,
-          salary,
-          description,
-          requirements,
-          status,
-          posted_by,
-          department
-        `)
-        .eq("posted_by", currentUser.id)
-        .order("created_at", {
-          ascending: false
-        });
 
       if (error) {
-        jobsContainer.innerHTML = "";
+
+        jobsContainer.innerHTML =
+          "";
+
         showError(
           "Gagal memuat lowongan: " +
           error.message
         );
+
         return;
       }
 
-      employerJobs = data || [];
+
+      employerJobs =
+        data || [];
+
 
       totalJobsEl.textContent =
         employerJobs.length;
 
+
       renderJobs();
     }
 
+
+    /* =========================================================
+       LOAD APPLICATIONS
+    ========================================================= */
+
     async function loadApplications() {
+
       applicationsContainer.innerHTML =
         '<div class="loading">Memuat lamaran...</div>';
+
 
       const {
         data,
         error
-      } = await supabaseClient.rpc(
-        "get_employer_applications"
-      );
+      } =
+        await supabaseClient
+          .rpc(
+            "get_employer_applications"
+          );
+
 
       if (error) {
-        applicationsContainer.innerHTML = "";
+
+        applicationsContainer.innerHTML =
+          "";
 
         showError(
           "Gagal memuat lamaran kandidat: " +
@@ -1354,23 +1920,41 @@
         return;
       }
 
-      applications = data || [];
+
+      applications =
+        data || [];
+
 
       totalApplicationsEl.textContent =
         applications.length;
 
+
       processingApplicationsEl.textContent =
-        applications.filter(app =>
-          ["reviewing", "interview"].includes(
-            app.status
-          )
+        applications.filter(
+          app =>
+            [
+              "reviewing",
+              "interview"
+            ].includes(
+              app.status
+            )
         ).length;
+
 
       renderApplications();
     }
 
+
+    /* =========================================================
+       RENDER JOBS
+    ========================================================= */
+
     function renderJobs() {
-      if (!employerJobs.length) {
+
+      if (
+        !employerJobs.length
+      ) {
+
         jobsContainer.innerHTML = `
           <div class="empty">
             Belum ada lowongan yang terhubung dengan akun employer ini.
@@ -1380,81 +1964,156 @@
         return;
       }
 
+
       jobsContainer.innerHTML =
         employerJobs
-          .map(job => {
-            const candidateCount =
-              applications.filter(
-                app =>
-                  app.job_id === job.id
-              ).length;
+          .map(
+            job => {
 
-            return `
-              <div class="job-card">
+              const candidateCount =
+                applications.filter(
+                  app =>
+                    app.job_id ===
+                    job.id
+                ).length;
 
-                <div class="job-title">
-                  ${escapeHtml(job.title)}
-                </div>
 
-                <div class="company">
-                  ${escapeHtml(job.company_name || "-")}
-                </div>
+              return `
+                <div class="job-card">
 
-                <div class="tags">
-                  <span class="tag">
-                    ${escapeHtml(job.location || "-")}
-                  </span>
-
-                  <span class="tag">
-                    ${escapeHtml(job.vessel_type || "-")}
-                  </span>
-
-                  <span class="tag">
-                    ${escapeHtml(job.employment_type || "-")}
-                  </span>
-
-                  <span class="tag">
-                    ${escapeHtml(job.salary || "-")}
-                  </span>
-                </div>
-
-                <div>
-                  <span class="${jobStatusClass(job.status)}">
-                    ${escapeHtml(jobStatusLabel(job.status))}
-                  </span>
-                </div>
-
-                <div class="candidate-count">
-                  ${candidateCount}
-                  kandidat melamar
-                </div>
-
-                ${job.status === "draft" ? `
-                  <div style="margin-top:16px;">
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      data-publish-job="${escapeHtml(job.id)}"
-                    >
-                      Publish Lowongan
-                    </button>
+                  <div class="job-title">
+                    ${escapeHtml(job.title)}
                   </div>
-                ` : ""}
 
-              </div>
-            `;
-          })
+                  <div class="company">
+                    ${escapeHtml(
+                      job.company_name ||
+                      "-"
+                    )}
+                  </div>
+
+                  <div class="tags">
+
+                    <span class="tag">
+                      ${escapeHtml(
+                        job.location ||
+                        "-"
+                      )}
+                    </span>
+
+                    <span class="tag">
+                      ${escapeHtml(
+                        job.vessel_type ||
+                        "-"
+                      )}
+                    </span>
+
+                    <span class="tag">
+                      ${escapeHtml(
+                        job.employment_type ||
+                        "-"
+                      )}
+                    </span>
+
+                    <span class="tag">
+                      ${escapeHtml(
+                        job.salary ||
+                        "-"
+                      )}
+                    </span>
+
+                  </div>
+
+                  <div>
+
+                    <span
+                      class="${jobStatusClass(
+                        job.status
+                      )}"
+                    >
+                      ${escapeHtml(
+                        jobStatusLabel(
+                          job.status
+                        )
+                      )}
+                    </span>
+
+                  </div>
+
+                  <div class="candidate-count">
+                    ${candidateCount}
+                    kandidat melamar
+                  </div>
+
+                  ${
+                    job.status === "draft"
+                      ? `
+                        <button
+                          type="button"
+                          class="btn btn-primary publish-btn"
+                          data-publish-job="${escapeHtml(
+                            job.id
+                          )}"
+                        >
+                          Publish Lowongan
+                        </button>
+                      `
+                      : ""
+                  }
+
+                </div>
+              `;
+            }
+          )
           .join("");
+
+
+      /*
+        EVENT LISTENER DIPASANG SETELAH HTML
+        SELESAI DIBUAT.
+
+        Ini yang memperbaiki bug tombol Publish.
+      */
+
+      jobsContainer
+        .querySelectorAll(
+          "[data-publish-job]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const jobId =
+                  button.getAttribute(
+                    "data-publish-job"
+                  );
+
+                if (!jobId) {
+                  return;
+                }
+
+                publishJob(jobId);
+              }
+            );
+
+          }
+        );
     }
 
-    jobsContainer.querySelectorAll("[data-publish-job]").forEach(button => {
-      button.addEventListener("click", function() {
-        publishJob(this.getAttribute("data-publish-job"));
-      });
-    });
+
+    /* =========================================================
+       RENDER APPLICATIONS
+    ========================================================= */
 
     function renderApplications() {
-      if (!applications.length) {
+
+      if (
+        !applications.length
+      ) {
+
         applicationsContainer.innerHTML = `
           <div class="empty">
             Belum ada kandidat yang melamar lowongan Anda.
@@ -1464,283 +2123,419 @@
         return;
       }
 
+
       applicationsContainer.innerHTML =
         applications
-          .map(app => {
+          .map(
+            app => {
 
-            const candidateName =
-              app.candidate_name ||
-              "Kandidat";
+              const candidateName =
+                app.candidate_name ||
+                "Kandidat";
 
-            const candidateEmail =
-              app.candidate_email ||
-              "-";
 
-            const candidatePhone =
-              app.candidate_phone ||
-              "-";
+              const candidateEmail =
+                app.candidate_email ||
+                "-";
 
-            const candidateCity =
-              app.candidate_city ||
-              "-";
 
-            const candidatePosition =
-              app.candidate_position ||
-              "-";
+              const candidatePhone =
+                app.candidate_phone ||
+                "-";
 
-            const candidateExperience =
-              app.candidate_experience ||
-              "-";
 
-            const candidateEducation =
-              app.candidate_education ||
-              "-";
+              const candidateCity =
+                app.candidate_city ||
+                "-";
 
-            const candidateBio =
-              app.candidate_bio ||
-              "-";
 
-            const coverLetter =
-              app.cover_letter ||
-              "Kandidat tidak menambahkan cover letter.";
+              const candidatePosition =
+                app.candidate_position ||
+                "-";
 
-            const interviewDate =
-              formatDateTimeLocal(
-                app.interview_date
-              );
 
-            return `
-              <div
-                class="application-card"
-                data-application-id="${escapeHtml(app.application_id)}"
-              >
+              const candidateExperience =
+                app.candidate_experience ||
+                "-";
 
-                <div class="application-header">
 
-                  <div>
-                    <div class="candidate-name">
-                      ${escapeHtml(candidateName)}
-                    </div>
+              const candidateEducation =
+                app.candidate_education ||
+                "-";
 
-                    <div class="candidate-contact">
-                      ${escapeHtml(candidateEmail)}
-                      <br>
-                      ${escapeHtml(candidatePhone)}
-                    </div>
-                  </div>
 
-                  <div>
-                    <span
-                      class="status-badge ${statusClass(app.status)}"
-                    >
-                      ${statusLabel(app.status)}
-                    </span>
-                  </div>
+              const candidateBio =
+                app.candidate_bio ||
+                "-";
 
-                </div>
 
-                <div class="application-body">
+              const coverLetter =
+                app.cover_letter ||
+                "Kandidat tidak menambahkan cover letter.";
 
-                  <div class="info-grid">
 
-                    <div class="info-item">
-                      <div class="info-label">
-                        LOWONGAN
-                      </div>
+              const interviewDate =
+                formatDateTimeLocal(
+                  app.interview_date
+                );
 
-                      <div class="info-value">
-                        ${escapeHtml(app.job_title)}
-                      </div>
-                    </div>
 
-                    <div class="info-item">
-                      <div class="info-label">
-                        TANGGAL LAMARAN
-                      </div>
+              return `
+                <div
+                  class="application-card"
+                >
 
-                      <div class="info-value">
-                        ${formatDate(app.applied_at)}
-                      </div>
-                    </div>
-
-                    <div class="info-item">
-                      <div class="info-label">
-                        KOTA
-                      </div>
-
-                      <div class="info-value">
-                        ${escapeHtml(candidateCity)}
-                      </div>
-                    </div>
-
-                    <div class="info-item">
-                      <div class="info-label">
-                        POSISI
-                      </div>
-
-                      <div class="info-value">
-                        ${escapeHtml(candidatePosition)}
-                      </div>
-                    </div>
-
-                    <div class="info-item">
-                      <div class="info-label">
-                        PENDIDIKAN
-                      </div>
-
-                      <div class="info-value">
-                        ${escapeHtml(candidateEducation)}
-                      </div>
-                    </div>
-
-                    <div class="info-item">
-                      <div class="info-label">
-                        PENGALAMAN
-                      </div>
-
-                      <div class="info-value">
-                        ${escapeHtml(candidateExperience)}
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="application-grid">
+                  <div class="application-header">
 
                     <div>
 
-                      <div class="field-box">
-                        <label>
-                          Cover Letter
-                        </label>
-
-                        <div class="cover-letter">
-                          ${escapeHtml(coverLetter)}
-                        </div>
+                      <div class="candidate-name">
+                        ${escapeHtml(
+                          candidateName
+                        )}
                       </div>
 
-                      ${
-                        app.cv_path
-                        ? `
-                          <div class="field-box">
-                            <label>
-                              CV Kandidat
-                            </label>
+                      <div class="candidate-contact">
+                        ${escapeHtml(
+                          candidateEmail
+                        )}
+                        <br>
+                        ${escapeHtml(
+                          candidatePhone
+                        )}
+                      </div>
 
-                            <button
-                              class="btn btn-secondary"
-                              type="button"
-                              onclick="openCv('${escapeHtml(app.cv_path)}')"
+                    </div>
+
+                    <div>
+
+                      <span
+                        class="status-badge ${statusClass(
+                          app.status
+                        )}"
+                      >
+                        ${escapeHtml(
+                          statusLabel(
+                            app.status
+                          )
+                        )}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="application-body">
+
+                    <div class="info-grid">
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          LOWONGAN
+                        </div>
+
+                        <div class="info-value">
+                          ${escapeHtml(
+                            app.job_title ||
+                            "-"
+                          )}
+                        </div>
+
+                      </div>
+
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          TANGGAL LAMARAN
+                        </div>
+
+                        <div class="info-value">
+                          ${formatDate(
+                            app.applied_at
+                          )}
+                        </div>
+
+                      </div>
+
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          KOTA
+                        </div>
+
+                        <div class="info-value">
+                          ${escapeHtml(
+                            candidateCity
+                          )}
+                        </div>
+
+                      </div>
+
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          POSISI
+                        </div>
+
+                        <div class="info-value">
+                          ${escapeHtml(
+                            candidatePosition
+                          )}
+                        </div>
+
+                      </div>
+
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          PENDIDIKAN
+                        </div>
+
+                        <div class="info-value">
+                          ${escapeHtml(
+                            candidateEducation
+                          )}
+                        </div>
+
+                      </div>
+
+
+                      <div class="info-item">
+
+                        <div class="info-label">
+                          PENGALAMAN
+                        </div>
+
+                        <div class="info-value">
+                          ${escapeHtml(
+                            candidateExperience
+                          )}
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="application-grid">
+
+                      <div>
+
+                        <div class="field-box">
+
+                          <label>
+                            Cover Letter
+                          </label>
+
+                          <div class="cover-letter">
+                            ${escapeHtml(
+                              coverLetter
+                            )}
+                          </div>
+
+                        </div>
+
+
+                        ${
+                          app.cv_path
+                            ? `
+                              <div class="field-box">
+
+                                <label>
+                                  CV Kandidat
+                                </label>
+
+                                <button
+                                  class="btn btn-secondary"
+                                  type="button"
+                                  data-cv-path="${escapeHtml(
+                                    app.cv_path
+                                  )}"
+                                >
+                                  📄 Buka CV
+                                </button>
+
+                              </div>
+                            `
+                            : `
+                              <div class="field-box">
+
+                                <label>
+                                  CV Kandidat
+                                </label>
+
+                                <div class="cover-letter">
+                                  CV belum tersedia.
+                                </div>
+
+                              </div>
+                            `
+                        }
+
+
+                        <div class="field-box">
+
+                          <label>
+                            Bio Kandidat
+                          </label>
+
+                          <div class="cover-letter">
+                            ${escapeHtml(
+                              candidateBio
+                            )}
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                      <div>
+
+                        <div class="field-box">
+
+                          <label
+                            for="status-${escapeHtml(
+                              app.application_id
+                            )}"
+                          >
+                            Status Lamaran
+                          </label>
+
+                          <select
+                            id="status-${escapeHtml(
+                              app.application_id
+                            )}"
+                          >
+
+                            <option
+                              value="submitted"
+                              ${
+                                app.status ===
+                                "submitted"
+                                  ? "selected"
+                                  : ""
+                              }
                             >
-                              📄 Buka CV
-                            </button>
-                          </div>
-                        `
-                        : `
-                          <div class="field-box">
-                            <label>
-                              CV Kandidat
-                            </label>
+                              Dikirim
+                            </option>
 
-                            <div class="cover-letter">
-                              CV belum tersedia.
-                            </div>
-                          </div>
-                        `
-                      }
+                            <option
+                              value="reviewing"
+                              ${
+                                app.status ===
+                                "reviewing"
+                                  ? "selected"
+                                  : ""
+                              }
+                            >
+                              Diproses
+                            </option>
 
-                      <div class="field-box">
-                        <label>
-                          Bio Kandidat
-                        </label>
+                            <option
+                              value="interview"
+                              ${
+                                app.status ===
+                                "interview"
+                                  ? "selected"
+                                  : ""
+                              }
+                            >
+                              Interview
+                            </option>
 
-                        <div class="cover-letter">
-                          ${escapeHtml(candidateBio)}
+                            <option
+                              value="accepted"
+                              ${
+                                app.status ===
+                                "accepted"
+                                  ? "selected"
+                                  : ""
+                              }
+                            >
+                              Diterima
+                            </option>
+
+                            <option
+                              value="rejected"
+                              ${
+                                app.status ===
+                                "rejected"
+                                  ? "selected"
+                                  : ""
+                              }
+                            >
+                              Ditolak
+                            </option>
+
+                          </select>
+
                         </div>
-                      </div>
 
-                    </div>
 
-                    <div>
+                        <div class="field-box">
 
-                      <div class="field-box">
-                        <label for="status-${escapeHtml(app.application_id)}">
-                          Status Lamaran
-                        </label>
-
-                        <select
-                          id="status-${escapeHtml(app.application_id)}"
-                          class="status-select"
-                        >
-                          <option
-                            value="submitted"
-                            ${app.status === "submitted" ? "selected" : ""}
+                          <label
+                            for="interview-${escapeHtml(
+                              app.application_id
+                            )}"
                           >
-                            Dikirim
-                          </option>
+                            Tanggal Interview
+                          </label>
 
-                          <option
-                            value="reviewing"
-                            ${app.status === "reviewing" ? "selected" : ""}
+                          <input
+                            id="interview-${escapeHtml(
+                              app.application_id
+                            )}"
+                            type="datetime-local"
+                            value="${interviewDate}"
                           >
-                            Diproses
-                          </option>
 
-                          <option
-                            value="interview"
-                            ${app.status === "interview" ? "selected" : ""}
+                        </div>
+
+
+                        <div class="field-box">
+
+                          <label
+                            for="note-${escapeHtml(
+                              app.application_id
+                            )}"
                           >
-                            Interview
-                          </option>
+                            Catatan Recruiter
+                          </label>
 
-                          <option
-                            value="accepted"
-                            ${app.status === "accepted" ? "selected" : ""}
+                          <textarea
+                            id="note-${escapeHtml(
+                              app.application_id
+                            )}"
+                            placeholder="Tambahkan catatan untuk proses kandidat..."
+                          >${escapeHtml(
+                            app.employer_note ||
+                            ""
+                          )}</textarea>
+
+                        </div>
+
+
+                        <div class="actions">
+
+                          <button
+                            class="btn btn-primary"
+                            type="button"
+                            data-save-application="${escapeHtml(
+                              app.application_id
+                            )}"
                           >
-                            Diterima
-                          </option>
+                            Simpan Perubahan
+                          </button>
 
-                          <option
-                            value="rejected"
-                            ${app.status === "rejected" ? "selected" : ""}
-                          >
-                            Ditolak
-                          </option>
-                        </select>
-                      </div>
-
-                      <div class="field-box">
-                        <label for="interview-${escapeHtml(app.application_id)}">
-                          Tanggal Interview
-                        </label>
-
-                        <input
-                          id="interview-${escapeHtml(app.application_id)}"
-                          type="datetime-local"
-                          value="${interviewDate}"
-                        />
-                      </div>
-
-                      <div class="field-box">
-                        <label for="note-${escapeHtml(app.application_id)}">
-                          Catatan Recruiter
-                        </label>
-
-                        <textarea
-                          id="note-${escapeHtml(app.application_id)}"
-                          placeholder="Tambahkan catatan untuk proses kandidat..."
-                        >${escapeHtml(app.employer_note || "")}</textarea>
-                      </div>
-
-                      <div class="actions">
-
-                        <button
-                          class="btn btn-primary"
-                          type="button"
-                          onclick="saveApplication('${escapeHtml(app.application_id)}')"
-                        >
-                          Simpan Perubahan
-                        </button>
+                        </div>
 
                       </div>
 
@@ -1749,36 +2544,113 @@
                   </div>
 
                 </div>
-
-              </div>
-            `;
-          })
+              `;
+            }
+          )
           .join("");
+
+
+      /*
+        EVENT UNTUK BUKA CV
+      */
+
+      applicationsContainer
+        .querySelectorAll(
+          "[data-cv-path]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const path =
+                  button.getAttribute(
+                    "data-cv-path"
+                  );
+
+                openCv(path);
+              }
+            );
+
+          }
+        );
+
+
+      /*
+        EVENT UNTUK SIMPAN STATUS LAMARAN
+      */
+
+      applicationsContainer
+        .querySelectorAll(
+          "[data-save-application]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const applicationId =
+                  button.getAttribute(
+                    "data-save-application"
+                  );
+
+                if (!applicationId) {
+                  return;
+                }
+
+                saveApplication(
+                  applicationId
+                );
+              }
+            );
+
+          }
+        );
     }
 
-    async function saveApplication(applicationId) {
+
+    /* =========================================================
+       SAVE APPLICATION
+    ========================================================= */
+
+    async function saveApplication(
+      applicationId
+    ) {
+
       hideMessages();
+
 
       const statusElement =
         document.getElementById(
-          "status-" + applicationId
+          "status-" +
+          applicationId
         );
+
 
       const interviewElement =
         document.getElementById(
-          "interview-" + applicationId
+          "interview-" +
+          applicationId
         );
+
 
       const noteElement =
         document.getElementById(
-          "note-" + applicationId
+          "note-" +
+          applicationId
         );
+
 
       if (
         !statusElement ||
         !interviewElement ||
         !noteElement
       ) {
+
         showError(
           "Form lamaran tidak ditemukan."
         );
@@ -1786,22 +2658,37 @@
         return;
       }
 
+
       const newStatus =
         statusElement.value;
+
 
       const interviewValue =
         interviewElement.value;
 
+
       const noteValue =
         noteElement.value.trim();
 
-      let interviewDate = null;
+
+      let interviewDate =
+        null;
+
 
       if (interviewValue) {
-        const parsedDate =
-          new Date(interviewValue);
 
-        if (Number.isNaN(parsedDate.getTime())) {
+        const parsedDate =
+          new Date(
+            interviewValue
+          );
+
+
+        if (
+          Number.isNaN(
+            parsedDate.getTime()
+          )
+        ) {
+
           showError(
             "Tanggal interview tidak valid."
           );
@@ -1809,22 +2696,38 @@
           return;
         }
 
+
         interviewDate =
           parsedDate.toISOString();
       }
 
+
       const {
         error
-      } = await supabaseClient
-        .from("applications")
-        .update({
-          status: newStatus,
-          interview_date: interviewDate,
-          employer_note: noteValue || null
-        })
-        .eq("id", applicationId);
+      } =
+        await supabaseClient
+          .from("applications")
+          .update({
+
+            status:
+              newStatus,
+
+            interview_date:
+              interviewDate,
+
+            employer_note:
+              noteValue ||
+              null
+
+          })
+          .eq(
+            "id",
+            applicationId
+          );
+
 
       if (error) {
+
         showError(
           "Gagal menyimpan perubahan: " +
           error.message
@@ -1833,6 +2736,7 @@
         return;
       }
 
+
       const localApplication =
         applications.find(
           app =>
@@ -1840,7 +2744,9 @@
             applicationId
         );
 
+
       if (localApplication) {
+
         localApplication.status =
           newStatus;
 
@@ -1848,26 +2754,44 @@
           interviewDate;
 
         localApplication.employer_note =
-          noteValue || null;
+          noteValue ||
+          null;
       }
 
+
       processingApplicationsEl.textContent =
-        applications.filter(app =>
-          ["reviewing", "interview"].includes(
-            app.status
-          )
+        applications.filter(
+          app =>
+            [
+              "reviewing",
+              "interview"
+            ].includes(
+              app.status
+            )
         ).length;
+
 
       showSuccess(
         "Perubahan lamaran berhasil disimpan."
       );
 
+
       renderApplications();
+
       renderJobs();
     }
 
-    async function openCv(cvPath) {
+
+    /* =========================================================
+       OPEN CV
+    ========================================================= */
+
+    async function openCv(
+      cvPath
+    ) {
+
       if (!cvPath) {
+
         showError(
           "CV tidak tersedia."
         );
@@ -1875,24 +2799,32 @@
         return;
       }
 
+
       const {
         data,
         error
-      } = await supabaseClient
-        .storage
-        .from("cv-files")
-        .createSignedUrl(
-          cvPath,
-          3600
-        );
+      } =
+        await supabaseClient
+          .storage
+          .from("cv-files")
+          .createSignedUrl(
+            cvPath,
+            3600
+          );
 
-      if (error || !data?.signedUrl) {
+
+      if (
+        error ||
+        !data?.signedUrl
+      ) {
+
         showError(
           "CV tidak dapat dibuka."
         );
 
         return;
       }
+
 
       window.open(
         data.signedUrl,
@@ -1901,12 +2833,26 @@
       );
     }
 
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
     async function logout() {
-      await supabaseClient.auth.signOut();
+
+      await supabaseClient
+        .auth
+        .signOut();
+
 
       window.location.href =
         "daftar.html";
     }
+
+
+    /* =========================================================
+       EVENT LISTENERS
+    ========================================================= */
 
     document
       .getElementById("logoutBtn")
@@ -1915,48 +2861,76 @@
         logout
       );
 
-    addJobBtn.addEventListener(
-      "click",
-      openJobModal
-    );
 
-    closeJobModalBtn.addEventListener(
-      "click",
-      closeJobModal
-    );
+    addJobBtn
+      .addEventListener(
+        "click",
+        openJobModal
+      );
 
-    cancelJobBtn.addEventListener(
-      "click",
-      closeJobModal
-    );
 
-    jobForm.addEventListener(
-      "submit",
-      createJob
-    );
+    closeJobModalBtn
+      .addEventListener(
+        "click",
+        closeJobModal
+      );
 
-    jobModal.addEventListener(
-      "click",
-      function(event) {
-        if (event.target === jobModal) {
-          closeJobModal();
+
+    cancelJobBtn
+      .addEventListener(
+        "click",
+        closeJobModal
+      );
+
+
+    jobForm
+      .addEventListener(
+        "submit",
+        createJob
+      );
+
+
+    jobModal
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target ===
+            jobModal
+          ) {
+
+            closeJobModal();
+          }
         }
-      }
-    );
+      );
 
-    document.addEventListener(
-      "keydown",
-      function(event) {
-        if (
-          event.key === "Escape" &&
-          jobModal.classList.contains("show")
-        ) {
-          closeJobModal();
+
+    document
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key ===
+            "Escape" &&
+            jobModal.classList.contains(
+              "show"
+            )
+          ) {
+
+            closeJobModal();
+          }
         }
-      }
-    );
+      );
+
+
+    /* =========================================================
+       START
+    ========================================================= */
 
     loadEmployer();
+
   </script>
 
 </body>
