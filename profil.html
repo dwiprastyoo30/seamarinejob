@@ -251,7 +251,15 @@
         photo:!!String(p.photo_url||"").trim(),
         cv:!!String(p.cv_path||"").trim()
       };
-      Object.entries(checks).forEach(([key,value])=>setCheck("check"+key.charAt(0).toUpperCase()+key.slice(1),value));
+      const checkIds = {
+        name: "checkName",
+        phone: "checkPhone",
+        career: "checkCareer",
+        experience: "checkExperience",
+        photo: "checkPhoto",
+        cv: "checkCV"
+      };
+      Object.entries(checks).forEach(([key,value])=>setCheck(checkIds[key],value));
       const completed=Object.values(checks).filter(Boolean).length;
       const percentage=Math.round(completed/Object.keys(checks).length*100);
       document.getElementById("profilePercent").textContent=percentage+"%";
