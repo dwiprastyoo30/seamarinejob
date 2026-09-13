@@ -150,12 +150,16 @@
       margin-bottom: 24px;
     }
 
-    .add-job-header {
+    .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 18px;
       margin-bottom: 22px;
+    }
+
+    .section-header .section-description {
+      margin: 0;
     }
 
     .job-card {
@@ -232,10 +236,21 @@
       color: #167343;
     }
 
-    .job-status-closed,
     .job-status-inactive {
       background: #edf2f7;
       color: #60738d;
+    }
+
+    .job-status-closed {
+      background: #edf2f7;
+      color: #60738d;
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 17px;
     }
 
     .application-card {
@@ -423,8 +438,23 @@
       background: #e2e9f1;
     }
 
-    .publish-btn {
-      margin-top: 16px;
+    .btn-danger {
+      background: #fff0f0;
+      color: #b42318;
+      border: 1px solid #f0c4c4;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #fde5e5;
+    }
+
+    .btn-success {
+      background: #087333;
+      color: white;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: #065d29;
     }
 
     .modal-overlay {
@@ -573,13 +603,9 @@
     }
 
     @media (max-width: 700px) {
-      .add-job-header {
+      .section-header {
         flex-direction: column;
         align-items: stretch;
-      }
-
-      .add-job-header .btn {
-        width: 100%;
       }
 
       .form-grid {
@@ -634,21 +660,37 @@
 <body>
 
   <nav>
+
     <div class="logo">
       Sea <span>Marine</span> Job
     </div>
 
     <div class="nav-right">
-      <a href="kapal.html">Cari Lowongan</a>
-      <button class="logout-btn" id="logoutBtn" type="button">
+
+      <a href="kapal.html">
+        Cari Lowongan
+      </a>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+        type="button"
+      >
         Keluar
       </button>
+
     </div>
+
   </nav>
 
+
   <section class="hero">
+
     <div class="hero-inner">
-      <small>Employer Portal</small>
+
+      <small>
+        Employer Portal
+      </small>
 
       <h1 id="welcomeTitle">
         Dashboard Employer
@@ -657,63 +699,91 @@
       <p>
         Kelola lowongan dan proses kandidat yang melamar perusahaan Anda.
       </p>
+
     </div>
+
   </section>
+
 
   <main class="container">
 
-    <div id="errorBox" class="error-box"></div>
-    <div id="successBox" class="success-box"></div>
+    <div
+      id="errorBox"
+      class="error-box"
+    ></div>
+
+    <div
+      id="successBox"
+      class="success-box"
+    ></div>
+
 
     <div class="stats">
 
       <div class="stat-card">
+
         <div class="stat-label">
           Lowongan Saya
         </div>
 
-        <div class="stat-number" id="totalJobs">
+        <div
+          class="stat-number"
+          id="totalJobs"
+        >
           0
         </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-label">
           Total Lamaran
         </div>
 
-        <div class="stat-number" id="totalApplications">
+        <div
+          class="stat-number"
+          id="totalApplications"
+        >
           0
         </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-label">
           Sedang Diproses
         </div>
 
-        <div class="stat-number" id="processingApplications">
+        <div
+          class="stat-number"
+          id="processingApplications"
+        >
           0
         </div>
+
       </div>
 
     </div>
 
+
     <section class="section">
 
-      <div class="add-job-header">
+      <div class="section-header">
 
         <div>
-          <h2 style="margin:0 0 8px;">
+
+          <h2>
             Lowongan Saya
           </h2>
 
-          <div
-            class="section-description"
-            style="margin:0;"
-          >
-            Lowongan yang terhubung dengan akun employer ini.
+          <div class="section-description">
+            Kelola status lowongan perusahaan Anda.
           </div>
+
         </div>
 
         <button
@@ -726,13 +796,17 @@
 
       </div>
 
+
       <div id="jobsContainer">
+
         <div class="loading">
           Memuat lowongan...
         </div>
+
       </div>
 
     </section>
+
 
     <section class="section">
 
@@ -744,15 +818,19 @@
         Kandidat yang melamar lowongan milik perusahaan Anda.
       </div>
 
+
       <div id="applicationsContainer">
+
         <div class="loading">
           Memuat lamaran...
         </div>
+
       </div>
 
     </section>
 
   </main>
+
 
   <!-- MODAL TAMBAH LOWONGAN -->
 
@@ -761,35 +839,32 @@
     id="jobModal"
   >
 
-    <div
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="jobModalTitle"
-    >
+    <div class="modal">
 
       <div class="modal-header">
 
         <div>
-          <h2 id="jobModalTitle">
+
+          <h2>
             Tambah Lowongan
           </h2>
 
           <p>
-            Buat lowongan baru untuk perusahaan Anda.
+            Lowongan baru akan disimpan sebagai Draft.
           </p>
+
         </div>
 
         <button
           class="close-modal"
           id="closeJobModalBtn"
           type="button"
-          aria-label="Tutup"
         >
           ×
         </button>
 
       </div>
+
 
       <form id="jobForm">
 
@@ -811,6 +886,7 @@
 
           </div>
 
+
           <div class="field-box">
 
             <label for="jobDepartment">
@@ -821,10 +897,11 @@
               id="jobDepartment"
               type="text"
               maxlength="100"
-              placeholder="Contoh: Deck / Engine / Crewing"
+              placeholder="Deck / Engine / Crewing"
             >
 
           </div>
+
 
           <div class="field-box">
 
@@ -842,6 +919,7 @@
 
           </div>
 
+
           <div class="field-box">
 
             <label for="jobVesselType">
@@ -857,6 +935,7 @@
 
           </div>
 
+
           <div class="field-box">
 
             <label for="jobEmploymentType">
@@ -867,6 +946,7 @@
               id="jobEmploymentType"
               required
             >
+
               <option value="">
                 Pilih tipe pekerjaan
               </option>
@@ -886,9 +966,11 @@
               <option value="Temporary">
                 Temporary
               </option>
+
             </select>
 
           </div>
+
 
           <div class="field-box">
 
@@ -905,6 +987,7 @@
 
           </div>
 
+
           <div class="field-box form-full">
 
             <label for="jobDescription">
@@ -914,11 +997,12 @@
             <textarea
               id="jobDescription"
               maxlength="5000"
-              placeholder="Jelaskan tanggung jawab dan ruang lingkup pekerjaan..."
+              placeholder="Jelaskan tanggung jawab pekerjaan..."
               required
             ></textarea>
 
           </div>
+
 
           <div class="field-box form-full">
 
@@ -929,17 +1013,18 @@
             <textarea
               id="jobRequirements"
               maxlength="5000"
-              placeholder="Contoh: Sertifikat STCW, pengalaman minimal 2 tahun, sehat jasmani..."
+              placeholder="Masukkan persyaratan kandidat..."
               required
             ></textarea>
 
             <div class="form-help">
-              Gunakan baris baru untuk memisahkan beberapa persyaratan.
+              Gunakan baris baru untuk memisahkan persyaratan.
             </div>
 
           </div>
 
         </div>
+
 
         <div class="modal-actions">
 
@@ -967,9 +1052,11 @@
 
   </div>
 
+
   <footer>
     © 2026 Sea Marine Job — Maritime Career Platform
   </footer>
+
 
   <script>
 
@@ -995,8 +1082,11 @@
     ========================================================= */
 
     let currentUser = null;
+
     let employerProfile = null;
+
     let employerJobs = [];
+
     let applications = [];
 
 
@@ -1005,47 +1095,73 @@
     ========================================================= */
 
     const totalJobsEl =
-      document.getElementById("totalJobs");
+      document.getElementById(
+        "totalJobs"
+      );
 
     const totalApplicationsEl =
-      document.getElementById("totalApplications");
+      document.getElementById(
+        "totalApplications"
+      );
 
     const processingApplicationsEl =
-      document.getElementById("processingApplications");
+      document.getElementById(
+        "processingApplications"
+      );
 
     const jobsContainer =
-      document.getElementById("jobsContainer");
+      document.getElementById(
+        "jobsContainer"
+      );
 
     const applicationsContainer =
-      document.getElementById("applicationsContainer");
+      document.getElementById(
+        "applicationsContainer"
+      );
 
     const errorBox =
-      document.getElementById("errorBox");
+      document.getElementById(
+        "errorBox"
+      );
 
     const successBox =
-      document.getElementById("successBox");
+      document.getElementById(
+        "successBox"
+      );
 
     const jobModal =
-      document.getElementById("jobModal");
+      document.getElementById(
+        "jobModal"
+      );
 
     const jobForm =
-      document.getElementById("jobForm");
+      document.getElementById(
+        "jobForm"
+      );
 
     const addJobBtn =
-      document.getElementById("addJobBtn");
+      document.getElementById(
+        "addJobBtn"
+      );
 
     const closeJobModalBtn =
-      document.getElementById("closeJobModalBtn");
+      document.getElementById(
+        "closeJobModalBtn"
+      );
 
     const cancelJobBtn =
-      document.getElementById("cancelJobBtn");
+      document.getElementById(
+        "cancelJobBtn"
+      );
 
     const saveJobBtn =
-      document.getElementById("saveJobBtn");
+      document.getElementById(
+        "saveJobBtn"
+      );
 
 
     /* =========================================================
-       HELPERS
+       SECURITY / HTML ESCAPE
     ========================================================= */
 
     function escapeHtml(value) {
@@ -1058,21 +1174,43 @@
       }
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
     }
 
 
+    /* =========================================================
+       MESSAGES
+    ========================================================= */
+
     function showError(message) {
 
-      errorBox.textContent = message;
+      errorBox.textContent =
+        message;
 
-      errorBox.style.display = "block";
+      errorBox.style.display =
+        "block";
 
-      successBox.style.display = "none";
+      successBox.style.display =
+        "none";
 
       window.scrollTo({
         top: 0,
@@ -1083,11 +1221,14 @@
 
     function showSuccess(message) {
 
-      successBox.textContent = message;
+      successBox.textContent =
+        message;
 
-      successBox.style.display = "block";
+      successBox.style.display =
+        "block";
 
-      errorBox.style.display = "none";
+      errorBox.style.display =
+        "none";
 
       window.scrollTo({
         top: 0,
@@ -1098,13 +1239,21 @@
 
     function hideMessages() {
 
-      errorBox.style.display = "none";
+      errorBox.style.display =
+        "none";
 
-      successBox.style.display = "none";
+      successBox.style.display =
+        "none";
     }
 
 
-    function formatDate(dateValue) {
+    /* =========================================================
+       DATE
+    ========================================================= */
+
+    function formatDate(
+      dateValue
+    ) {
 
       if (!dateValue) {
         return "-";
@@ -1132,7 +1281,9 @@
     }
 
 
-    function formatDateTimeLocal(dateValue) {
+    function formatDateTimeLocal(
+      dateValue
+    ) {
 
       if (!dateValue) {
         return "";
@@ -1152,19 +1303,100 @@
       const pad =
         number =>
           String(number)
-            .padStart(2, "0");
+            .padStart(
+              2,
+              "0"
+            );
 
       return (
         date.getFullYear() +
         "-" +
-        pad(date.getMonth() + 1) +
+        pad(
+          date.getMonth() + 1
+        ) +
         "-" +
-        pad(date.getDate()) +
+        pad(
+          date.getDate()
+        ) +
         "T" +
-        pad(date.getHours()) +
+        pad(
+          date.getHours()
+        ) +
         ":" +
-        pad(date.getMinutes())
+        pad(
+          date.getMinutes()
+        )
       );
+    }
+
+
+    /* =========================================================
+       JOB STATUS
+    ========================================================= */
+
+    function jobStatusLabel(
+      status
+    ) {
+
+      const labels = {
+
+        draft:
+          "Draft",
+
+        published:
+          "Published",
+
+        active:
+          "Aktif",
+
+        inactive:
+          "Nonaktif",
+
+        closed:
+          "Ditutup"
+      };
+
+      return (
+        labels[status] ||
+        status ||
+        "Draft"
+      );
+    }
+
+
+    function jobStatusClass(
+      status
+    ) {
+
+      if (
+        status ===
+        "published"
+      ) {
+        return "job-status job-status-published";
+      }
+
+      if (
+        status ===
+        "active"
+      ) {
+        return "job-status job-status-active";
+      }
+
+      if (
+        status ===
+        "inactive"
+      ) {
+        return "job-status job-status-inactive";
+      }
+
+      if (
+        status ===
+        "closed"
+      ) {
+        return "job-status job-status-closed";
+      }
+
+      return "job-status job-status-draft";
     }
 
 
@@ -1172,7 +1404,9 @@
        APPLICATION STATUS
     ========================================================= */
 
-    function statusLabel(status) {
+    function statusLabel(
+      status
+    ) {
 
       const labels = {
 
@@ -1200,7 +1434,9 @@
     }
 
 
-    function statusClass(status) {
+    function statusClass(
+      status
+    ) {
 
       const classes = {
 
@@ -1228,61 +1464,7 @@
 
 
     /* =========================================================
-       JOB STATUS
-    ========================================================= */
-
-    function jobStatusLabel(status) {
-
-      const labels = {
-
-        draft:
-          "Draft",
-
-        published:
-          "Published",
-
-        active:
-          "Aktif",
-
-        closed:
-          "Ditutup",
-
-        inactive:
-          "Nonaktif"
-      };
-
-      return (
-        labels[status] ||
-        status ||
-        "Draft"
-      );
-    }
-
-
-    function jobStatusClass(status) {
-
-      if (status === "published") {
-        return "job-status job-status-published";
-      }
-
-      if (status === "active") {
-        return "job-status job-status-active";
-      }
-
-      if (status === "closed") {
-        return "job-status job-status-closed";
-      }
-
-      if (status === "inactive") {
-        return "job-status job-status-inactive";
-      }
-
-      return "job-status job-status-draft";
-    }
-
-
-    /* =========================================================
-       JOB MODAL
+       MODAL
     ========================================================= */
 
     function openJobModal() {
@@ -1291,17 +1473,23 @@
 
       jobForm.reset();
 
-      jobModal.classList.add("show");
+      jobModal.classList.add(
+        "show"
+      );
 
       document
-        .getElementById("jobTitle")
+        .getElementById(
+          "jobTitle"
+        )
         .focus();
     }
 
 
     function closeJobModal() {
 
-      jobModal.classList.remove("show");
+      jobModal.classList.remove(
+        "show"
+      );
 
       jobForm.reset();
     }
@@ -1311,11 +1499,14 @@
        CREATE JOB
     ========================================================= */
 
-    async function createJob(event) {
+    async function createJob(
+      event
+    ) {
 
       event.preventDefault();
 
       hideMessages();
+
 
       if (
         !currentUser ||
@@ -1332,55 +1523,71 @@
 
       const title =
         document
-          .getElementById("jobTitle")
+          .getElementById(
+            "jobTitle"
+          )
           .value
           .trim();
 
 
       const department =
         document
-          .getElementById("jobDepartment")
+          .getElementById(
+            "jobDepartment"
+          )
           .value
           .trim();
 
 
       const location =
         document
-          .getElementById("jobLocation")
+          .getElementById(
+            "jobLocation"
+          )
           .value
           .trim();
 
 
       const vesselType =
         document
-          .getElementById("jobVesselType")
+          .getElementById(
+            "jobVesselType"
+          )
           .value
           .trim();
 
 
       const employmentType =
         document
-          .getElementById("jobEmploymentType")
+          .getElementById(
+            "jobEmploymentType"
+          )
           .value;
 
 
       const salary =
         document
-          .getElementById("jobSalary")
+          .getElementById(
+            "jobSalary"
+          )
           .value
           .trim();
 
 
       const description =
         document
-          .getElementById("jobDescription")
+          .getElementById(
+            "jobDescription"
+          )
           .value
           .trim();
 
 
       const requirements =
         document
-          .getElementById("jobRequirements")
+          .getElementById(
+            "jobRequirements"
+          )
           .value
           .trim();
 
@@ -1401,7 +1608,8 @@
       }
 
 
-      saveJobBtn.disabled = true;
+      saveJobBtn.disabled =
+        true;
 
       saveJobBtn.textContent =
         "Menyimpan...";
@@ -1474,9 +1682,9 @@
         }
 
 
-        if (data) {
-          employerJobs.unshift(data);
-        }
+        employerJobs.unshift(
+          data
+        );
 
 
         totalJobsEl.textContent =
@@ -1489,7 +1697,7 @@
 
 
         showSuccess(
-          "Lowongan berhasil dibuat sebagai Draft. Lowongan belum tampil untuk pencari kerja."
+          "Lowongan berhasil dibuat sebagai Draft."
         );
 
       }
@@ -1510,7 +1718,8 @@
 
       finally {
 
-        saveJobBtn.disabled = false;
+        saveJobBtn.disabled =
+          false;
 
         saveJobBtn.textContent =
           "Simpan sebagai Draft";
@@ -1522,28 +1731,18 @@
        PUBLISH JOB
     ========================================================= */
 
-    async function publishJob(jobId) {
+    async function publishJob(
+      jobId
+    ) {
 
       hideMessages();
-
-
-      if (
-        !currentUser ||
-        !employerProfile
-      ) {
-
-        showError(
-          "Sesi employer belum siap. Silakan login kembali."
-        );
-
-        return;
-      }
 
 
       const job =
         employerJobs.find(
           item =>
-            item.id === jobId
+            item.id ===
+            jobId
         );
 
 
@@ -1570,41 +1769,15 @@
       }
 
 
-      if (
-        job.status === "published" ||
-        job.status === "active"
-      ) {
-
-        showSuccess(
-          "Lowongan ini sudah dipublikasikan."
-        );
-
-        return;
-      }
-
-
       const confirmed =
         window.confirm(
-          "Publish lowongan ini? Setelah dipublish, lowongan akan tampil untuk pencari kerja."
+          "Publish lowongan ini? Lowongan akan tampil untuk pencari kerja."
         );
 
 
       if (!confirmed) {
         return;
       }
-
-
-      const buttons =
-        jobsContainer.querySelectorAll(
-          "[data-publish-job]"
-        );
-
-
-      buttons.forEach(
-        button => {
-          button.disabled = true;
-        }
-      );
 
 
       try {
@@ -1616,7 +1789,8 @@
           await supabaseClient
             .from("jobs")
             .update({
-              status: "published"
+              status:
+                "published"
             })
             .eq(
               "id",
@@ -1649,18 +1823,11 @@
         }
 
 
-        if (!data) {
-
-          throw new Error(
-            "Lowongan tidak ditemukan atau bukan milik akun employer ini."
-          );
-        }
-
-
         const index =
           employerJobs.findIndex(
             item =>
-              item.id === jobId
+              item.id ===
+              jobId
           );
 
 
@@ -1675,7 +1842,7 @@
 
 
         showSuccess(
-          "Lowongan berhasil dipublish dan sekarang dapat dilihat oleh pencari kerja."
+          "Lowongan berhasil dipublish."
         );
 
       }
@@ -1691,20 +1858,291 @@
           "Gagal mempublish lowongan: " +
           error.message
         );
+      }
+    }
+
+
+    /* =========================================================
+       DEACTIVATE JOB
+    ========================================================= */
+
+    async function deactivateJob(
+      jobId
+    ) {
+
+      hideMessages();
+
+
+      const job =
+        employerJobs.find(
+          item =>
+            item.id ===
+            jobId
+        );
+
+
+      if (!job) {
+
+        showError(
+          "Lowongan tidak ditemukan."
+        );
+
+        return;
+      }
+
+
+      if (
+        job.posted_by !==
+        currentUser.id
+      ) {
+
+        showError(
+          "Anda tidak memiliki akses ke lowongan ini."
+        );
+
+        return;
+      }
+
+
+      if (
+        job.status !==
+        "published" &&
+        job.status !==
+        "active"
+      ) {
+
+        showError(
+          "Lowongan ini tidak sedang aktif."
+        );
+
+        return;
+      }
+
+
+      const confirmed =
+        window.confirm(
+          "Nonaktifkan lowongan ini? Lowongan tidak akan tampil lagi untuk pencari kerja."
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("jobs")
+            .update({
+              status:
+                "inactive"
+            })
+            .eq(
+              "id",
+              jobId
+            )
+            .eq(
+              "posted_by",
+              currentUser.id
+            )
+            .select(`
+              id,
+              created_at,
+              title,
+              company_name,
+              location,
+              vessel_type,
+              employment_type,
+              salary,
+              description,
+              requirements,
+              status,
+              posted_by,
+              department
+            `)
+            .single();
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        const index =
+          employerJobs.findIndex(
+            item =>
+              item.id ===
+              jobId
+          );
+
+
+        if (index !== -1) {
+
+          employerJobs[index] =
+            data;
+        }
+
+
+        renderJobs();
+
+
+        showSuccess(
+          "Lowongan berhasil dinonaktifkan. Lowongan tidak lagi tampil untuk kandidat."
+        );
 
       }
 
-      finally {
+      catch (error) {
 
-        jobsContainer
-          .querySelectorAll(
-            "[data-publish-job]"
-          )
-          .forEach(
-            button => {
-              button.disabled = false;
-            }
+        console.error(
+          "Deactivate job error:",
+          error
+        );
+
+        showError(
+          "Gagal menonaktifkan lowongan: " +
+          error.message
+        );
+      }
+    }
+
+
+    /* =========================================================
+       REACTIVATE JOB
+    ========================================================= */
+
+    async function reactivateJob(
+      jobId
+    ) {
+
+      hideMessages();
+
+
+      const job =
+        employerJobs.find(
+          item =>
+            item.id ===
+            jobId
+        );
+
+
+      if (!job) {
+
+        showError(
+          "Lowongan tidak ditemukan."
+        );
+
+        return;
+      }
+
+
+      if (
+        job.posted_by !==
+        currentUser.id
+      ) {
+
+        showError(
+          "Anda tidak memiliki akses ke lowongan ini."
+        );
+
+        return;
+      }
+
+
+      const confirmed =
+        window.confirm(
+          "Aktifkan kembali lowongan ini? Lowongan akan tampil lagi untuk kandidat."
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("jobs")
+            .update({
+              status:
+                "published"
+            })
+            .eq(
+              "id",
+              jobId
+            )
+            .eq(
+              "posted_by",
+              currentUser.id
+            )
+            .select(`
+              id,
+              created_at,
+              title,
+              company_name,
+              location,
+              vessel_type,
+              employment_type,
+              salary,
+              description,
+              requirements,
+              status,
+              posted_by,
+              department
+            `)
+            .single();
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        const index =
+          employerJobs.findIndex(
+            item =>
+              item.id ===
+              jobId
           );
+
+
+        if (index !== -1) {
+
+          employerJobs[index] =
+            data;
+        }
+
+
+        renderJobs();
+
+
+        showSuccess(
+          "Lowongan berhasil diaktifkan kembali."
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Reactivate job error:",
+          error
+        );
+
+        showError(
+          "Gagal mengaktifkan kembali lowongan: " +
+          error.message
+        );
       }
     }
 
@@ -1786,8 +2224,10 @@
 
         setTimeout(
           () => {
+
             window.location.href =
               "dashboard.html";
+
           },
           1800
         );
@@ -1802,7 +2242,9 @@
 
 
       document
-        .getElementById("welcomeTitle")
+        .getElementById(
+          "welcomeTitle"
+        )
         .textContent =
           "Dashboard " +
           (
@@ -1825,7 +2267,11 @@
     async function loadJobs() {
 
       jobsContainer.innerHTML =
-        '<div class="loading">Memuat lowongan...</div>';
+        `
+          <div class="loading">
+            Memuat lowongan...
+          </div>
+        `;
 
 
       const {
@@ -1894,7 +2340,11 @@
     async function loadApplications() {
 
       applicationsContainer.innerHTML =
-        '<div class="loading">Memuat lamaran...</div>';
+        `
+          <div class="loading">
+            Memuat lamaran...
+          </div>
+        `;
 
 
       const {
@@ -1955,11 +2405,12 @@
         !employerJobs.length
       ) {
 
-        jobsContainer.innerHTML = `
-          <div class="empty">
-            Belum ada lowongan yang terhubung dengan akun employer ini.
-          </div>
-        `;
+        jobsContainer.innerHTML =
+          `
+            <div class="empty">
+              Belum ada lowongan yang terhubung dengan akun employer ini.
+            </div>
+          `;
 
         return;
       }
@@ -1978,12 +2429,84 @@
                 ).length;
 
 
+              let actionButtons =
+                "";
+
+
+              if (
+                job.status ===
+                "draft"
+              ) {
+
+                actionButtons =
+                  `
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-action="publish"
+                      data-job-id="${escapeHtml(
+                        job.id
+                      )}"
+                    >
+                      Publish Lowongan
+                    </button>
+                  `;
+              }
+
+
+              else if (
+                job.status ===
+                "published" ||
+                job.status ===
+                "active"
+              ) {
+
+                actionButtons =
+                  `
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      data-action="deactivate"
+                      data-job-id="${escapeHtml(
+                        job.id
+                      )}"
+                    >
+                      Nonaktifkan Lowongan
+                    </button>
+                  `;
+              }
+
+
+              else if (
+                job.status ===
+                "inactive"
+              ) {
+
+                actionButtons =
+                  `
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      data-action="reactivate"
+                      data-job-id="${escapeHtml(
+                        job.id
+                      )}"
+                    >
+                      Aktifkan Kembali
+                    </button>
+                  `;
+              }
+
+
               return `
                 <div class="job-card">
 
                   <div class="job-title">
-                    ${escapeHtml(job.title)}
+                    ${escapeHtml(
+                      job.title
+                    )}
                   </div>
+
 
                   <div class="company">
                     ${escapeHtml(
@@ -1991,6 +2514,7 @@
                       "-"
                     )}
                   </div>
+
 
                   <div class="tags">
 
@@ -2024,6 +2548,7 @@
 
                   </div>
 
+
                   <div>
 
                     <span
@@ -2040,23 +2565,19 @@
 
                   </div>
 
+
                   <div class="candidate-count">
                     ${candidateCount}
                     kandidat melamar
                   </div>
 
+
                   ${
-                    job.status === "draft"
+                    actionButtons
                       ? `
-                        <button
-                          type="button"
-                          class="btn btn-primary publish-btn"
-                          data-publish-job="${escapeHtml(
-                            job.id
-                          )}"
-                        >
-                          Publish Lowongan
-                        </button>
+                        <div class="job-actions">
+                          ${actionButtons}
+                        </div>
                       `
                       : ""
                   }
@@ -2066,42 +2587,85 @@
             }
           )
           .join("");
-
-
-      /*
-        EVENT LISTENER DIPASANG SETELAH HTML
-        SELESAI DIBUAT.
-
-        Ini yang memperbaiki bug tombol Publish.
-      */
-
-      jobsContainer
-        .querySelectorAll(
-          "[data-publish-job]"
-        )
-        .forEach(
-          button => {
-
-            button.addEventListener(
-              "click",
-              () => {
-
-                const jobId =
-                  button.getAttribute(
-                    "data-publish-job"
-                  );
-
-                if (!jobId) {
-                  return;
-                }
-
-                publishJob(jobId);
-              }
-            );
-
-          }
-        );
     }
+
+
+    /* =========================================================
+       JOB BUTTON EVENT DELEGATION
+    ========================================================= */
+
+    jobsContainer.addEventListener(
+      "click",
+      function(event) {
+
+        const button =
+          event.target.closest(
+            "[data-action]"
+          );
+
+
+        if (!button) {
+          return;
+        }
+
+
+        const action =
+          button.getAttribute(
+            "data-action"
+          );
+
+
+        const jobId =
+          button.getAttribute(
+            "data-job-id"
+          );
+
+
+        if (!jobId) {
+          return;
+        }
+
+
+        if (
+          action ===
+          "publish"
+        ) {
+
+          publishJob(
+            jobId
+          );
+
+          return;
+        }
+
+
+        if (
+          action ===
+          "deactivate"
+        ) {
+
+          deactivateJob(
+            jobId
+          );
+
+          return;
+        }
+
+
+        if (
+          action ===
+          "reactivate"
+        ) {
+
+          reactivateJob(
+            jobId
+          );
+
+          return;
+        }
+
+      }
+    );
 
 
     /* =========================================================
@@ -2114,11 +2678,12 @@
         !applications.length
       ) {
 
-        applicationsContainer.innerHTML = `
-          <div class="empty">
-            Belum ada kandidat yang melamar lowongan Anda.
-          </div>
-        `;
+        applicationsContainer.innerHTML =
+          `
+            <div class="empty">
+              Belum ada kandidat yang melamar lowongan Anda.
+            </div>
+          `;
 
         return;
       }
@@ -2196,16 +2761,21 @@
                       </div>
 
                       <div class="candidate-contact">
+
                         ${escapeHtml(
                           candidateEmail
                         )}
+
                         <br>
+
                         ${escapeHtml(
                           candidatePhone
                         )}
+
                       </div>
 
                     </div>
+
 
                     <div>
 
@@ -2426,6 +2996,7 @@
                               Dikirim
                             </option>
 
+
                             <option
                               value="reviewing"
                               ${
@@ -2437,6 +3008,7 @@
                             >
                               Diproses
                             </option>
+
 
                             <option
                               value="interview"
@@ -2450,6 +3022,7 @@
                               Interview
                             </option>
 
+
                             <option
                               value="accepted"
                               ${
@@ -2461,6 +3034,7 @@
                             >
                               Diterima
                             </option>
+
 
                             <option
                               value="rejected"
@@ -2514,7 +3088,7 @@
                             id="note-${escapeHtml(
                               app.application_id
                             )}"
-                            placeholder="Tambahkan catatan untuk proses kandidat..."
+                            placeholder="Tambahkan catatan..."
                           >${escapeHtml(
                             app.employer_note ||
                             ""
@@ -2550,10 +3124,6 @@
           .join("");
 
 
-      /*
-        EVENT UNTUK BUKA CV
-      */
-
       applicationsContainer
         .querySelectorAll(
           "[data-cv-path]"
@@ -2563,24 +3133,20 @@
 
             button.addEventListener(
               "click",
-              () => {
+              function() {
 
-                const path =
-                  button.getAttribute(
+                openCv(
+                  this.getAttribute(
                     "data-cv-path"
-                  );
+                  )
+                );
 
-                openCv(path);
               }
             );
 
           }
         );
 
-
-      /*
-        EVENT UNTUK SIMPAN STATUS LAMARAN
-      */
 
       applicationsContainer
         .querySelectorAll(
@@ -2591,20 +3157,14 @@
 
             button.addEventListener(
               "click",
-              () => {
-
-                const applicationId =
-                  button.getAttribute(
-                    "data-save-application"
-                  );
-
-                if (!applicationId) {
-                  return;
-                }
+              function() {
 
                 saveApplication(
-                  applicationId
+                  this.getAttribute(
+                    "data-save-application"
+                  )
                 );
+
               }
             );
 
@@ -2771,14 +3331,14 @@
         ).length;
 
 
-      showSuccess(
-        "Perubahan lamaran berhasil disimpan."
-      );
-
-
       renderApplications();
 
       renderJobs();
+
+
+      showSuccess(
+        "Perubahan lamaran berhasil disimpan."
+      );
     }
 
 
@@ -2815,7 +3375,8 @@
 
       if (
         error ||
-        !data?.signedUrl
+        !data ||
+        !data.signedUrl
       ) {
 
         showError(
@@ -2851,11 +3412,13 @@
 
 
     /* =========================================================
-       EVENT LISTENERS
+       EVENTS
     ========================================================= */
 
     document
-      .getElementById("logoutBtn")
+      .getElementById(
+        "logoutBtn"
+      )
       .addEventListener(
         "click",
         logout
@@ -2902,6 +3465,7 @@
 
             closeJobModal();
           }
+
         }
       );
 
@@ -2921,6 +3485,7 @@
 
             closeJobModal();
           }
+
         }
       );
 
