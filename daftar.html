@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -11,7 +12,7 @@
 
   <meta
     name="description"
-    content="Masuk atau daftar akun Sea Marine Job untuk mencari dan melamar pekerjaan maritim."
+    content="Masuk atau daftar akun Sea Marine Job untuk mencari, melamar, dan mengelola peluang karier maritim."
   >
 
   <style>
@@ -22,37 +23,71 @@
     }
 
     :root {
-      --navy: #071b2f;
-      --navy-2: #0b2d49;
-      --blue: #0d6ea8;
-      --blue-2: #1986c5;
-      --light-blue: #eaf6fd;
-      --bg: #f4f8fb;
+      --navy: #0f172a;
+      --navy-2: #12304a;
+      --blue-dark: #075985;
+      --blue: #0284c7;
+      --blue-light: #e0f2fe;
+
+      --gold: #f59e0b;
+      --gold-light: #fff7e6;
+
+      --bg: #f5f8fb;
       --white: #ffffff;
-      --text: #14263d;
-      --muted: #6b7d93;
-      --border: #dce6ef;
-      --success: #16834a;
-      --success-bg: #eaf8f0;
-      --danger: #c0392b;
-      --danger-bg: #fff0ee;
-      --warning: #a66a00;
-      --warning-bg: #fff8e8;
+
+      --text: #0f172a;
+      --text-soft: #334155;
+      --muted: #64748b;
+
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+
+      --success: #15803d;
+      --success-bg: #f0fdf4;
+
+      --danger: #b91c1c;
+      --danger-bg: #fef2f2;
+
+      --warning: #a16207;
+      --warning-bg: #fefce8;
+
+      --shadow-sm:
+        0 4px 15px rgba(15, 23, 42, .05);
+
+      --shadow:
+        0 15px 40px rgba(15, 23, 42, .08);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
         Arial,
         Helvetica,
         sans-serif;
+
       background: var(--bg);
       color: var(--text);
+
       min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    body.menu-open {
+      overflow: hidden;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     button,
@@ -61,103 +96,244 @@
       font: inherit;
     }
 
+    button {
+      border: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     /* =====================================================
        NAVBAR
     ===================================================== */
 
     .navbar {
-      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(15, 23, 42, .97);
       color: white;
-      min-height: 76px;
+
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
     }
 
     .nav-container {
       width: min(1180px, 92%);
+      min-height: 74px;
       margin: auto;
-      min-height: 76px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 25px;
+
+      gap: 24px;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
+
       flex-shrink: 0;
     }
 
     .logo-icon {
       width: 42px;
       height: 42px;
-      border-radius: 12px;
+
+      border-radius: 11px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      background: #1683bf;
-      font-size: 22px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-dark)
+        );
+
+      color: white;
+      font-size: 20px;
+
+      box-shadow:
+        0 6px 16px rgba(2,132,199,.22);
     }
 
     .logo-text {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .logo-text strong {
-      font-size: 18px;
-      letter-spacing: .3px;
+      color: white;
+      font-size: 17px;
+      letter-spacing: .4px;
+      line-height: 1.1;
     }
 
     .logo-text span {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: #a9c9dd;
+      color: #94a3b8;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
     }
 
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 25px;
+      justify-content: center;
+      gap: 22px;
+
+      flex: 1;
     }
 
     .nav-menu a {
-      color: #dce9f3;
-      font-size: 14px;
-      font-weight: 600;
-      transition: .2s;
+      position: relative;
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+      font-weight: 650;
+
+      transition: .2s ease;
+    }
+
+    .nav-menu a::after {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -7px;
+
+      height: 2px;
+
+      background: var(--gold);
+
+      transform: scaleX(0);
+      transform-origin: center;
+
+      transition: .2s ease;
     }
 
     .nav-menu a:hover {
       color: white;
     }
 
+    .nav-menu a:hover::after {
+      transform: scaleX(1);
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+    }
+
+    .nav-login,
+    .nav-register {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 40px;
+      padding: 0 15px;
+
+      border-radius: 8px;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      transition: .2s ease;
     }
 
     .nav-login {
-      border: 1px solid #6f879d;
+      border: 1px solid #475569;
       color: white;
-      padding: 11px 20px;
-      border-radius: 9px;
-      font-weight: 700;
-      font-size: 14px;
+      background: transparent;
+    }
+
+    .nav-login:hover {
+      background: rgba(255,255,255,.07);
+      border-color: #64748b;
     }
 
     .nav-register {
-      background: #f6b51c;
-      color: #10253a;
-      padding: 11px 20px;
+      background: var(--gold);
+      color: #172033;
+    }
+
+    .nav-register:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-button {
+      display: none;
+
+      width: 42px;
+      height: 42px;
+
       border-radius: 9px;
-      font-weight: 800;
+
+      background: rgba(255,255,255,.08);
+      color: white;
+
+      cursor: pointer;
+    }
+
+    .mobile-menu-button span {
+      display: block;
+
+      width: 20px;
+      height: 2px;
+
+      margin: 4px auto;
+
+      background: white;
+      border-radius: 2px;
+    }
+
+    .mobile-menu {
+      display: none;
+
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: var(--navy);
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+
+      padding: 14px 0 18px;
+
+      display: grid;
+      gap: 3px;
+    }
+
+    .mobile-menu a {
+      padding: 13px 10px;
+
+      border-radius: 8px;
+
+      color: #cbd5e1;
       font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(255,255,255,.06);
+      color: white;
     }
 
     /* =====================================================
@@ -165,8 +341,12 @@
     ===================================================== */
 
     .page {
-      min-height: calc(100vh - 76px);
-      padding: 55px 0 75px;
+      min-height: calc(100vh - 74px);
+
+      padding:
+        58px
+        0
+        80px;
     }
 
     .page-container {
@@ -176,31 +356,44 @@
 
     .page-heading {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
-    .page-heading .eyebrow {
-      display: inline-block;
-      padding: 7px 13px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+
+      padding: 7px 12px;
+
       border-radius: 999px;
-      background: var(--light-blue);
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 12px;
+
+      background: var(--blue-light);
+      color: var(--blue-dark);
+
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .5px;
     }
 
     .page-heading h1 {
-      font-size: 38px;
-      margin-bottom: 10px;
+      margin-top: 13px;
+      margin-bottom: 9px;
+
       color: var(--navy);
+
+      font-size: clamp(29px, 4vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -.5px;
     }
 
     .page-heading p {
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 620px;
+      max-width: 640px;
       margin: auto;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.75;
     }
 
     /* =====================================================
@@ -211,39 +404,55 @@
       width: min(760px, 100%);
       margin: auto;
 
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-
-      box-shadow:
-        0 12px 35px rgba(7, 27, 47, .07);
-
       overflow: hidden;
+
+      background: var(--white);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      box-shadow: var(--shadow);
     }
 
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid var(--border);
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .tab {
-      border: 0;
-      background: #f7fafc;
-      padding: 18px;
-      cursor: pointer;
+      min-height: 58px;
+
+      background: #f8fafc;
 
       color: var(--muted);
-      font-weight: 800;
-      font-size: 15px;
 
-      border-bottom: 3px solid transparent;
+      cursor: pointer;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      border-bottom:
+        3px solid transparent;
+
+      transition: .2s ease;
+    }
+
+    .tab:hover {
+      color: var(--blue-dark);
+      background: #f1f5f9;
     }
 
     .tab.active {
+      color: var(--blue-dark);
       background: white;
-      color: var(--blue);
-      border-bottom-color: var(--blue);
+
+      border-bottom-color:
+        var(--blue);
     }
 
     .form-container {
@@ -261,13 +470,18 @@
 
     .form-title h2 {
       color: var(--navy);
-      font-size: 26px;
-      margin-bottom: 8px;
+
+      font-size: 25px;
+      line-height: 1.2;
+
+      margin-bottom: 7px;
     }
 
     .form-title p {
       color: var(--muted);
-      line-height: 1.6;
+
+      font-size: 14px;
+      line-height: 1.65;
     }
 
     /* =====================================================
@@ -276,11 +490,14 @@
 
     .message {
       display: none;
+
       padding: 13px 15px;
-      border-radius: 10px;
       margin-bottom: 20px;
-      line-height: 1.5;
-      font-size: 14px;
+
+      border-radius: 10px;
+
+      font-size: 13px;
+      line-height: 1.55;
     }
 
     .message.show {
@@ -288,21 +505,21 @@
     }
 
     .message.success {
-      background: var(--success-bg);
       color: var(--success);
-      border: 1px solid #c9ecd8;
+      background: var(--success-bg);
+      border: 1px solid #bbf7d0;
     }
 
     .message.error {
-      background: var(--danger-bg);
       color: var(--danger);
-      border: 1px solid #f2cfca;
+      background: var(--danger-bg);
+      border: 1px solid #fecaca;
     }
 
     .message.warning {
-      background: var(--warning-bg);
       color: var(--warning);
-      border: 1px solid #f0dfb8;
+      background: var(--warning-bg);
+      border: 1px solid #fde68a;
     }
 
     /* =====================================================
@@ -316,116 +533,159 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
+
       gap: 16px;
     }
 
     label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
+
+      margin-bottom: 7px;
+
+      color: var(--text-soft);
+
+      font-size: 12px;
       font-weight: 800;
-      color: #31465e;
     }
 
     .input-wrapper {
       position: relative;
     }
 
-    .input-wrapper span {
+    .input-icon {
       position: absolute;
+
       left: 14px;
       top: 50%;
+
       transform: translateY(-50%);
-      color: #7890a5;
-      font-size: 16px;
+
+      color: #94a3b8;
+
+      width: 17px;
+      height: 17px;
+
+      pointer-events: none;
     }
 
     .form-control {
       width: 100%;
       min-height: 48px;
 
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      padding:
+        12px
+        14px;
+
+      border:
+        1px solid var(--border-dark);
+
+      border-radius: 9px;
+
+      outline: none;
 
       background: white;
       color: var(--text);
 
-      padding: 12px 14px;
-      outline: none;
+      font-size: 14px;
 
-      transition: .2s;
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
     }
 
     .input-wrapper .form-control {
-      padding-left: 43px;
+      padding-left: 42px;
+    }
+
+    .form-control::placeholder {
+      color: #94a3b8;
+    }
+
+    .form-control:hover {
+      border-color: #b6c3d1;
     }
 
     .form-control:focus {
-      border-color: var(--blue-2);
+      border-color: var(--blue);
+
       box-shadow:
-        0 0 0 3px rgba(25, 134, 197, .10);
+        0 0 0 3px
+        rgba(2,132,199,.10);
     }
 
     textarea.form-control {
       min-height: 150px;
+
       resize: vertical;
-      line-height: 1.6;
+
+      line-height: 1.65;
     }
 
     .form-options {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin: 5px 0 20px;
-    }
+      justify-content: flex-end;
 
-    .remember {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin: 0;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    .remember input {
-      width: 16px;
-      height: 16px;
+      margin:
+        5px
+        0
+        20px;
     }
 
     .forgot {
-      color: var(--blue);
-      font-size: 13px;
-      font-weight: 700;
+      color: var(--blue-dark);
+
+      font-size: 12px;
+      font-weight: 800;
+
       cursor: pointer;
+    }
+
+    .forgot:hover {
+      color: var(--blue);
+      text-decoration: underline;
     }
 
     .btn-submit {
       width: 100%;
       min-height: 50px;
 
-      border: 0;
-      border-radius: 10px;
+      border-radius: 9px;
 
-      background: var(--blue);
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-dark)
+        );
+
       color: white;
 
-      font-weight: 800;
+      font-size: 14px;
+      font-weight: 850;
+
       cursor: pointer;
 
-      transition: .2s;
+      box-shadow:
+        0 7px 18px
+        rgba(2,132,199,.16);
+
+      transition: .2s ease;
     }
 
     .btn-submit:hover {
-      background: var(--blue-2);
       transform: translateY(-1px);
+
+      box-shadow:
+        0 9px 22px
+        rgba(2,132,199,.22);
     }
 
     .btn-submit:disabled {
-      opacity: .65;
+      opacity: .6;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     /* =====================================================
@@ -435,58 +695,147 @@
     .account-type {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+
+      gap: 13px;
+
       margin-bottom: 22px;
     }
 
     .type-option {
-      border: 1px solid var(--border);
-      border-radius: 12px;
       padding: 17px;
-      cursor: pointer;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
       background: #fbfdff;
-      transition: .2s;
+
+      cursor: pointer;
+
+      transition: .2s ease;
     }
 
     .type-option:hover {
-      border-color: #9cc9e4;
+      border-color: #93c5fd;
+      background: #f8fcff;
     }
 
     .type-option.active {
       border-color: var(--blue);
-      background: var(--light-blue);
+
+      background: var(--blue-light);
+
       box-shadow:
-        0 0 0 2px rgba(13, 110, 168, .08);
+        0 0 0 2px
+        rgba(2,132,199,.07);
     }
 
     .type-option strong {
       display: block;
+
       margin-bottom: 5px;
+
       color: var(--navy);
+
+      font-size: 14px;
     }
 
     .type-option small {
       color: var(--muted);
-      line-height: 1.5;
+
+      font-size: 12px;
+      line-height: 1.55;
     }
 
     .terms {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
       margin-bottom: 20px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.65;
     }
 
-    .terms a {
-      color: var(--blue);
-      font-weight: 700;
+    .terms strong {
+      color: var(--text-soft);
+    }
+
+    /* =====================================================
+       PASSWORD RESET
+    ===================================================== */
+
+    .reset-card {
+      width: min(520px, 100%);
+      margin: auto;
+
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 38px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .reset-icon {
+      width: 52px;
+      height: 52px;
+
+      margin-bottom: 18px;
+
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--blue-light);
+      color: var(--blue-dark);
+
+      font-size: 23px;
+    }
+
+    .reset-card h2 {
+      margin-bottom: 8px;
+
+      color: var(--navy);
+
+      font-size: 25px;
+    }
+
+    .reset-card > p {
+      margin-bottom: 24px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .reset-back {
+      display: block;
+
+      margin-top: 16px;
+
+      text-align: center;
+
+      color: var(--blue-dark);
+
+      font-size: 13px;
+      font-weight: 800;
     }
 
     /* =====================================================
        APPLICATION
     ===================================================== */
 
-    #applicationSection {
+    #applicationSection,
+    #applicationSuccessSection,
+    #passwordResetSection {
       display: none;
     }
 
@@ -494,244 +843,378 @@
       width: min(850px, 100%);
       margin: auto;
 
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-
       padding: 38px;
 
-      box-shadow:
-        0 12px 35px rgba(7, 27, 47, .07);
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      box-shadow: var(--shadow);
     }
 
     .job-summary {
-      background: linear-gradient(
-        135deg,
-        var(--navy),
-        var(--navy-2)
-      );
+      position: relative;
+
+      overflow: hidden;
+
+      margin-bottom: 29px;
+      padding: 24px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--navy),
+          var(--navy-2)
+        );
 
       color: white;
-      border-radius: 15px;
-      padding: 23px;
-      margin-bottom: 28px;
+    }
+
+    .job-summary::after {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      right: -80px;
+      top: -80px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
     }
 
     .job-summary-label {
-      font-size: 12px;
-      color: #a9c9dd;
+      position: relative;
+      z-index: 1;
+
       margin-bottom: 6px;
+
+      color: #93c5dd;
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .7px;
     }
 
     .job-summary h2 {
-      font-size: 25px;
-      margin-bottom: 7px;
+      position: relative;
+      z-index: 1;
+
+      margin-bottom: 6px;
+
+      font-size: 24px;
+      line-height: 1.25;
     }
 
     .job-summary-company {
-      color: #dcecf7;
-      font-size: 14px;
-      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+
+      margin-bottom: 15px;
+
+      color: #dbeafe;
+
+      font-size: 13px;
     }
 
     .job-summary-meta {
+      position: relative;
+      z-index: 1;
+
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 7px;
     }
 
     .job-meta {
       padding: 7px 10px;
-      border-radius: 8px;
-      background: rgba(255,255,255,.10);
-      color: #e8f3fa;
-      font-size: 12px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      border-radius: 7px;
+
+      background:
+        rgba(255,255,255,.08);
+
+      color: #e2e8f0;
+
+      font-size: 11px;
     }
 
     .section-heading {
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     .section-heading h3 {
-      font-size: 20px;
+      margin-bottom: 5px;
+
       color: var(--navy);
-      margin-bottom: 6px;
+
+      font-size: 19px;
     }
 
     .section-heading p {
       color: var(--muted);
-      font-size: 14px;
+
+      font-size: 13px;
       line-height: 1.6;
     }
 
     .profile-check {
       display: grid;
-      gap: 10px;
-      margin-bottom: 28px;
+      gap: 9px;
+
+      margin-bottom: 26px;
     }
 
     .check-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      padding: 11px 13px;
 
-      padding: 12px 14px;
-      border-radius: 10px;
+      border:
+        1px solid var(--border);
 
-      background: #f7fafc;
-      border: 1px solid var(--border);
+      border-radius: 9px;
 
-      font-size: 14px;
+      background: #f8fafc;
+
+      color: var(--muted);
+
+      font-size: 13px;
     }
 
     .check-item.ok {
-      background: var(--success-bg);
-      border-color: #c9ecd8;
       color: var(--success);
+
+      background: var(--success-bg);
+
+      border-color: #bbf7d0;
     }
 
     .check-item.bad {
-      background: var(--danger-bg);
-      border-color: #f2cfca;
       color: var(--danger);
+
+      background: var(--danger-bg);
+
+      border-color: #fecaca;
     }
 
     .cv-box {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 15px;
 
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #f8fbfd;
+      margin-bottom: 27px;
+      padding: 15px;
 
-      margin-bottom: 25px;
+      border:
+        1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #f8fafc;
     }
 
     .cv-info strong {
       display: block;
+
+      margin-bottom: 3px;
+
       color: var(--navy);
-      margin-bottom: 4px;
+
+      font-size: 13px;
     }
 
     .cv-info small {
       color: var(--muted);
+
+      font-size: 11px;
     }
 
     .cv-status {
       color: var(--success);
-      font-size: 13px;
-      font-weight: 800;
+
+      font-size: 12px;
+      font-weight: 850;
+
+      white-space: nowrap;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 9px;
+
+      background: #f8fafc;
+
+      color: var(--muted);
+
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .notice strong {
+      color: var(--text-soft);
     }
 
     .application-actions {
       display: flex;
-      gap: 12px;
+      gap: 11px;
+
       margin-top: 20px;
+    }
+
+    .btn-secondary,
+    .btn-primary {
+      min-height: 50px;
+
+      border-radius: 9px;
+
+      font-size: 13px;
+      font-weight: 850;
+
+      cursor: pointer;
+
+      transition: .2s ease;
     }
 
     .btn-secondary {
       flex: 1;
 
-      min-height: 50px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border:
+        1px solid var(--border-dark);
 
       background: white;
-      color: var(--text);
+      color: var(--text-soft);
+    }
 
-      font-weight: 800;
-      cursor: pointer;
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
     }
 
     .btn-primary {
       flex: 2;
 
-      min-height: 50px;
-      border: 0;
-      border-radius: 10px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-dark)
+        );
 
-      background: var(--blue);
       color: white;
-
-      font-weight: 800;
-      cursor: pointer;
     }
 
     .btn-primary:hover {
-      background: var(--blue-2);
+      transform: translateY(-1px);
     }
 
     .btn-primary:disabled,
     .btn-secondary:disabled {
       opacity: .6;
       cursor: not-allowed;
-    }
-
-    .notice {
-      margin-top: 20px;
-      padding: 14px 16px;
-      background: #f6f9fc;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
+      transform: none;
     }
 
     /* =====================================================
-       SUCCESS APPLICATION
+       SUCCESS
     ===================================================== */
 
     .success-card {
       text-align: center;
-      padding: 45px 25px;
+      padding:
+        48px
+        28px;
     }
 
     .success-icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 18px;
+      width: 68px;
+      height: 68px;
 
-      border-radius: 50%;
-      background: var(--success-bg);
-      color: var(--success);
+      margin:
+        0
+        auto
+        18px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size: 35px;
+      border-radius: 50%;
+
+      background: var(--success-bg);
+      color: var(--success);
+
+      border:
+        1px solid #bbf7d0;
+
+      font-size: 31px;
+      font-weight: 900;
     }
 
     .success-card h2 {
+      margin-bottom: 9px;
+
       color: var(--navy);
-      margin-bottom: 10px;
+
+      font-size: 24px;
     }
 
     .success-card p {
-      color: var(--muted);
-      line-height: 1.7;
       max-width: 560px;
       margin: auto;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.75;
     }
 
     .success-links {
       display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
+
+      gap: 10px;
+
       margin-top: 25px;
+
       flex-wrap: wrap;
     }
 
     .success-links a {
-      padding: 12px 18px;
-      border-radius: 9px;
-      font-weight: 800;
-      font-size: 14px;
+      min-height: 43px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        0
+        16px;
+
+      border-radius: 8px;
+
+      font-size: 12px;
+      font-weight: 850;
     }
 
     .success-links .primary {
@@ -739,10 +1222,16 @@
       color: white;
     }
 
+    .success-links .primary:hover {
+      background: var(--blue-dark);
+    }
+
     .success-links .secondary {
-      background: #f3f7fa;
-      color: var(--text);
-      border: 1px solid var(--border);
+      border:
+        1px solid var(--border);
+
+      background: #f8fafc;
+      color: var(--text-soft);
     }
 
     /* =====================================================
@@ -751,8 +1240,13 @@
 
     footer {
       background: var(--navy);
-      color: #d5e2ec;
-      padding: 28px 0;
+      color: #cbd5e1;
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.05);
+
+      padding: 30px 0;
     }
 
     .footer-container {
@@ -762,24 +1256,36 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 20px;
     }
 
     .footer-brand strong {
       color: white;
-      font-size: 15px;
+
+      font-size: 14px;
     }
 
     .footer-brand p {
-      color: #91a9bc;
-      font-size: 12px;
-      margin-top: 5px;
+      margin-top: 4px;
+
+      color: #94a3b8;
+
+      font-size: 11px;
     }
 
     .footer-links {
       display: flex;
-      gap: 18px;
-      font-size: 12px;
+      flex-wrap: wrap;
+
+      gap: 16px;
+
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
     }
 
     .footer-links a:hover {
@@ -787,69 +1293,147 @@
     }
 
     /* =====================================================
-       MOBILE
+       RESPONSIVE
     ===================================================== */
 
-    @media (max-width: 850px) {
+    @media (max-width: 980px) {
+
       .nav-menu {
-        display: none;
+        gap: 14px;
       }
 
-      .nav-container {
-        min-height: 70px;
-      }
-
-      .page {
-        padding-top: 35px;
-      }
-
-      .page-heading h1 {
-        font-size: 31px;
-      }
-
-      .form-container,
-      .application-card {
-        padding: 25px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .logo-text strong {
-        font-size: 15px;
-      }
-
-      .logo-text span {
-        font-size: 8px;
-      }
-
-      .nav-register,
-      .nav-login {
-        padding: 9px 12px;
+      .nav-menu a {
         font-size: 12px;
       }
 
-      .form-row,
-      .account-type {
-        grid-template-columns: 1fr;
+      .nav-actions {
+        display: none;
       }
 
-      .form-options {
-        align-items: flex-start;
-        flex-direction: column;
+      .mobile-menu-button {
+        display: block;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .page {
+        padding:
+          38px
+          0
+          60px;
+      }
+
+      .page-heading {
+        margin-bottom: 24px;
+      }
+
+      .page-heading h1 {
+        font-size: 30px;
+      }
+
+      .form-container,
+      .application-card,
+      .reset-card {
+        padding: 25px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .account-type {
+        grid-template-columns: 1fr;
       }
 
       .application-actions {
         flex-direction: column;
       }
 
-      .footer-container {
-        flex-direction: column;
-        align-items: flex-start;
+      .btn-secondary,
+      .btn-primary {
+        flex: none;
+        width: 100%;
       }
 
-      .footer-links {
-        flex-wrap: wrap;
+      .footer-container {
+        align-items: flex-start;
+        flex-direction: column;
       }
+
+    }
+
+    @media (max-width: 520px) {
+
+      .nav-container {
+        min-height: 68px;
+      }
+
+      .logo-icon {
+        width: 38px;
+        height: 38px;
+      }
+
+      .logo-text strong {
+        font-size: 14px;
+      }
+
+      .logo-text span {
+        font-size: 7px;
+        letter-spacing: 1.4px;
+      }
+
+      .page {
+        padding-top: 30px;
+      }
+
+      .page-heading h1 {
+        font-size: 27px;
+      }
+
+      .page-heading p {
+        font-size: 13px;
+      }
+
+      .tabs .tab {
+        min-height: 53px;
+      }
+
+      .form-container,
+      .application-card,
+      .reset-card {
+        padding: 21px;
+      }
+
+      .job-summary {
+        padding: 19px;
+      }
+
+      .job-summary h2 {
+        font-size: 21px;
+      }
+
+      .cv-box {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .success-card {
+        padding:
+          38px
+          18px;
+      }
+
+      .success-links {
+        flex-direction: column;
+      }
+
+      .success-links a {
+        width: 100%;
+      }
+
     }
   </style>
 </head>
@@ -861,47 +1445,141 @@
   ====================================================== -->
 
   <nav class="navbar">
+
     <div class="nav-container">
 
-      <a href="index.html" class="logo">
-        <div class="logo-icon">⚓</div>
+      <a
+        href="index.html"
+        class="logo"
+        aria-label="Sea Marine Job"
+      >
+
+        <div class="logo-icon">
+          ⚓
+        </div>
 
         <div class="logo-text">
           <strong>SEA MARINE JOB</strong>
           <span>PORTAL KARIER MARITIM</span>
         </div>
+
       </a>
 
+
       <div class="nav-menu">
-        <a href="index.html">Beranda</a>
-        <a href="kapal.html">Lowongan Kapal</a>
-        <a href="darat.html">Lowongan Darat</a>
-        <a href="index.html#perusahaan">Perusahaan</a>
-        <a href="index.html#artikel">Artikel</a>
-        <a href="index.html#tentang">Tentang Kami</a>
+
+        <a href="index.html">
+          Beranda
+        </a>
+
+        <a href="kapal.html">
+          Lowongan Kapal
+        </a>
+
+        <a href="darat.html">
+          Lowongan Darat
+        </a>
+
+        <a href="index.html#perusahaan">
+          Perusahaan
+        </a>
+
+        <a href="index.html#artikel">
+          Artikel
+        </a>
+
+        <a href="index.html#tentang">
+          Tentang Kami
+        </a>
+
       </div>
 
+
       <div class="nav-actions">
-        <a href="#login" class="nav-login">
+
+        <a
+          href="#login"
+          class="nav-login"
+        >
           Masuk
         </a>
 
-        <a href="#register" class="nav-register">
+        <a
+          href="#register"
+          class="nav-register"
+        >
           Daftar
         </a>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        aria-label="Buka menu"
+        aria-expanded="false"
+        onclick="toggleMobileMenu()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+
+    <div
+      class="mobile-menu"
+      id="mobileMenu"
+    >
+
+      <div class="mobile-menu-inner">
+
+        <a href="index.html">
+          Beranda
+        </a>
+
+        <a href="kapal.html">
+          Lowongan Kapal
+        </a>
+
+        <a href="darat.html">
+          Lowongan Darat
+        </a>
+
+        <a href="index.html#perusahaan">
+          Perusahaan
+        </a>
+
+        <a href="index.html#artikel">
+          Artikel
+        </a>
+
+        <a href="index.html#tentang">
+          Tentang Kami
+        </a>
+
       </div>
 
     </div>
+
   </nav>
 
 
   <!-- =====================================================
-       AUTH PAGE
+       MAIN
   ====================================================== -->
 
   <main class="page">
 
     <div class="page-container">
+
+
+      <!-- =================================================
+           AUTH
+      ================================================== -->
 
       <section id="authSection">
 
@@ -925,8 +1603,6 @@
 
 
         <div class="auth-card">
-
-          <!-- TABS -->
 
           <div class="tabs">
 
@@ -963,7 +1639,7 @@
             <div class="form-title">
 
               <h2>
-                Selamat Datang 👋
+                Selamat Datang
               </h2>
 
               <p>
@@ -990,7 +1666,25 @@
 
                 <div class="input-wrapper">
 
-                  <span>✉</span>
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="3"
+                      y="5"
+                      width="18"
+                      height="14"
+                      rx="2"
+                    />
+                    <path
+                      d="m3 7 9 6 9-6"
+                    />
+                  </svg>
 
                   <input
                     type="email"
@@ -1014,7 +1708,25 @@
 
                 <div class="input-wrapper">
 
-                  <span>🔒</span>
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="5"
+                      y="10"
+                      width="14"
+                      height="10"
+                      rx="2"
+                    />
+                    <path
+                      d="M8 10V7a4 4 0 0 1 8 0v3"
+                    />
+                  </svg>
 
                   <input
                     type="password"
@@ -1032,24 +1744,12 @@
 
               <div class="form-options">
 
-                <label class="remember">
-
-                  <input
-                    type="checkbox"
-                    id="rememberMe"
-                    checked
-                  >
-
-                  Ingat saya
-
-                </label>
-
                 <a
                   href="#"
                   class="forgot"
                   onclick="forgotPassword(event)"
                 >
-                  Lupa Password?
+                  Lupa password?
                 </a>
 
               </div>
@@ -1080,7 +1780,7 @@
             <div class="form-title">
 
               <h2>
-                Buat Akun Baru 🚀
+                Buat Akun Baru
               </h2>
 
               <p>
@@ -1097,21 +1797,22 @@
             ></div>
 
 
-            <!-- ACCOUNT TYPE -->
-
             <div class="account-type">
 
               <div
                 class="type-option active"
                 onclick="selectAccount('jobseeker', this)"
+                role="button"
+                tabindex="0"
               >
 
                 <strong>
-                  👨‍✈️ Pencari Kerja
+                  Pencari Kerja
                 </strong>
 
                 <small>
-                  Cari dan lamar lowongan pekerjaan.
+                  Cari dan lamar lowongan pekerjaan
+                  di industri maritim.
                 </small>
 
               </div>
@@ -1120,15 +1821,17 @@
               <div
                 class="type-option"
                 onclick="selectAccount('company', this)"
+                role="button"
+                tabindex="0"
               >
 
                 <strong>
-                  🏢 Perusahaan
+                  Perusahaan
                 </strong>
 
                 <small>
-                  Siapkan akun perusahaan untuk
-                  pengembangan fitur rekrutmen.
+                  Kelola lowongan dan proses rekrutmen
+                  perusahaan Anda.
                 </small>
 
               </div>
@@ -1148,7 +1851,23 @@
 
                   <div class="input-wrapper">
 
-                    <span>👤</span>
+                    <svg
+                      class="input-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="3"
+                      />
+                      <path
+                        d="M5 20a7 7 0 0 1 14 0"
+                      />
+                    </svg>
 
                     <input
                       type="text"
@@ -1156,6 +1875,7 @@
                       class="form-control"
                       placeholder="Nama lengkap"
                       autocomplete="name"
+                      maxlength="120"
                       required
                     >
 
@@ -1172,7 +1892,25 @@
 
                   <div class="input-wrapper">
 
-                    <span>📱</span>
+                    <svg
+                      class="input-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <rect
+                        x="6"
+                        y="3"
+                        width="12"
+                        height="18"
+                        rx="2"
+                      />
+                      <path
+                        d="M10 18h4"
+                      />
+                    </svg>
 
                     <input
                       type="tel"
@@ -1180,6 +1918,7 @@
                       class="form-control"
                       placeholder="08xxxxxxxxxx"
                       autocomplete="tel"
+                      maxlength="25"
                       required
                     >
 
@@ -1198,7 +1937,25 @@
 
                 <div class="input-wrapper">
 
-                  <span>✉</span>
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="3"
+                      y="5"
+                      width="18"
+                      height="14"
+                      rx="2"
+                    />
+                    <path
+                      d="m3 7 9 6 9-6"
+                    />
+                  </svg>
 
                   <input
                     type="email"
@@ -1258,15 +2015,11 @@
 
               <div class="terms">
 
-                Dengan mendaftar, Anda menyetujui
-                <a href="#">
-                  Syarat & Ketentuan
-                </a>
-                dan
-                <a href="#">
-                  Kebijakan Privasi
-                </a>
-                Sea Marine Job.
+                Dengan mendaftar, Anda menyatakan bahwa
+                data yang diberikan benar dan memahami
+                bahwa data profil serta CV digunakan
+                untuk proses pencarian dan rekrutmen kerja
+                melalui Sea Marine Job.
 
               </div>
 
@@ -1288,9 +2041,118 @@
       </section>
 
 
-      <!-- =====================================================
-           APPLICATION SECTION
-      ====================================================== -->
+      <!-- =================================================
+           PASSWORD RESET
+      ================================================== -->
+
+      <section id="passwordResetSection">
+
+        <div class="page-heading">
+
+          <span class="eyebrow">
+            PEMULIHAN AKUN
+          </span>
+
+          <h1>
+            Atur Password Baru
+          </h1>
+
+          <p>
+            Gunakan password baru untuk mengamankan
+            kembali akun Sea Marine Job Anda.
+          </p>
+
+        </div>
+
+
+        <div class="reset-card">
+
+          <div class="reset-icon">
+            🔐
+          </div>
+
+          <h2>
+            Password Baru
+          </h2>
+
+          <p>
+            Buat password baru dengan minimal
+            6 karakter.
+          </p>
+
+
+          <div
+            id="resetMessage"
+            class="message"
+          ></div>
+
+
+          <form onsubmit="updatePassword(event)">
+
+            <div class="form-group">
+
+              <label for="newPassword">
+                Password Baru
+              </label>
+
+              <input
+                type="password"
+                id="newPassword"
+                class="form-control"
+                placeholder="Masukkan password baru"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="confirmNewPassword">
+                Konfirmasi Password
+              </label>
+
+              <input
+                type="password"
+                id="confirmNewPassword"
+                class="form-control"
+                placeholder="Ulangi password baru"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              >
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn-submit"
+              id="resetButton"
+            >
+              Simpan Password →
+            </button>
+
+          </form>
+
+
+          <a
+            href="daftar.html"
+            class="reset-back"
+          >
+            ← Kembali ke halaman masuk
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           APPLICATION
+      ================================================== -->
 
       <section id="applicationSection">
 
@@ -1320,8 +2182,6 @@
           ></div>
 
 
-          <!-- JOB SUMMARY -->
-
           <div class="job-summary">
 
             <div class="job-summary-label">
@@ -1345,29 +2205,27 @@
                 class="job-meta"
                 id="applicationLocation"
               >
-                📍 -
+                Lokasi: -
               </span>
 
               <span
                 class="job-meta"
                 id="applicationVessel"
               >
-                ⚓ -
+                Kapal: -
               </span>
 
               <span
                 class="job-meta"
                 id="applicationEmployment"
               >
-                💼 -
+                Tipe: -
               </span>
 
             </div>
 
           </div>
 
-
-          <!-- PROFILE CHECK -->
 
           <div class="section-heading">
 
@@ -1389,34 +2247,32 @@
               class="check-item"
               id="checkName"
             >
-              ⏳ Memeriksa nama lengkap...
+              Memeriksa nama lengkap...
             </div>
 
             <div
               class="check-item"
               id="checkPhone"
             >
-              ⏳ Memeriksa nomor WhatsApp...
+              Memeriksa nomor WhatsApp...
             </div>
 
             <div
               class="check-item"
               id="checkCV"
             >
-              ⏳ Memeriksa CV...
+              Memeriksa CV...
             </div>
 
           </div>
 
-
-          <!-- CV -->
 
           <div class="cv-box">
 
             <div class="cv-info">
 
               <strong>
-                📄 CV / Resume
+                CV / Resume
               </strong>
 
               <small id="cvInfo">
@@ -1434,8 +2290,6 @@
 
           </div>
 
-
-          <!-- COVER LETTER -->
 
           <div class="section-heading">
 
@@ -1469,7 +2323,10 @@
 
           <div class="notice">
 
-            🔒 <strong>Privasi:</strong>
+            <strong>
+              Privasi:
+            </strong>
+
             Data lamaran hanya digunakan untuk proses
             rekrutmen dan tidak ditampilkan sebagai data
             publik di halaman lowongan.
@@ -1504,13 +2361,12 @@
       </section>
 
 
-      <!-- =====================================================
+      <!-- =================================================
            APPLICATION SUCCESS
-      ====================================================== -->
+      ================================================== -->
 
       <section
         id="applicationSuccessSection"
-        style="display:none;"
       >
 
         <div class="application-card success-card">
@@ -1526,7 +2382,7 @@
           <p>
             Lamaran Anda telah tersimpan di Sea Marine Job.
             Anda dapat memantau perkembangan lamaran melalui
-            akun Anda pada tahap berikutnya.
+            dashboard akun Anda.
           </p>
 
           <div class="success-links">
@@ -1608,20 +2464,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <script>
 
     /* =====================================================
-       SUPABASE
-    ====================================================== */
+       SUPABASE CONFIG
+    ===================================================== */
 
     const SUPABASE_URL =
       "https://pnyqdhcaabpxbatpubcb.supabase.co";
-
-    /*
-      PUBLISHABLE KEY
-      Harus sama dengan profil.html dan kapal.html.
-      Perhatikan huruf k kecil pada O4NAGkMZ.
-    */
 
     const SUPABASE_KEY =
       "sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
@@ -1635,22 +2486,27 @@
 
     /* =====================================================
        STATE
-    ====================================================== */
+    ===================================================== */
 
-    let selectedAccount = "jobseeker";
+    let selectedAccount =
+      "jobseeker";
 
-    let currentUser = null;
+    let currentUser =
+      null;
 
-    let currentJob = null;
+    let currentJob =
+      null;
 
-    let currentProfile = null;
+    let currentProfile =
+      null;
 
-    let applicationId = null;
+    let applicationId =
+      null;
 
 
     /* =====================================================
        URL
-    ====================================================== */
+    ===================================================== */
 
     const urlParams =
       new URLSearchParams(
@@ -1665,17 +2521,13 @@
 
 
     /* =====================================================
-       ELEMENT HELPERS
-    ====================================================== */
+       HELPERS
+    ===================================================== */
 
     function get(id) {
       return document.getElementById(id);
     }
 
-
-    /* =====================================================
-       MESSAGE
-    ====================================================== */
 
     function showMessage(
       elementId,
@@ -1717,9 +2569,105 @@
     }
 
 
+    function normalizeAccountType(
+      accountType
+    ) {
+
+      const value =
+        String(
+          accountType || ""
+        )
+          .trim()
+          .toLowerCase();
+
+      if (
+        value === "employer" ||
+        value === "company"
+      ) {
+
+        return "employer";
+
+      }
+
+      return "jobseeker";
+
+    }
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    function toggleMobileMenu() {
+
+      const menu =
+        get("mobileMenu");
+
+      const button =
+        get("mobileMenuButton");
+
+      if (!menu || !button) {
+        return;
+      }
+
+      const active =
+        menu.classList.toggle(
+          "active"
+        );
+
+      button.setAttribute(
+        "aria-expanded",
+        active
+          ? "true"
+          : "false"
+      );
+
+      document.body.classList.toggle(
+        "menu-open",
+        active
+      );
+
+    }
+
+
+    document
+      .querySelectorAll(
+        "#mobileMenu a"
+      )
+      .forEach(function(link) {
+
+        link.addEventListener(
+          "click",
+          function() {
+
+            const menu =
+              get("mobileMenu");
+
+            const button =
+              get("mobileMenuButton");
+
+            menu.classList.remove(
+              "active"
+            );
+
+            button.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+            document.body.classList.remove(
+              "menu-open"
+            );
+
+          }
+        );
+
+      });
+
+
     /* =====================================================
        FORM SWITCH
-    ====================================================== */
+    ===================================================== */
 
     function showForm(type) {
 
@@ -1736,27 +2684,83 @@
         get("registerTab");
 
 
-      if (type === "login") {
+      if (
+        !loginForm ||
+        !registerForm ||
+        !loginTab ||
+        !registerTab
+      ) {
 
-        loginForm.classList.add("active");
-        registerForm.classList.remove("active");
+        return;
 
-        loginTab.classList.add("active");
-        registerTab.classList.remove("active");
+      }
 
-        window.location.hash =
-          "login";
+
+      if (type === "register") {
+
+        loginForm.classList.remove(
+          "active"
+        );
+
+        registerForm.classList.add(
+          "active"
+        );
+
+        loginTab.classList.remove(
+          "active"
+        );
+
+        registerTab.classList.add(
+          "active"
+        );
+
+        if (
+          window.location.hash !==
+          "#register"
+        ) {
+
+          history.replaceState(
+            null,
+            "",
+            window.location.pathname +
+            window.location.search +
+            "#register"
+          );
+
+        }
 
       } else {
 
-        registerForm.classList.add("active");
-        loginForm.classList.remove("active");
+        registerForm.classList.remove(
+          "active"
+        );
 
-        registerTab.classList.add("active");
-        loginTab.classList.remove("active");
+        loginForm.classList.add(
+          "active"
+        );
 
-        window.location.hash =
-          "register";
+        registerTab.classList.remove(
+          "active"
+        );
+
+        loginTab.classList.add(
+          "active"
+        );
+
+        if (
+          window.location.hash !==
+          "#login"
+        ) {
+
+          history.replaceState(
+            null,
+            "",
+            window.location.pathname +
+            window.location.search +
+            "#login"
+          );
+
+        }
 
       }
 
@@ -1765,7 +2769,7 @@
 
     /* =====================================================
        ACCOUNT TYPE
-    ====================================================== */
+    ===================================================== */
 
     function selectAccount(
       type,
@@ -1776,14 +2780,18 @@
         type;
 
       document
-        .querySelectorAll(".type-option")
-        .forEach(function(option) {
+        .querySelectorAll(
+          ".type-option"
+        )
+        .forEach(
+          function(option) {
 
-          option.classList.remove(
-            "active"
-          );
+            option.classList.remove(
+              "active"
+            );
 
-        });
+          }
+        );
 
       element.classList.add(
         "active"
@@ -1793,8 +2801,121 @@
 
 
     /* =====================================================
+       ENSURE PROFILE
+    ===================================================== */
+
+    async function ensureProfileForUser(
+      user
+    ) {
+
+      if (!user) {
+        return null;
+      }
+
+
+      const {
+        data: existingProfile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(`
+            user_id,
+            full_name,
+            phone,
+            email,
+            account_type,
+            cv_path
+          `)
+          .eq(
+            "user_id",
+            user.id
+          )
+          .maybeSingle();
+
+
+      if (profileError) {
+        throw profileError;
+      }
+
+
+      if (existingProfile) {
+
+        return existingProfile;
+
+      }
+
+
+      const metadata =
+        user.user_metadata || {};
+
+
+      const accountType =
+        normalizeAccountType(
+          metadata.account_type
+        );
+
+
+      const profilePayload = {
+
+        user_id:
+          user.id,
+
+        full_name:
+          metadata.full_name ||
+          "",
+
+        phone:
+          metadata.phone ||
+          "",
+
+        email:
+          user.email ||
+          "",
+
+        account_type:
+          accountType
+
+      };
+
+
+      const {
+        data: createdProfile,
+        error: createError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .upsert(
+            profilePayload,
+            {
+              onConflict:
+                "user_id"
+            }
+          )
+          .select(`
+            user_id,
+            full_name,
+            phone,
+            email,
+            account_type,
+            cv_path
+          `)
+          .single();
+
+
+      if (createError) {
+        throw createError;
+      }
+
+
+      return createdProfile;
+
+    }
+
+
+    /* =====================================================
        REGISTER
-    ====================================================== */
+    ===================================================== */
 
     async function register(event) {
 
@@ -1825,6 +2946,7 @@
         get("confirmPassword")
           .value;
 
+
       const messageId =
         "registerMessage";
 
@@ -1832,10 +2954,40 @@
         get("registerButton");
 
 
-      hideMessage(messageId);
+      hideMessage(
+        messageId
+      );
 
 
-      if (password.length < 6) {
+      if (!name) {
+
+        showMessage(
+          messageId,
+          "error",
+          "Nama lengkap wajib diisi."
+        );
+
+        return;
+
+      }
+
+
+      if (!phone) {
+
+        showMessage(
+          messageId,
+          "error",
+          "Nomor WhatsApp wajib diisi."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        password.length < 6
+      ) {
 
         showMessage(
           messageId,
@@ -1844,6 +2996,7 @@
         );
 
         return;
+
       }
 
 
@@ -1859,30 +3012,7 @@
         );
 
         return;
-      }
 
-
-      if (!name) {
-
-        showMessage(
-          messageId,
-          "error",
-          "Nama lengkap wajib diisi."
-        );
-
-        return;
-      }
-
-
-      if (!phone) {
-
-        showMessage(
-          messageId,
-          "error",
-          "Nomor WhatsApp wajib diisi."
-        );
-
-        return;
       }
 
 
@@ -1895,36 +3025,50 @@
 
       try {
 
+        /*
+          Penting:
+          company dinormalisasi menjadi employer
+          agar sesuai dengan RLS dan employer dashboard.
+        */
+
+        const accountType =
+          normalizeAccountType(
+            selectedAccount
+          );
+
+
         const {
           data,
           error
         } =
-          await supabaseClient.auth.signUp({
+          await supabaseClient
+            .auth
+            .signUp({
 
-            email:
-              email,
+              email:
+                email,
 
-            password:
-              password,
+              password:
+                password,
 
-            options: {
+              options: {
 
-              data: {
+                data: {
 
-                full_name:
-                  name,
+                  full_name:
+                    name,
 
-                phone:
-                  phone,
+                  phone:
+                    phone,
 
-                account_type:
-                  selectedAccount
+                  account_type:
+                    accountType
+
+                }
 
               }
 
-            }
-
-          });
+            });
 
 
         if (error) {
@@ -1933,117 +3077,76 @@
 
 
         /*
-          Supabase dapat mengembalikan user
-          tanpa session apabila email verification
-          diaktifkan.
+          FIX:
+          currentUser harus langsung mengambil
+          data.user setelah signup.
+        */
+
+        currentUser =
+          data?.user ||
+          null;
+
+
+        /*
+          Jika email verification tidak aktif,
+          session akan tersedia dan profile
+          bisa langsung dibuat.
         */
 
         if (
-          data &&
-          data.session
+          currentUser &&
+          data?.session
         ) {
+
+          currentProfile =
+            await ensureProfileForUser(
+              currentUser
+            );
+
 
           showMessage(
             messageId,
             "success",
-            "Akun berhasil dibuat. Mengarahkan ke dashboard..."
+            "Akun berhasil dibuat. Mengarahkan..."
           );
 
 
           setTimeout(
-  async function() {
+            async function() {
 
-    try {
+              await routeAfterAuth(
+                currentUser
+              );
 
-      const {
-        data: profile,
-        error: profileError
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select("account_type")
-          .eq(
-            "user_id",
-            currentUser.id
-          )
-          .maybeSingle();
+            },
+            500
+          );
 
-      if (profileError) {
-        throw profileError;
-      }
 
-      const accountType =
-        (
-          profile?.account_type
-          || "jobseeker"
-        )
-          .trim()
-          .toLowerCase();
-
-      /*
-        EMPLOYER / COMPANY
-      */
-      if (
-        accountType === "employer"
-        ||
-        accountType === "company"
-      ) {
-
-        window.location.href =
-          "employer.html";
-
-        return;
-
-      }
-
-      /*
-        PENCARI KERJA
-      */
-      if (applyJobId) {
-
-        initializeApplication();
-
-      } else {
-
-        window.location.href =
-          "dashboard.html";
-
-      }
-
-    } catch (routeError) {
-
-      console.error(
-        "Account routing error:",
-        routeError
-      );
-
-      showMessage(
-        "loginMessage",
-        "error",
-        "Login berhasil, tetapi akun belum dapat diarahkan. Silakan coba lagi."
-      );
-
-    }
-
-  },
-  600
-);
           return;
+
         }
 
+
+        /*
+          Jika email verification aktif.
+        */
 
         showMessage(
           messageId,
           "success",
-          "Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi akun, lalu masuk."
+          "Pendaftaran berhasil. Silakan cek email Anda untuk verifikasi akun, lalu masuk menggunakan email dan password tersebut."
         );
 
 
-        get("registerPassword")
-          .value = "";
+        get(
+          "registerPassword"
+        ).value = "";
 
-        get("confirmPassword")
-          .value = "";
+        get(
+          "confirmPassword"
+        ).value = "";
+
 
       } catch (error) {
 
@@ -2054,18 +3157,35 @@
 
 
         let message =
-          error.message ||
+          error?.message ||
           "Pendaftaran gagal.";
 
 
-        if (
+        const lowerMessage =
           message
-            .toLowerCase()
-            .includes("already registered")
+            .toLowerCase();
+
+
+        if (
+          lowerMessage.includes(
+            "already registered"
+          )
         ) {
 
           message =
             "Email tersebut sudah terdaftar. Silakan masuk.";
+
+        }
+
+
+        if (
+          lowerMessage.includes(
+            "password should be at least"
+          )
+        ) {
+
+          message =
+            "Password terlalu pendek.";
 
         }
 
@@ -2091,7 +3211,7 @@
 
     /* =====================================================
        LOGIN
-    ====================================================== */
+    ===================================================== */
 
     async function login(event) {
 
@@ -2108,6 +3228,7 @@
         get("loginPassword")
           .value;
 
+
       const messageId =
         "loginMessage";
 
@@ -2115,7 +3236,9 @@
         get("loginButton");
 
 
-      hideMessage(messageId);
+      hideMessage(
+        messageId
+      );
 
 
       button.disabled =
@@ -2131,7 +3254,8 @@
           data,
           error
         } =
-          await supabaseClient.auth
+          await supabaseClient
+            .auth
             .signInWithPassword({
 
               email:
@@ -2152,6 +3276,12 @@
           data.user;
 
 
+        currentProfile =
+          await ensureProfileForUser(
+            currentUser
+          );
+
+
         showMessage(
           messageId,
           "success",
@@ -2160,94 +3290,33 @@
 
 
         setTimeout(
-  async function() {
+          async function() {
 
-    try {
+            try {
 
-      const {
-        data: profile,
-        error: profileError
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select("account_type")
-          .eq(
-            "user_id",
-            currentUser.id
-          )
-          .maybeSingle();
+              await routeAfterAuth(
+                currentUser
+              );
+
+            } catch (routeError) {
+
+              console.error(
+                "Account routing error:",
+                routeError
+              );
 
 
-      if (profileError) {
-        throw profileError;
-      }
+              showMessage(
+                messageId,
+                "error",
+                "Login berhasil, tetapi akun belum dapat diarahkan. Silakan coba lagi."
+              );
 
+            }
 
-      const accountType =
-        (
-          profile?.account_type
-          || "jobseeker"
-        )
-          .trim()
-          .toLowerCase();
-
-
-      /*
-        ==========================================
-        EMPLOYER
-        ==========================================
-      */
-
-      if (
-        accountType === "employer"
-        ||
-        accountType === "company"
-      ) {
-
-        window.location.href =
-          "employer.html";
-
-        return;
-
-      }
-
-
-      /*
-        ==========================================
-        CANDIDATE
-        ==========================================
-      */
-
-      if (applyJobId) {
-
-        initializeApplication();
-
-      } else {
-
-        window.location.href =
-          "dashboard.html";
-
-      }
-
-    } catch (routeError) {
-
-      console.error(
-        "Account routing error:",
-        routeError
-      );
-
-
-      showMessage(
-        "loginMessage",
-        "error",
-        "Login berhasil, tetapi akun belum dapat diarahkan. Silakan coba lagi."
-      );
-
-    }
-
-  },
-  600
-);
+          },
+          450
+        );
 
 
       } catch (error) {
@@ -2262,11 +3331,16 @@
           "Email atau password salah.";
 
 
+        const errorMessage =
+          error?.message
+            ?.toLowerCase() ||
+          "";
+
+
         if (
-          error.message &&
-          error.message
-            .toLowerCase()
-            .includes("email not confirmed")
+          errorMessage.includes(
+            "email not confirmed"
+          )
         ) {
 
           message =
@@ -2296,8 +3370,81 @@
 
 
     /* =====================================================
+       ROUTING
+    ===================================================== */
+
+    async function routeAfterAuth(
+      user
+    ) {
+
+      if (!user) {
+        return;
+      }
+
+
+      currentUser =
+        user;
+
+
+      if (!currentProfile) {
+
+        currentProfile =
+          await ensureProfileForUser(
+            user
+          );
+
+      }
+
+
+      const accountType =
+        normalizeAccountType(
+          currentProfile?.account_type
+        );
+
+
+      /*
+        EMPLOYER
+      */
+
+      if (
+        accountType ===
+        "employer"
+      ) {
+
+        window.location.href =
+          "employer.html";
+
+        return;
+
+      }
+
+
+      /*
+        JOBSEEKER + APPLY
+      */
+
+      if (applyJobId) {
+
+        await initializeApplication();
+
+        return;
+
+      }
+
+
+      /*
+        JOBSEEKER NORMAL
+      */
+
+      window.location.href =
+        "dashboard.html";
+
+    }
+
+
+    /* =====================================================
        FORGOT PASSWORD
-    ====================================================== */
+    ===================================================== */
 
     async function forgotPassword(
       event
@@ -2318,13 +3465,15 @@
         showMessage(
           "loginMessage",
           "warning",
-          "Masukkan email Anda terlebih dahulu, lalu klik Lupa Password."
+          "Masukkan email Anda terlebih dahulu."
         );
 
-        get("loginEmail")
-          .focus();
+        get(
+          "loginEmail"
+        ).focus();
 
         return;
+
       }
 
 
@@ -2333,14 +3482,17 @@
         const {
           error
         } =
-          await supabaseClient.auth
+          await supabaseClient
+            .auth
             .resetPasswordForEmail(
               email,
               {
+
                 redirectTo:
                   window.location.origin +
                   window.location.pathname +
                   "?reset=1"
+
               }
             );
 
@@ -2353,7 +3505,7 @@
         showMessage(
           "loginMessage",
           "success",
-          "Link reset password telah dikirim ke email Anda."
+          "Link reset password telah dikirim ke email Anda. Silakan cek inbox email."
         );
 
 
@@ -2368,8 +3520,7 @@
         showMessage(
           "loginMessage",
           "error",
-          error.message ||
-          "Gagal mengirim link reset password."
+          "Gagal mengirim link reset password. Silakan coba lagi."
         );
 
       }
@@ -2378,8 +3529,230 @@
 
 
     /* =====================================================
-       LOAD CURRENT USER
-    ====================================================== */
+       PASSWORD RESET PAGE
+    ===================================================== */
+
+    async function initializePasswordReset() {
+
+      get(
+        "authSection"
+      ).style.display =
+        "none";
+
+      get(
+        "applicationSection"
+      ).style.display =
+        "none";
+
+      get(
+        "applicationSuccessSection"
+      ).style.display =
+        "none";
+
+      get(
+        "passwordResetSection"
+      ).style.display =
+        "block";
+
+
+      try {
+
+        const {
+          data: {
+            session
+          }
+        } =
+          await supabaseClient
+            .auth
+            .getSession();
+
+
+        if (!session) {
+
+          showMessage(
+            "resetMessage",
+            "warning",
+            "Sesi reset password tidak ditemukan atau link sudah kedaluwarsa. Silakan minta link reset baru."
+          );
+
+          get(
+            "resetButton"
+          ).disabled =
+            true;
+
+          return;
+
+        }
+
+
+        currentUser =
+          session.user;
+
+
+      } catch (error) {
+
+        console.error(
+          "Password reset initialization error:",
+          error
+        );
+
+
+        showMessage(
+          "resetMessage",
+          "error",
+          "Tidak dapat memverifikasi sesi reset password."
+        );
+
+      }
+
+    }
+
+
+    async function updatePassword(
+      event
+    ) {
+
+      event.preventDefault();
+
+
+      const newPassword =
+        get("newPassword")
+          .value;
+
+      const confirmPassword =
+        get("confirmNewPassword")
+          .value;
+
+
+      const button =
+        get("resetButton");
+
+
+      hideMessage(
+        "resetMessage"
+      );
+
+
+      if (
+        newPassword.length < 6
+      ) {
+
+        showMessage(
+          "resetMessage",
+          "error",
+          "Password minimal 6 karakter."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        newPassword !==
+        confirmPassword
+      ) {
+
+        showMessage(
+          "resetMessage",
+          "error",
+          "Password dan konfirmasi password tidak sama."
+        );
+
+        return;
+
+      }
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Menyimpan...";
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .auth
+            .updateUser({
+
+              password:
+                newPassword
+
+            });
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        showMessage(
+          "resetMessage",
+          "success",
+          "Password berhasil diubah. Anda akan diarahkan ke halaman masuk."
+        );
+
+
+        get(
+          "newPassword"
+        ).value = "";
+
+        get(
+          "confirmNewPassword"
+        ).value = "";
+
+
+        setTimeout(
+          async function() {
+
+            await supabaseClient
+              .auth
+              .signOut();
+
+
+            window.location.href =
+              "daftar.html#login";
+
+          },
+          1200
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Update password error:",
+          error
+        );
+
+
+        showMessage(
+          "resetMessage",
+          "error",
+          error?.message ||
+          "Gagal mengubah password."
+        );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Simpan Password →";
+
+      }
+
+    }
+
+
+    /* =====================================================
+       GET CURRENT USER
+    ===================================================== */
 
     async function getCurrentUser() {
 
@@ -2387,7 +3760,8 @@
         data,
         error
       } =
-        await supabaseClient.auth
+        await supabaseClient
+          .auth
           .getUser();
 
 
@@ -2396,14 +3770,15 @@
       }
 
 
-      return data.user || null;
+      return data?.user ||
+        null;
 
     }
 
 
     /* =====================================================
-       LOAD JOB
-    ====================================================== */
+       LOAD APPLICATION JOB
+    ===================================================== */
 
     async function loadApplicationJob() {
 
@@ -2432,9 +3807,12 @@
             "id",
             applyJobId
           )
-          .eq(
+          .in(
             "status",
-            "published"
+            [
+              "published",
+              "active"
+            ]
           )
           .maybeSingle();
 
@@ -2447,6 +3825,7 @@
         );
 
         throw error;
+
       }
 
 
@@ -2466,34 +3845,45 @@
       get(
         "applicationJobTitle"
       ).textContent =
-        data.title || "-";
+        data.title ||
+        "-";
 
 
       get(
         "applicationCompany"
       ).textContent =
-        data.company_name || "-";
+        data.company_name ||
+        "-";
 
 
       get(
         "applicationLocation"
       ).textContent =
-        "📍 " +
-        (data.location || "-");
+        "Lokasi: " +
+        (
+          data.location ||
+          "-"
+        );
 
 
       get(
         "applicationVessel"
       ).textContent =
-        "⚓ " +
-        (data.vessel_type || "-");
+        "Kapal: " +
+        (
+          data.vessel_type ||
+          "-"
+        );
 
 
       get(
         "applicationEmployment"
       ).textContent =
-        "💼 " +
-        (data.employment_type || "-");
+        "Tipe: " +
+        (
+          data.employment_type ||
+          "-"
+        );
 
 
       return data;
@@ -2502,55 +3892,34 @@
 
 
     /* =====================================================
-       LOAD PROFILE
-    ====================================================== */
+       LOAD APPLICATION PROFILE
+    ===================================================== */
 
     async function loadApplicationProfile() {
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select(`
-            user_id,
-            full_name,
-            phone,
-            email,
-            account_type,
-            cv_path
-          `)
-          .eq(
-            "user_id",
-            currentUser.id
-          )
-          .maybeSingle();
+      if (!currentUser) {
 
-
-      if (error) {
-
-        console.error(
-          "Profile error:",
-          error
+        throw new Error(
+          "Sesi pengguna tidak ditemukan."
         );
 
-        throw error;
       }
 
 
       currentProfile =
-        data;
+        await ensureProfileForUser(
+          currentUser
+        );
 
 
-      return data;
+      return currentProfile;
 
     }
 
 
     /* =====================================================
-       CHECK PROFILE
-    ====================================================== */
+       PROFILE CHECK
+    ===================================================== */
 
     function updateProfileChecks() {
 
@@ -2563,17 +3932,20 @@
       const cvCheck =
         get("checkCV");
 
+
       const fullName =
         currentProfile &&
         currentProfile.full_name
           ? currentProfile.full_name.trim()
           : "";
 
+
       const phone =
         currentProfile &&
         currentProfile.phone
           ? currentProfile.phone.trim()
           : "";
+
 
       const cvPath =
         currentProfile &&
@@ -2640,10 +4012,14 @@
         cvCheck.textContent =
           "✓ CV sudah tersimpan";
 
-        get("cvInfo").textContent =
+        get(
+          "cvInfo"
+        ).textContent =
           "CV tersimpan di profil Anda.";
 
-        get("cvStatus").textContent =
+        get(
+          "cvStatus"
+        ).textContent =
           "✓ Siap digunakan";
 
       } else {
@@ -2654,10 +4030,14 @@
         cvCheck.textContent =
           "✕ CV belum diupload";
 
-        get("cvInfo").textContent =
-          "Anda harus mengupload CV terlebih dahulu.";
+        get(
+          "cvInfo"
+        ).textContent =
+          "Upload CV terlebih dahulu melalui halaman Profil.";
 
-        get("cvStatus").textContent =
+        get(
+          "cvStatus"
+        ).textContent =
           "Belum tersedia";
 
       }
@@ -2677,24 +4057,26 @@
         );
 
 
-      get("applyButton").disabled =
+      get(
+        "applyButton"
+      ).disabled =
         !ready;
 
 
       /*
-        ACCOUNT TYPE
+        EMPLOYER
       */
 
+      const accountType =
+        normalizeAccountType(
+          currentProfile?.account_type
+        );
+
+
       if (
-  currentProfile &&
-  (
-    currentProfile.account_type ===
-      "company"
-    ||
-    currentProfile.account_type ===
-      "employer"
-  )
-) {
+        accountType ===
+        "employer"
+      ) {
 
         showMessage(
           "applicationMessage",
@@ -2702,7 +4084,9 @@
           "Akun perusahaan tidak dapat mengirim lamaran sebagai kandidat. Gunakan akun Pencari Kerja."
         );
 
-        get("applyButton").disabled =
+        get(
+          "applyButton"
+        ).disabled =
           true;
 
       }
@@ -2712,136 +4096,174 @@
 
     /* =====================================================
        INITIALIZE APPLICATION
-    ====================================================== */
+    ===================================================== */
 
     async function initializeApplication() {
 
-  if (!applyJobId) {
-    return;
-  }
-
-  try {
-
-    /*
-      CEK USER TERLEBIH DAHULU
-    */
-    currentUser =
-      await getCurrentUser();
+      if (!applyJobId) {
+        return;
+      }
 
 
-    /*
-      BELUM LOGIN
-    */
-    if (!currentUser) {
+      try {
 
-      get("applicationSection").style.display =
-        "none";
+        /*
+          USER
+        */
 
-      get("applicationSuccessSection").style.display =
-        "none";
+        currentUser =
+          currentUser ||
+          await getCurrentUser();
 
-      get("authSection").style.display =
-        "block";
 
-      showForm("login");
+        /*
+          BELUM LOGIN
+        */
 
-      showMessage(
-        "loginMessage",
-        "warning",
-        "Silakan masuk terlebih dahulu untuk melanjutkan lamaran."
-      );
+        if (!currentUser) {
 
-      return;
+          get(
+            "applicationSection"
+          ).style.display =
+            "none";
+
+          get(
+            "applicationSuccessSection"
+          ).style.display =
+            "none";
+
+          get(
+            "passwordResetSection"
+          ).style.display =
+            "none";
+
+          get(
+            "authSection"
+          ).style.display =
+            "block";
+
+
+          showForm(
+            "login"
+          );
+
+
+          showMessage(
+            "loginMessage",
+            "warning",
+            "Silakan masuk terlebih dahulu untuk melanjutkan lamaran."
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+          PROFILE
+        */
+
+        await loadApplicationProfile();
+
+
+        /*
+          ACCOUNT TYPE
+        */
+
+        const accountType =
+          normalizeAccountType(
+            currentProfile?.account_type
+          );
+
+
+        if (
+          accountType ===
+          "employer"
+        ) {
+
+          window.location.href =
+            "employer.html";
+
+          return;
+
+        }
+
+
+        /*
+          TAMPILKAN APPLICATION
+        */
+
+        get(
+          "authSection"
+        ).style.display =
+          "none";
+
+        get(
+          "passwordResetSection"
+        ).style.display =
+          "none";
+
+        get(
+          "applicationSuccessSection"
+        ).style.display =
+          "none";
+
+        get(
+          "applicationSection"
+        ).style.display =
+          "block";
+
+
+        /*
+          JOB
+        */
+
+        await loadApplicationJob();
+
+
+        /*
+          PROFILE CHECK
+        */
+
+        updateProfileChecks();
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+
+      } catch (error) {
+
+        console.error(
+          "Application initialization error:",
+          error
+        );
+
+
+        get(
+          "applicationSection"
+        ).style.display =
+          "block";
+
+
+        showMessage(
+          "applicationMessage",
+          "error",
+          error?.message ||
+          "Gagal menyiapkan halaman lamaran."
+        );
+
+      }
+
     }
-
-
-    /*
-      LOAD PROFILE
-    */
-    await loadApplicationProfile();
-
-
-    /*
-      CEK JENIS AKUN
-    */
-    const accountType =
-      (
-        currentProfile?.account_type
-        || "jobseeker"
-      )
-        .trim()
-        .toLowerCase();
-
-
-    /*
-      EMPLOYER / COMPANY
-      TIDAK BOLEH MASUK FORM LAMARAN
-    */
-    if (
-      accountType === "employer"
-      ||
-      accountType === "company"
-    ) {
-
-      window.location.href =
-        "employer.html";
-
-      return;
-    }
-
-
-    /*
-      BARU TAMPILKAN FORM LAMARAN
-    */
-    get("authSection").style.display =
-      "none";
-
-    get("applicationSuccessSection").style.display =
-      "none";
-
-    get("applicationSection").style.display =
-      "block";
-
-
-    /*
-      LOAD LOWONGAN
-    */
-    await loadApplicationJob();
-
-
-    /*
-      UPDATE CHECK PROFILE
-    */
-    updateProfileChecks();
-
-
-  } catch (error) {
-
-    console.error(
-      "Application initialization error:",
-      error
-    );
-
-
-    get("applicationSection").style.display =
-      "block";
-
-
-    showMessage(
-      "applicationMessage",
-      "error",
-      error.message ||
-      "Gagal menyiapkan halaman lamaran."
-    );
-
-  }
-
-}
 
 
     /* =====================================================
        SUBMIT APPLICATION
-    ====================================================== */
+    ===================================================== */
 
     async function submitApplication() {
 
@@ -2858,6 +4280,7 @@
         );
 
         return;
+
       }
 
 
@@ -2866,15 +4289,18 @@
           ? currentProfile.full_name.trim()
           : "";
 
+
       const phone =
         currentProfile.phone
           ? currentProfile.phone.trim()
           : "";
 
+
       const cvPath =
         currentProfile.cv_path
           ? currentProfile.cv_path.trim()
           : "";
+
 
       const coverLetter =
         get("coverLetter")
@@ -2895,6 +4321,7 @@
         );
 
         return;
+
       }
 
 
@@ -2907,6 +4334,7 @@
         );
 
         return;
+
       }
 
 
@@ -2919,16 +4347,20 @@
         );
 
         return;
+
       }
 
 
+      const accountType =
+        normalizeAccountType(
+          currentProfile.account_type
+        );
+
+
       if (
-  currentProfile.account_type ===
-    "company"
-  ||
-  currentProfile.account_type ===
-    "employer"
-) {
+        accountType ===
+        "employer"
+      ) {
 
         showMessage(
           "applicationMessage",
@@ -2937,6 +4369,7 @@
         );
 
         return;
+
       }
 
 
@@ -2959,7 +4392,7 @@
       try {
 
         /*
-          CEK LAMARAN DUPLIKAT
+          DUPLICATE CHECK
         */
 
         const {
@@ -2968,7 +4401,9 @@
         } =
           await supabaseClient
             .from("applications")
-            .select("id,status")
+            .select(
+              "id,status"
+            )
             .eq(
               "job_id",
               currentJob.id
@@ -2995,7 +4430,7 @@
 
 
         /*
-          INSERT LAMARAN
+          INSERT
         */
 
         const {
@@ -3013,7 +4448,8 @@
                 currentUser.id,
 
               cover_letter:
-                coverLetter || null,
+                coverLetter ||
+                null,
 
               cv_path:
                 cvPath,
@@ -3030,11 +4466,6 @@
 
         if (error) {
 
-          /*
-            Unique constraint
-            sebagai pengaman tambahan.
-          */
-
           if (
             error.code ===
             "23505"
@@ -3047,6 +4478,7 @@
           }
 
           throw error;
+
         }
 
 
@@ -3055,13 +4487,17 @@
 
 
         /*
-          SUKSES
+          SUCCESS
         */
 
-        get("applicationSection").style.display =
+        get(
+          "applicationSection"
+        ).style.display =
           "none";
 
-        get("applicationSuccessSection").style.display =
+        get(
+          "applicationSuccessSection"
+        ).style.display =
           "block";
 
 
@@ -3082,7 +4518,7 @@
         showMessage(
           "applicationMessage",
           "error",
-          error.message ||
+          error?.message ||
           "Gagal mengirim lamaran."
         );
 
@@ -3100,7 +4536,7 @@
 
     /* =====================================================
        BACK TO JOB
-    ====================================================== */
+    ===================================================== */
 
     function backToJob() {
 
@@ -3123,138 +4559,64 @@
 
 
     /* =====================================================
-       PASSWORD RECOVERY
-    ====================================================== */
+       AUTH STATE LISTENER
+    ===================================================== */
 
-    async function initializePasswordReset() {
-
-      if (resetMode !== "1") {
-        return;
-      }
-
-
-      get("authSection").style.display =
-        "block";
-
-      get("applicationSection").style.display =
-        "none";
-
-
-      showForm("login");
-
-
-      const {
-        data: {
+    supabaseClient
+      .auth
+      .onAuthStateChange(
+        async function(
+          event,
           session
+        ) {
+
+          /*
+            PASSWORD RECOVERY
+
+            Supabase dapat mengirim event
+            PASSWORD_RECOVERY ketika user
+            datang melalui email recovery.
+          */
+
+          if (
+            event ===
+            "PASSWORD_RECOVERY"
+          ) {
+
+            currentUser =
+              session?.user ||
+              null;
+
+
+            if (
+              resetMode ===
+              "1"
+            ) {
+
+              await initializePasswordReset();
+
+            }
+
+          }
+
         }
-      } =
-        await supabaseClient.auth
-          .getSession();
-
-
-      if (!session) {
-
-        showMessage(
-          "loginMessage",
-          "warning",
-          "Link reset password tidak valid atau sudah kedaluwarsa."
-        );
-
-        return;
-
-      }
-
-
-      const newPassword =
-        window.prompt(
-          "Masukkan password baru (minimal 6 karakter):"
-        );
-
-
-      if (!newPassword) {
-        return;
-      }
-
-
-      if (
-        newPassword.length < 6
-      ) {
-
-        showMessage(
-          "loginMessage",
-          "error",
-          "Password minimal 6 karakter."
-        );
-
-        return;
-
-      }
-
-
-      const {
-        error
-      } =
-        await supabaseClient.auth
-          .updateUser({
-            password:
-              newPassword
-          });
-
-
-      if (error) {
-
-        showMessage(
-          "loginMessage",
-          "error",
-          error.message
-        );
-
-        return;
-      }
-
-
-      showMessage(
-        "loginMessage",
-        "success",
-        "Password berhasil diubah. Silakan masuk dengan password baru."
       );
 
 
-      await supabaseClient.auth
-        .signOut();
-
-    }
-
-
     /* =====================================================
-       PAGE START
-    ====================================================== */
+       PAGE INIT
+    ===================================================== */
 
     async function initPage() {
 
       /*
-        Hash
+        PASSWORD RESET
       */
 
       if (
-        window.location.hash ===
-        "#register"
+        resetMode ===
+        "1"
       ) {
-
-        showForm("register");
-
-      } else {
-
-        showForm("login");
-
-      }
-
-
-      /*
-        Password recovery
-      */
-
-      if (resetMode === "1") {
 
         await initializePasswordReset();
 
@@ -3264,8 +4626,7 @@
 
 
       /*
-        Jika halaman dibuka
-        dengan ?apply=JOB_ID
+        APPLICATION
       */
 
       if (applyJobId) {
@@ -3278,29 +4639,65 @@
 
 
       /*
-        Halaman login biasa
+        NORMAL AUTH PAGE
       */
 
-      const user =
-        await getCurrentUser();
+      if (
+        window.location.hash ===
+        "#register"
+      ) {
+
+        showForm(
+          "register"
+        );
+
+      } else {
+
+        showForm(
+          "login"
+        );
+
+      }
 
 
-      if (user) {
+      /*
+        CHECK CURRENT SESSION
+      */
 
-        currentUser =
-          user;
+      try {
 
-        /*
-          Jangan otomatis redirect jika
-          user membuka halaman daftar.
-          Beri kesempatan logout/login
-          melalui halaman yang tersedia.
-        */
+        const user =
+          await getCurrentUser();
+
+
+        if (user) {
+
+          currentUser =
+            user;
+
+
+          /*
+            Tidak langsung redirect.
+            User masih bisa melihat halaman auth.
+          */
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Initial session check error:",
+          error
+        );
 
       }
 
     }
 
+
+    /*
+      Start
+    */
 
     initPage();
 
