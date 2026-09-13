@@ -8,21 +8,31 @@
 
   <style>
     :root {
-      --navy: #081b31;
-      --navy-light: #102b49;
-      --blue: #1877b9;
-      --blue-dark: #0e5d98;
-      --gold: #f4b72c;
-      --bg: #f4f7fb;
+      --navy: #0f172a;
+      --navy-2: #13253d;
+      --blue: #0284c7;
+      --blue-dark: #075985;
+      --blue-soft: #e0f2fe;
+      --gold: #f59e0b;
+
+      --bg: #f5f8fb;
       --white: #ffffff;
-      --text: #1c2d42;
-      --muted: #718096;
-      --border: #e1e8f0;
-      --green: #15803d;
-      --green-bg: #e9f8ef;
-      --red: #dc2626;
-      --shadow: 0 10px 30px rgba(15, 40, 70, .08);
-      --radius: 18px;
+
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+
+      --success: #15803d;
+      --success-bg: #dcfce7;
+
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+
+      --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.08);
+
+      --radius: 16px;
+      --container: 1180px;
     }
 
     * {
@@ -36,446 +46,985 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
       background: var(--bg);
       color: var(--text);
+      line-height: 1.5;
+    }
+
+    body.menu-open {
+      overflow: hidden;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     button {
-      font-family: inherit;
+      font: inherit;
       cursor: pointer;
     }
 
     .container {
-      width: min(1200px, 92%);
-      margin: auto;
+      width: min(var(--container), 92%);
+      margin: 0 auto;
     }
 
-    /* ================= NAVBAR ================= */
+    /* =========================================================
+       NAVBAR
+    ========================================================= */
 
     .navbar {
-      height: 76px;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
+
+      height: 72px;
+
+      background: rgba(15, 23, 42, 0.97);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(12px);
     }
 
     .nav-wrapper {
-      width: 100%;
+      height: 100%;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 25px;
+
+      gap: 28px;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
+
       color: white;
+      flex-shrink: 0;
     }
 
     .logo-icon {
-      font-size: 34px;
-      color: var(--gold);
-    }
-
-    .logo strong {
-      display: block;
-      font-size: 18px;
-      letter-spacing: .5px;
-    }
-
-    .logo small {
-      color: #aebed0;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 26px;
-    }
-
-    .nav-menu a {
-      color: #c9d4df;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .nav-menu a:hover,
-    .nav-menu .active {
-      color: white;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-login,
-    .btn-register {
-      border-radius: 9px;
-      font-weight: bold;
-    }
-
-    .btn-login {
-      padding: 10px 18px;
-      background: transparent;
-      border: 1px solid #718096;
-      color: white;
-    }
-
-    .btn-register {
-      padding: 11px 20px;
-      background: var(--gold);
-      border: none;
-      color: #1c2d42;
-    }
-
-    /* ================= HERO ================= */
-
-    .hero {
-      background:
-        radial-gradient(
-          circle at 80% 10%,
-          rgba(33, 132, 199, .25),
-          transparent 30%
-        ),
-        linear-gradient(
-          135deg,
-          var(--navy),
-          #12395c
-        );
-
-      color: white;
-      padding: 55px 0 75px;
-    }
-
-    .breadcrumb {
-      color: #9db4c8;
-      font-size: 13px;
-      margin-bottom: 28px;
-    }
-
-    .breadcrumb a {
-      color: white;
-    }
-
-    .hero-layout {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .company-name {
-      color: #b9cbdc;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 18px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 20px;
-      background: var(--green-bg);
-      color: var(--green);
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .hero-date {
-      color: #b9cbdc;
-      font-size: 12px;
-      margin-top: 15px;
-    }
-
-    .company-logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 22px;
-      background: linear-gradient(
-        135deg,
-        #0e5d98,
-        #5baee5
-      );
+      width: 40px;
+      height: 40px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      color: white;
-      font-size: 28px;
-      font-weight: bold;
-      box-shadow: 0 12px 30px rgba(0,0,0,.2);
+      border-radius: 11px;
+
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+
+      color: var(--gold);
+      font-size: 21px;
     }
 
-    /* ================= CONTENT ================= */
+    .logo-text strong {
+      display: block;
+
+      font-size: 16px;
+      line-height: 1.1;
+      letter-spacing: 0.4px;
+    }
+
+    .logo-text small {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #94a3b8;
+
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      margin-left: auto;
+    }
+
+    .nav-menu a {
+      position: relative;
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+      font-weight: 600;
+
+      padding: 26px 0;
+
+      transition: color 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      color: white;
+    }
+
+    .nav-menu a.active::after {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 3px;
+
+      background: var(--gold);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .btn-login,
+    .btn-register {
+      border-radius: 9px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .btn-login {
+      padding: 9px 15px;
+
+      color: white;
+      background: transparent;
+
+      border: 1px solid #475569;
+    }
+
+    .btn-login:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-register {
+      padding: 10px 16px;
+
+      color: #172033;
+      background: var(--gold);
+
+      border: 1px solid var(--gold);
+    }
+
+    .btn-register:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .menu-toggle {
+      display: none;
+
+      width: 42px;
+      height: 42px;
+
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid #334155;
+      border-radius: 10px;
+
+      background: transparent;
+      color: white;
+
+      font-size: 20px;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(2, 132, 199, 0.28),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 15% 100%,
+          rgba(245, 158, 11, 0.08),
+          transparent 28%
+        ),
+        linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #132d4b 100%
+        );
+
+      color: white;
+
+      padding: 42px 0 68px;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+      left: -5%;
+      right: -5%;
+      bottom: -60px;
+
+      height: 100px;
+
+      background: var(--bg);
+
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .breadcrumb {
+      position: relative;
+      z-index: 2;
+
+      margin-bottom: 34px;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+    }
+
+    .breadcrumb a {
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+
+    .breadcrumb a:hover {
+      color: white;
+    }
+
+    .hero-layout {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      align-items: center;
+
+      gap: 35px;
+    }
+
+    .company-name {
+      margin-bottom: 10px;
+
+      color: #bae6fd;
+
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      max-width: 800px;
+
+      margin-bottom: 17px;
+
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.8px;
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+      background: var(--success-bg);
+      color: var(--success);
+
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .status::before {
+      content: "";
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: currentColor;
+    }
+
+    .hero-date {
+      color: #a8b8c9;
+
+      font-size: 12px;
+    }
+
+    .company-logo {
+      width: 104px;
+      height: 104px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #075985,
+          #0284c7
+        );
+
+      border: 1px solid rgba(255, 255, 255, 0.14);
+
+      color: white;
+
+      font-size: 28px;
+      font-weight: 800;
+
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
 
     .content {
-      padding: 55px 0 80px;
+      position: relative;
+      z-index: 5;
+
+      padding: 18px 0 80px;
     }
 
     .detail-layout {
       display: grid;
-      grid-template-columns: 1fr 330px;
-      gap: 28px;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        330px;
+
       align-items: start;
+
+      gap: 26px;
     }
 
     .card {
-      background: white;
+      background: var(--white);
+
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: 0 5px 15px rgba(0,0,0,.03);
+
+      box-shadow: var(--shadow-sm);
     }
 
     .main-card {
-      padding: 35px;
+      padding: 34px;
     }
 
     .section {
-      padding-bottom: 30px;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+
       border-bottom: 1px solid var(--border);
     }
 
     .section:last-child {
-      border-bottom: none;
       margin-bottom: 0;
       padding-bottom: 0;
+
+      border-bottom: none;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 20px;
+    }
+
+    .section-heading::before {
+      content: "";
+
+      width: 4px;
+      height: 24px;
+
+      border-radius: 4px;
+
+      background: var(--blue);
     }
 
     .section h2 {
-      font-size: 22px;
-      margin-bottom: 18px;
+      font-size: 20px;
+      line-height: 1.2;
     }
 
-    .section p {
-      color: #596b7e;
-      line-height: 1.8;
+    .section-description {
+      color: #475569;
+
       font-size: 14px;
+      line-height: 1.85;
+
       white-space: pre-line;
     }
 
-    .requirements {
-      display: grid;
-      gap: 12px;
-    }
-
-    .requirement-item {
-      display: flex;
-      gap: 10px;
-      color: #596b7e;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .requirement-item::before {
-      content: "✓";
-      color: var(--blue);
-      font-weight: bold;
-    }
-
-    /* ================= INFO ================= */
+    /* =========================================================
+       INFO GRID
+    ========================================================= */
 
     .info-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
+
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
     }
 
     .info-item {
-      background: #f6f9fc;
+      min-width: 0;
+
+      padding: 16px 17px;
+
+      background: #f8fafc;
+
+      border: 1px solid #edf2f7;
       border-radius: 12px;
-      padding: 17px;
     }
 
     .info-label {
+      margin-bottom: 6px;
+
       color: var(--muted);
-      font-size: 11px;
-      margin-bottom: 7px;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .info-value {
       color: var(--text);
+
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 700;
+
+      word-break: break-word;
     }
 
-    /* ================= SIDEBAR ================= */
+    .salary-value {
+      color: var(--blue-dark);
+    }
+
+    /* =========================================================
+       REQUIREMENTS
+    ========================================================= */
+
+    .requirements {
+      display: grid;
+      gap: 11px;
+    }
+
+    .requirement-item {
+      position: relative;
+
+      display: flex;
+      align-items: flex-start;
+
+      gap: 11px;
+
+      color: #475569;
+
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .requirement-item::before {
+      content: "✓";
+
+      flex: 0 0 22px;
+
+      width: 22px;
+      height: 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 1px;
+
+      border-radius: 50%;
+
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       IMPORTANT INFO
+    ========================================================= */
+
+    .important-box {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 13px;
+
+      padding: 17px;
+
+      border: 1px solid #bae6fd;
+      border-radius: 13px;
+
+      background: #f0f9ff;
+    }
+
+    .important-icon {
+      flex: 0 0 28px;
+
+      width: 28px;
+      height: 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .important-box p {
+      color: #475569;
+
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
 
     .sidebar {
       position: sticky;
-      top: 100px;
+      top: 94px;
     }
 
     .apply-card {
       padding: 25px;
-      margin-bottom: 18px;
+
+      margin-bottom: 16px;
+
+      box-shadow: var(--shadow-md);
     }
 
     .apply-card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
+
+      font-size: 19px;
+      line-height: 1.3;
     }
 
     .apply-card p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
       margin-bottom: 20px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.65;
     }
 
     .btn-apply {
       width: 100%;
-      padding: 14px;
+
+      padding: 14px 18px;
+
       border: none;
       border-radius: 10px;
+
       background: var(--blue);
       color: white;
-      font-weight: bold;
+
       font-size: 14px;
-      transition: .3s;
+      font-weight: 800;
+
+      box-shadow:
+        0 8px 18px rgba(2, 132, 199, 0.2);
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .btn-apply:hover {
       background: var(--blue-dark);
+
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 10px 22px rgba(2, 132, 199, 0.28);
     }
 
-    .btn-back {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: white;
-      color: var(--text);
-      font-weight: bold;
-      font-size: 13px;
+    .apply-note {
+      display: flex;
+
+      gap: 8px;
+
+      margin-top: 14px;
+
+      color: #94a3b8;
+
+      font-size: 11px;
+      line-height: 1.5;
     }
 
     .company-card {
-      padding: 25px;
+      padding: 23px;
+
+      margin-bottom: 15px;
     }
 
-    .company-card h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
+    .company-card-title {
+      margin-bottom: 11px;
+
+      font-size: 17px;
+    }
+
+    .company-card-name {
+      margin-bottom: 9px;
+
+      color: var(--blue-dark);
+
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .company-card p {
       color: var(--muted);
-      font-size: 13px;
+
+      font-size: 12px;
       line-height: 1.7;
     }
 
-    /* ================= LOADING ================= */
+    .btn-back {
+      width: 100%;
+
+      padding: 12px 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: white;
+      color: var(--text);
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
 
     .loading {
+      min-height: 380px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
       text-align: center;
-      padding: 100px 20px;
+    }
+
+    .loading-spinner {
+      width: 38px;
+      height: 38px;
+
+      margin-bottom: 18px;
+
+      border: 3px solid #dbeafe;
+      border-top-color: var(--blue);
+
+      border-radius: 50%;
+
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .loading h2 {
-      margin-bottom: 10px;
+      margin-bottom: 7px;
+
+      font-size: 18px;
     }
 
     .loading p {
       color: var(--muted);
+
+      font-size: 13px;
     }
 
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
     .error-box {
-      max-width: 600px;
-      margin: 70px auto;
-      padding: 35px;
+      max-width: 620px;
+
+      margin: 35px auto;
+
+      padding: 42px 30px;
+
       text-align: center;
+
       background: white;
+
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .error-icon {
+      width: 52px;
+      height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 auto 17px;
+
+      border-radius: 50%;
+
+      background: var(--danger-bg);
+      color: var(--danger);
+
+      font-size: 20px;
+      font-weight: 800;
     }
 
     .error-box h2 {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+
+      font-size: 21px;
     }
 
     .error-box p {
+      margin-bottom: 22px;
+
       color: var(--muted);
+
+      font-size: 13px;
       line-height: 1.7;
-      margin-bottom: 20px;
     }
 
     .error-box a {
-      display: inline-block;
-      padding: 12px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 11px 18px;
+
       border-radius: 9px;
+
       background: var(--blue);
       color: white;
-      font-weight: bold;
-      font-size: 13px;
+
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    /* ================= FOOTER ================= */
+    /* =========================================================
+       FOOTER
+    ========================================================= */
 
     footer {
-      background: #061424;
-      color: #91a6bb;
-      padding: 45px 0 20px;
+      background: #0b1322;
+
+      color: #94a3b8;
+
+      padding: 42px 0 20px;
     }
 
     .footer-content {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      display: grid;
+
+      grid-template-columns: 1.4fr auto;
+
+      gap: 40px;
+
+      padding-bottom: 28px;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .footer-content h3 {
+    .footer-brand h3 {
+      margin-bottom: 9px;
+
       color: white;
-      margin-bottom: 10px;
+
+      font-size: 15px;
+      letter-spacing: 0.3px;
     }
 
-    .footer-content p {
-      font-size: 13px;
-      max-width: 500px;
-      line-height: 1.6;
+    .footer-brand p {
+      max-width: 510px;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+      line-height: 1.7;
     }
 
     .footer-links {
       display: flex;
-      gap: 30px;
+      flex-wrap: wrap;
+
+      gap: 20px;
+
       align-items: flex-start;
     }
 
     .footer-links a {
-      font-size: 13px;
+      color: #cbd5e1;
+
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: white;
     }
 
     .copyright {
+      padding-top: 19px;
+
       text-align: center;
-      font-size: 12px;
-      padding-top: 20px;
+
+      color: #64748b;
+
+      font-size: 11px;
     }
 
-    /* ================= RESPONSIVE ================= */
+    /* =========================================================
+       MOBILE NAV
+    ========================================================= */
 
-    @media (max-width: 900px) {
+    .mobile-menu {
+      display: none;
 
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+
+      padding: 12px 4% 20px;
+
+      background: var(--navy);
+
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-menu.show {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+
+      padding: 13px 0;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      color: white;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 960px) {
       .nav-menu {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-actions {
         display: none;
       }
 
@@ -487,49 +1036,107 @@
         position: static;
       }
 
-      .hero-layout {
-        grid-template-columns: 1fr;
+      .apply-card {
+        box-shadow: var(--shadow-sm);
       }
 
-      .company-logo {
-        width: 75px;
-        height: 75px;
-        font-size: 22px;
+      .company-card {
+        margin-bottom: 12px;
       }
     }
 
-    @media (max-width: 600px) {
-
+    @media (max-width: 700px) {
       .navbar {
         height: 68px;
       }
 
-      .nav-actions {
-        display: none;
+      .mobile-menu {
+        top: 68px;
       }
 
       .hero {
-        padding: 40px 0 55px;
+        padding: 32px 0 58px;
+      }
+
+      .breadcrumb {
+        margin-bottom: 25px;
+
+        line-height: 1.8;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
       }
 
       .hero h1 {
         font-size: 30px;
       }
 
+      .company-logo {
+        width: 72px;
+        height: 72px;
+
+        border-radius: 18px;
+
+        font-size: 21px;
+      }
+
+      .content {
+        padding-top: 8px;
+      }
+
       .main-card {
-        padding: 22px;
+        padding: 23px 20px;
       }
 
       .info-grid {
         grid-template-columns: 1fr;
       }
 
+      .section {
+        margin-bottom: 27px;
+        padding-bottom: 27px;
+      }
+
+      .section h2 {
+        font-size: 18px;
+      }
+
       .footer-content {
-        flex-direction: column;
+        grid-template-columns: 1fr;
       }
 
       .footer-links {
-        flex-wrap: wrap;
+        gap: 14px 22px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .logo-text strong {
+        font-size: 14px;
+      }
+
+      .logo-text small {
+        font-size: 7px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .hero-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .main-card {
+        padding: 21px 17px;
+      }
+
+      .apply-card,
+      .company-card {
+        padding: 21px 18px;
       }
     }
   </style>
@@ -537,7 +1144,9 @@
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- =======================================================
+       NAVBAR
+  ======================================================== -->
 
   <nav class="navbar">
 
@@ -547,7 +1156,7 @@
 
         <div class="logo-icon">⚓</div>
 
-        <div>
+        <div class="logo-text">
           <strong>SEA MARINE JOB</strong>
           <small>PORTAL KARIER MARITIM</small>
         </div>
@@ -560,7 +1169,10 @@
           Beranda
         </a>
 
-        <a href="kapal.html" class="active">
+        <a
+          href="kapal.html"
+          class="active"
+        >
           Lowongan Kapal
         </a>
 
@@ -568,16 +1180,8 @@
           Lowongan Darat
         </a>
 
-        <a href="detail.html">
-          Perusahaan
-        </a>
-
-        <a href="detail.html">
-          Artikel
-        </a>
-
-        <a href="detail.html">
-          Tentang Kami
+        <a href="daftar.html">
+          Masuk / Daftar
         </a>
 
       </div>
@@ -585,6 +1189,7 @@
       <div class="nav-actions">
 
         <button
+          type="button"
           class="btn-login"
           onclick="window.location.href='daftar.html'"
         >
@@ -592,6 +1197,7 @@
         </button>
 
         <button
+          type="button"
           class="btn-register"
           onclick="window.location.href='daftar.html'"
         >
@@ -600,12 +1206,57 @@
 
       </div>
 
+      <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Buka menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
     </div>
 
   </nav>
 
 
-  <!-- HERO -->
+  <!-- MOBILE MENU -->
+
+  <div
+    id="mobileMenu"
+    class="mobile-menu"
+  >
+
+    <div class="container">
+
+      <a href="index.html">
+        Beranda
+      </a>
+
+      <a
+        href="kapal.html"
+        class="active"
+      >
+        Lowongan Kapal
+      </a>
+
+      <a href="darat.html">
+        Lowongan Darat
+      </a>
+
+      <a href="daftar.html">
+        Masuk / Daftar
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       HERO
+  ======================================================== -->
 
   <section class="hero">
 
@@ -617,15 +1268,15 @@
           Beranda
         </a>
 
-        &nbsp;/&nbsp;
+        <span>&nbsp; / &nbsp;</span>
 
         <a href="kapal.html">
           Lowongan Kapal
         </a>
 
-        &nbsp;/&nbsp;
+        <span>&nbsp; / &nbsp;</span>
 
-        Detail Lowongan
+        <span>Detail Lowongan</span>
 
       </div>
 
@@ -633,7 +1284,7 @@
       <div
         id="heroContent"
         class="hero-layout"
-        style="display:none;"
+        style="display: none;"
       >
 
         <div>
@@ -649,18 +1300,22 @@
             -
           </h1>
 
-          <span
-            id="jobStatus"
-            class="status"
-          >
-            AKTIF
-          </span>
+          <div class="hero-bottom">
 
-          <div
-            id="jobDate"
-            class="hero-date"
-          >
-            -
+            <span
+              id="jobStatus"
+              class="status"
+            >
+              Aktif
+            </span>
+
+            <div
+              id="jobDate"
+              class="hero-date"
+            >
+              -
+            </div>
+
           </div>
 
         </div>
@@ -669,6 +1324,7 @@
         <div
           id="companyLogo"
           class="company-logo"
+          aria-label="Logo perusahaan"
         >
           SM
         </div>
@@ -680,7 +1336,9 @@
   </section>
 
 
-  <!-- CONTENT -->
+  <!-- =======================================================
+       CONTENT
+  ======================================================== -->
 
   <main class="content">
 
@@ -692,6 +1350,8 @@
         id="loading"
         class="loading"
       >
+
+        <div class="loading-spinner"></div>
 
         <h2>
           Memuat lowongan...
@@ -709,8 +1369,12 @@
       <div
         id="errorBox"
         class="error-box"
-        style="display:none;"
+        style="display: none;"
       >
+
+        <div class="error-icon">
+          !
+        </div>
 
         <h2>
           Lowongan tidak ditemukan
@@ -732,21 +1396,27 @@
       <div
         id="detailContent"
         class="detail-layout"
-        style="display:none;"
+        style="display: none;"
       >
 
-        <!-- MAIN -->
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
 
         <div class="card main-card">
-
 
           <!-- INFORMASI -->
 
           <section class="section">
 
-            <h2>
-              Informasi Lowongan
-            </h2>
+            <div class="section-heading">
+
+              <h2>
+                Informasi Lowongan
+              </h2>
+
+            </div>
+
 
             <div class="info-grid">
 
@@ -838,7 +1508,7 @@
 
                 <div
                   id="infoSalary"
-                  class="info-value"
+                  class="info-value salary-value"
                 >
                   -
                 </div>
@@ -854,11 +1524,18 @@
 
           <section class="section">
 
-            <h2>
-              Deskripsi Pekerjaan
-            </h2>
+            <div class="section-heading">
 
-            <p id="description">
+              <h2>
+                Deskripsi Pekerjaan
+              </h2>
+
+            </div>
+
+            <p
+              id="description"
+              class="section-description"
+            >
               -
             </p>
 
@@ -869,9 +1546,13 @@
 
           <section class="section">
 
-            <h2>
-              Persyaratan
-            </h2>
+            <div class="section-heading">
+
+              <h2>
+                Persyaratan
+              </h2>
+
+            </div>
 
             <div
               id="requirements"
@@ -882,29 +1563,44 @@
           </section>
 
 
-          <!-- CATATAN -->
+          <!-- INFORMASI PENTING -->
 
           <section class="section">
 
-            <h2>
-              Informasi Penting
-            </h2>
+            <div class="section-heading">
 
-            <p>
-              Pastikan data profil dan dokumen Anda sudah lengkap sebelum melamar.
-              Sea Marine Job tidak memungut biaya kepada pencari kerja untuk
-              mengakses informasi lowongan.
-            </p>
+              <h2>
+                Informasi Penting
+              </h2>
+
+            </div>
+
+            <div class="important-box">
+
+              <div class="important-icon">
+                i
+              </div>
+
+              <p>
+                Pastikan data profil dan dokumen Anda
+                sudah lengkap sebelum melamar.
+                Sea Marine Job tidak memungut biaya
+                kepada pencari kerja untuk mengakses
+                informasi lowongan.
+              </p>
+
+            </div>
 
           </section>
 
         </div>
 
 
-        <!-- SIDEBAR -->
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
 
         <aside class="sidebar">
-
 
           <!-- APPLY -->
 
@@ -915,16 +1611,27 @@
             </h3>
 
             <p>
-              Lengkapi profil Anda terlebih dahulu agar dapat melanjutkan
-              proses lamaran.
+              Lengkapi profil Anda dan siapkan
+              dokumen yang diperlukan sebelum
+              mengirim lamaran.
             </p>
 
             <button
+              type="button"
               class="btn-apply"
               onclick="applyJob()"
             >
               Lamar Sekarang →
             </button>
+
+            <div class="apply-note">
+              <span>🔒</span>
+
+              <span>
+                Lamaran dikirim melalui sistem
+                Sea Marine Job.
+              </span>
+            </div>
 
           </div>
 
@@ -933,20 +1640,29 @@
 
           <div class="card company-card">
 
-            <h3>
+            <h3 class="company-card-title">
               Tentang Perusahaan
             </h3>
 
+            <div
+              id="companyCardName"
+              class="company-card-name"
+            >
+              -
+            </div>
+
             <p id="companyDescription">
-              Informasi perusahaan akan tersedia pada tahap berikutnya.
+              Informasi perusahaan akan tersedia
+              pada tahap berikutnya.
             </p>
 
           </div>
 
 
-          <br>
+          <!-- BACK -->
 
           <button
+            type="button"
             class="btn-back"
             onclick="window.location.href='kapal.html'"
           >
@@ -963,7 +1679,9 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
 
   <footer>
 
@@ -971,15 +1689,16 @@
 
       <div class="footer-content">
 
-        <div>
+        <div class="footer-brand">
 
           <h3>
             ⚓ SEA MARINE JOB
           </h3>
 
           <p>
-            Portal lowongan kerja dan informasi karier
-            untuk pelaut dan profesional maritim Indonesia.
+            Portal lowongan kerja dan informasi
+            karier untuk pelaut dan profesional
+            maritim Indonesia.
           </p>
 
         </div>
@@ -999,8 +1718,8 @@
             Lowongan Darat
           </a>
 
-          <a href="detail.html">
-            Tentang Kami
+          <a href="daftar.html">
+            Masuk / Daftar
           </a>
 
         </div>
@@ -1019,7 +1738,9 @@
   </footer>
 
 
-  <!-- SUPABASE -->
+  <!-- =======================================================
+       SUPABASE
+  ======================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1042,11 +1763,16 @@
     let currentJob = null;
 
 
-    /* ================= HELPERS ================= */
+    /* =========================================================
+       HELPERS
+    ========================================================= */
 
     function escapeHTML(value) {
 
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
@@ -1072,11 +1798,15 @@
           .split(/\s+/)
           .filter(Boolean);
 
+
       if (words.length === 1) {
+
         return words[0]
           .substring(0, 2)
           .toUpperCase();
+
       }
+
 
       return (
         words[0][0] +
@@ -1095,9 +1825,15 @@
       const date =
         new Date(dateString);
 
-      if (isNaN(date.getTime())) {
+
+      if (
+        isNaN(
+          date.getTime()
+        )
+      ) {
         return "Tanggal tidak tersedia";
       }
+
 
       return date.toLocaleDateString(
         "id-ID",
@@ -1111,7 +1847,35 @@
     }
 
 
-    /* ================= GET JOB ID ================= */
+    function getStatusLabel(status) {
+
+      if (
+        status === "active" ||
+        status === "published"
+      ) {
+        return "Aktif";
+      }
+
+      if (status === "inactive") {
+        return "Tidak Aktif";
+      }
+
+      if (status === "closed") {
+        return "Ditutup";
+      }
+
+      if (status === "draft") {
+        return "Draft";
+      }
+
+      return "Aktif";
+
+    }
+
+
+    /* =========================================================
+       GET JOB ID
+    ========================================================= */
 
     function getJobId() {
 
@@ -1125,7 +1889,9 @@
     }
 
 
-    /* ================= LOAD JOB ================= */
+    /* =========================================================
+       LOAD JOB
+    ========================================================= */
 
     async function loadJob() {
 
@@ -1153,15 +1919,34 @@
           await supabaseClient
             .from("jobs")
             .select(
-              "id, created_at, title, company_name, location, vessel_type, employment_type, salary, description, requirements, status, posted_by"
+              `
+                id,
+                created_at,
+                title,
+                company_name,
+                location,
+                vessel_type,
+                employment_type,
+                salary,
+                description,
+                requirements,
+                status,
+                posted_by
+              `
             )
-            .eq("id", jobId)
+            .eq(
+              "id",
+              jobId
+            )
             .maybeSingle();
 
 
         if (error) {
 
-          console.error(error);
+          console.error(
+            "Supabase error:",
+            error
+          );
 
           showError(
             "Terjadi kesalahan saat mengambil data lowongan."
@@ -1189,7 +1974,10 @@
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "Load job error:",
+          error
+        );
 
         showError(
           "Terjadi kesalahan saat memuat lowongan."
@@ -1200,50 +1988,70 @@
     }
 
 
-    /* ================= RENDER ================= */
+    /* =========================================================
+       RENDER JOB
+    ========================================================= */
 
     function renderJob(job) {
 
       document.title =
-        job.title +
+        (
+          job.title ||
+          "Detail Lowongan"
+        ) +
         " | Sea Marine Job";
 
+
+      const companyName =
+        job.company_name ||
+        "Perusahaan Maritim";
+
+
+      const jobTitle =
+        job.title ||
+        "Posisi Tidak Tersedia";
+
+
+      /* HERO */
 
       document.getElementById(
         "companyName"
       ).textContent =
-        job.company_name ||
-        "Perusahaan Maritim";
+        companyName;
 
 
       document.getElementById(
         "jobTitle"
       ).textContent =
-        job.title ||
-        "Posisi Tidak Tersedia";
+        jobTitle;
 
 
       document.getElementById(
         "jobStatus"
       ).textContent =
-        (job.status || "aktif")
-          .toUpperCase();
+        getStatusLabel(
+          job.status
+        );
 
 
       document.getElementById(
         "jobDate"
       ).textContent =
         "Diposting " +
-        formatDate(job.created_at);
+        formatDate(
+          job.created_at
+        );
 
 
       document.getElementById(
         "companyLogo"
       ).textContent =
         getInitials(
-          job.company_name
+          companyName
         );
 
+
+      /* INFO */
 
       document.getElementById(
         "infoTitle"
@@ -1255,8 +2063,7 @@
       document.getElementById(
         "infoCompany"
       ).textContent =
-        job.company_name ||
-        "-";
+        companyName;
 
 
       document.getElementById(
@@ -1287,6 +2094,8 @@
         "Negosiasi";
 
 
+      /* DESCRIPTION */
+
       document.getElementById(
         "description"
       ).textContent =
@@ -1294,20 +2103,32 @@
         "Deskripsi pekerjaan belum tersedia.";
 
 
+      /* REQUIREMENTS */
+
       renderRequirements(
         job.requirements
       );
 
 
+      /* COMPANY */
+
+      document.getElementById(
+        "companyCardName"
+      ).textContent =
+        companyName;
+
+
       document.getElementById(
         "companyDescription"
       ).textContent =
-        job.company_name
+        companyName
           ? "Lowongan ini dipublikasikan oleh " +
-            job.company_name +
+            companyName +
             ". Informasi profil perusahaan akan dikembangkan pada tahap berikutnya."
           : "Informasi perusahaan belum tersedia.";
 
+
+      /* SHOW CONTENT */
 
       document.getElementById(
         "loading"
@@ -1329,7 +2150,9 @@
     }
 
 
-    /* ================= REQUIREMENTS ================= */
+    /* =========================================================
+       REQUIREMENTS
+    ========================================================= */
 
     function renderRequirements(
       requirements
@@ -1341,23 +2164,16 @@
         );
 
 
-      container.innerHTML = "";
+      container.innerHTML =
+        "";
 
 
       if (!requirements) {
 
-        const item =
-          document.createElement(
-            "div"
-          );
-
-        item.className =
-          "requirement-item";
-
-        item.textContent =
-          "Persyaratan belum tersedia.";
-
-        container.appendChild(item);
+        addRequirement(
+          container,
+          "Persyaratan belum tersedia."
+        );
 
         return;
 
@@ -1384,20 +2200,14 @@
           .filter(Boolean);
 
 
-      if (lines.length === 0) {
+      if (
+        lines.length === 0
+      ) {
 
-        const item =
-          document.createElement(
-            "div"
-          );
-
-        item.className =
-          "requirement-item";
-
-        item.textContent =
-          "Persyaratan belum tersedia.";
-
-        container.appendChild(item);
+        addRequirement(
+          container,
+          "Persyaratan belum tersedia."
+        );
 
         return;
 
@@ -1405,21 +2215,11 @@
 
 
       lines.forEach(
-        function(line) {
+        line => {
 
-          const item =
-            document.createElement(
-              "div"
-            );
-
-          item.className =
-            "requirement-item";
-
-          item.textContent =
-            line;
-
-          container.appendChild(
-            item
+          addRequirement(
+            container,
+            line
           );
 
         }
@@ -1428,7 +2228,35 @@
     }
 
 
-    /* ================= ERROR ================= */
+    function addRequirement(
+      container,
+      text
+    ) {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "requirement-item";
+
+
+      item.textContent =
+        text;
+
+
+      container.appendChild(
+        item
+      );
+
+    }
+
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
 
     function showError(message) {
 
@@ -1464,7 +2292,9 @@
     }
 
 
-    /* ================= APPLY ================= */
+    /* =========================================================
+       APPLY
+    ========================================================= */
 
     function applyJob() {
 
@@ -1486,7 +2316,90 @@
     }
 
 
-    /* ================= START ================= */
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    const menuToggle =
+      document.getElementById(
+        "menuToggle"
+      );
+
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenu"
+      );
+
+
+    function closeMobileMenu() {
+
+      mobileMenu.classList.remove(
+        "show"
+      );
+
+      document.body.classList.remove(
+        "menu-open"
+      );
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      menuToggle.textContent =
+        "☰";
+
+    }
+
+
+    menuToggle.addEventListener(
+      "click",
+      function() {
+
+        const isOpen =
+          mobileMenu.classList.toggle(
+            "show"
+          );
+
+
+        document.body.classList.toggle(
+          "menu-open",
+          isOpen
+        );
+
+
+        menuToggle.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+
+
+        menuToggle.textContent =
+          isOpen
+            ? "×"
+            : "☰";
+
+      }
+    );
+
+
+    mobileMenu
+      .querySelectorAll("a")
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            closeMobileMenu
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       START
+    ========================================================= */
 
     loadJob();
 
