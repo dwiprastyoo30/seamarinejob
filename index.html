@@ -52,8 +52,22 @@ svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;strok
 .mobile a:hover{background:#ffffff0a}
 
 /* ---------- Hero ---------- */
-.hero{position:relative;min-height:760px;display:flex;align-items:center;overflow:hidden;color:#fff}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(120deg,rgba(6,20,33,.92),rgba(6,36,58,.72) 45%,rgba(10,51,80,.35)),url('assets/hero-officer.jpg') center/cover no-repeat;background-color:#06243A}
+.hero{position:relative;min-height:760px;display:flex;align-items:center;overflow:hidden;color:#fff;background:#06243A}
+.hero-scene{position:absolute;inset:0;z-index:0}
+.hero-scene svg{width:100%;height:100%;display:block}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(4,16,26,.85) 0%,rgba(6,36,58,.55) 40%,rgba(6,36,58,.15) 75%)}
+.wave1{animation:wv 22s linear infinite}
+.wave2{animation:wv 14s linear infinite}
+.wave3{animation:wv 9s linear infinite}
+@keyframes wv{from{transform:translateX(0)}to{transform:translateX(-680px)}}
+.hship{animation:bob 6s ease-in-out infinite;transform-origin:190px 250px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.hfigure{animation:sway 7s ease-in-out infinite;transform-origin:595px 420px}
+@keyframes sway{0%,100%{transform:rotate(0deg)}50%{transform:rotate(.6deg)}}
+.hbird{animation:fly 16s linear infinite}
+.hbird2{animation-delay:-7s}
+@keyframes fly{from{transform:translateX(0)}to{transform:translateX(640px)}}
+@media(prefers-reduced-motion:reduce){.wave1,.wave2,.wave3,.hship,.hfigure,.hbird{animation:none}}
 .hero-content{position:relative;z-index:3;padding-top:75px;max-width:760px}
 .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border:1px solid #ffffff24;border-radius:999px;color:#ccefff;background:#ffffff09;font-size:11px;font-weight:800;letter-spacing:.6px;margin-bottom:20px}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
@@ -216,8 +230,50 @@ footer{background:var(--navy);color:#fff;padding:50px 0 20px}
 <main>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <!-- Ganti assets/hero-officer.jpg dengan foto perwira/pelaut asli (mis. dari Unsplash/Pexels, lisensi bebas pakai) -->
+  <div class="hero-scene" aria-hidden="true">
+    <svg viewBox="0 0 680 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skygrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#04141F"/>
+          <stop offset="42%" stop-color="#06243A"/>
+          <stop offset="68%" stop-color="#0B4A63"/>
+          <stop offset="86%" stop-color="#C97B2E"/>
+          <stop offset="100%" stop-color="#F4B740"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="680" height="420" fill="url(#skygrad)"/>
+      <circle cx="500" cy="250" r="95" fill="#F4B740" opacity="0.10"/>
+      <circle cx="500" cy="250" r="65" fill="#F4B740" opacity="0.20"/>
+      <circle cx="500" cy="250" r="36" fill="#FCEFDD"/>
+      <path class="hbird" d="M90,70 q8,-10 16,0 q8,-10 16,0" fill="none" stroke="#DCEFFA" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
+      <path class="hbird hbird2" d="M140,95 q6,-8 12,0 q6,-8 12,0" fill="none" stroke="#DCEFFA" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>
+      <g class="hship">
+        <line x1="214" y1="210" x2="214" y2="240" stroke="#04141F" stroke-width="2"/>
+        <circle cx="214" cy="208" r="2.2" fill="#F4B740"/>
+        <rect x="226" y="223" width="12" height="4" fill="#F4B740"/>
+        <rect x="228" y="225" width="8" height="18" fill="#04141F"/>
+        <rect x="196" y="240" width="32" height="26" fill="#04141F"/>
+        <path d="M118,266 L100,278 L282,278 L266,262 Z" fill="#04141F"/>
+      </g>
+      <g class="wave1"><path d="M0,268 Q34,263 68,268 Q102,273 136,268 Q170,263 204,268 Q238,273 272,268 Q306,263 340,268 Q374,273 408,268 Q442,263 476,268 Q510,273 544,268 Q578,263 612,268 Q646,273 680,268 Q714,263 748,268 Q782,273 816,268 Q850,263 884,268 Q918,273 952,268 Q986,263 1020,268 Q1054,273 1088,268 Q1122,263 1156,268 Q1190,273 1224,268 Q1258,263 1292,268 Q1326,273 1360,268 L1360,420 L0,420 Z" fill="#0E4A68"/></g>
+      <g class="wave2"><path d="M0,300 Q34,292 68,300 Q102,308 136,300 Q170,292 204,300 Q238,308 272,300 Q306,292 340,300 Q374,308 408,300 Q442,292 476,300 Q510,308 544,300 Q578,292 612,300 Q646,308 680,300 Q714,292 748,300 Q782,308 816,300 Q850,292 884,300 Q918,308 952,300 Q986,292 1020,300 Q1054,308 1088,300 Q1122,292 1156,300 Q1190,308 1224,300 Q1258,292 1292,300 Q1326,308 1360,300 L1360,420 L0,420 Z" fill="#0A3350"/></g>
+      <g class="wave3"><path d="M0,335 Q34,323 68,335 Q102,347 136,335 Q170,323 204,335 Q238,347 272,335 Q306,323 340,335 Q374,347 408,335 Q442,323 476,335 Q510,347 544,335 Q578,323 612,335 Q646,347 680,335 Q714,323 748,335 Q782,347 816,335 Q850,323 884,335 Q918,347 952,335 Q986,323 1020,335 Q1054,347 1088,335 Q1122,323 1156,335 Q1190,347 1224,335 Q1258,323 1292,335 Q1326,347 1360,335 L1360,420 L0,420 Z" fill="#062338"/></g>
+      <g class="hfigure">
+        <path d="M579,282 Q595,262 611,282 Z" fill="#F4B740"/>
+        <circle cx="595" cy="286" r="14" fill="#0B1F2E"/>
+        <path d="M574,300 L616,300 L608,368 L582,368 Z" fill="#0B1F2E"/>
+        <rect x="566" y="316" width="10" height="26" rx="4" fill="#0B1F2E"/>
+        <rect x="614" y="316" width="10" height="26" rx="4" fill="#0B1F2E"/>
+        <rect x="580" y="368" width="14" height="52" fill="#0B1F2E"/>
+        <rect x="602" y="368" width="14" height="52" fill="#0B1F2E"/>
+      </g>
+      <rect x="500" y="326" width="180" height="6" rx="3" fill="#04141F"/>
+      <rect x="520" y="326" width="5" height="94" fill="#04141F"/>
+      <rect x="590" y="326" width="5" height="94" fill="#04141F"/>
+      <rect x="660" y="326" width="5" height="94" fill="#04141F"/>
+    </svg>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="container hero-content">
     <div class="eyebrow"><i></i> MARITIME CAREER ECOSYSTEM</div>
     <h1>Your Career <br><span>at Sea &amp; Beyond.</span></h1>
@@ -243,7 +299,7 @@ footer{background:var(--navy);color:#fff;padding:50px 0 20px}
 <section id="career">
   <div class="container">
     <div class="head reveal">
-      <div><div class="kicker">One ecosystem</div><h2>Explore Maritime Careers</h2><p>Temukan jalur karier yang sesuai dengan passion dan keahlianmu.</p></div>
+      <div><h2>Explore Maritime Careers</h2><p>Temukan jalur karier yang sesuai dengan passion dan keahlianmu.</p></div>
       <a class="arrow" href="kapal.html">View all jobs <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="pillars">
@@ -278,7 +334,7 @@ footer{background:var(--navy);color:#fff;padding:50px 0 20px}
 <section class="jobs" id="jobs">
   <div class="container">
     <div class="head reveal">
-      <div><div class="kicker">Latest opportunities</div><h2>Latest Job Opportunities</h2><p>Lowongan terbaru dari perusahaan terpercaya di industri maritim.</p></div>
+      <div><h2>Latest Job Opportunities</h2><p>Lowongan terbaru dari perusahaan terpercaya di industri maritim.</p></div>
       <a class="arrow" href="kapal.html">View all jobs <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="jobs-grid" id="jobGrid"><div class="state">Memuat lowongan terbaru...</div></div>
@@ -308,13 +364,11 @@ footer{background:var(--navy);color:#fff;padding:50px 0 20px}
   <div class="container split">
     <div class="panel employer-panel reveal">
       <!-- Ganti assets/employer-ship.jpg dengan foto kapal/pelabuhan -->
-      <div class="kicker">For Employers</div>
       <h2>Find maritime talent for your company.</h2>
       <a class="cta" href="employer.html" style="width:fit-content">Post a Job <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="panel community-panel reveal">
       <!-- Ganti assets/community-ship.jpg dengan foto kapal kontainer -->
-      <div class="kicker">Community</div>
       <h2>Stay connected with the maritime world.</h2>
       <div class="socials">
         <a href="#" aria-label="WhatsApp"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20l1.4-4.2A8 8 0 1 1 9 19L4 20Z"/></svg></a>
