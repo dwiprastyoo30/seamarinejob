@@ -108,6 +108,8 @@ section{padding:88px 0}
 .job{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.25s}
 .job:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(4,25,43,.1)}
 .job-photo{position:relative;height:110px;background:linear-gradient(135deg,#0A3350,#0B87B8);background-size:cover;background-position:center}
+.job-photo .chev{position:absolute;right:10px;top:10px;width:26px;height:26px;border-radius:50%;background:#ffffffd9;display:grid;place-items:center;color:var(--navy);transition:.25s}
+.job:hover .chev{background:#fff;transform:translateX(2px)}
 .badge{position:absolute;left:12px;top:12px;padding:5px 10px;border-radius:999px;font-size:9.5px;font-weight:800;letter-spacing:.3px;color:#fff;background:var(--blue)}
 .badge.shore{background:#fff;color:var(--blue);border:1px solid var(--blue)}
 .job-body{padding:16px;display:flex;flex-direction:column;flex:1}
@@ -115,8 +117,7 @@ section{padding:88px 0}
 .job .company{color:var(--muted);font-size:11.5px;margin-bottom:2px}
 .job .loc{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:11px;margin-bottom:10px}
 .job .salary{color:var(--ink);font-size:12px;font-weight:700;margin-bottom:14px}
-.job-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:10px;color:#8397a7}
-.job-foot a{color:var(--blue);font-weight:800;display:flex;align-items:center;gap:3px}
+.job-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:10px;color:#8397a7}
 .state{grid-column:1/-1;padding:42px 20px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;color:var(--muted);font-size:13px}
 
 /* Academy */
@@ -137,7 +138,6 @@ section{padding:88px 0}
 .panel{position:relative;min-height:220px;border-radius:20px;overflow:hidden;padding:30px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end}
 .panel.employer-panel{background:linear-gradient(0deg,rgba(4,15,26,.86),rgba(6,36,58,.3)),url('assets/employer-ship.jpg') center/cover no-repeat;background-color:#0A3350}
 .panel.community-panel{background:linear-gradient(0deg,rgba(4,15,26,.86),rgba(6,36,58,.3)),url('assets/community-ship.jpg') center/cover no-repeat;background-color:#0A3350}
-.panel .kicker{color:var(--cyan)}
 .panel h2{font-size:23px;font-weight:800;margin-bottom:8px;max-width:320px}
 .panel p{color:#c7dbe6;font-size:12.5px;margin-bottom:18px;max-width:340px}
 .socials{display:flex;gap:8px;margin-bottom:16px}
@@ -422,17 +422,17 @@ function badgeFor(j){
 }
 
 function renderJobs(rows){
-  if(!rows.length){grid.innerHTML='<div class="state">Belum ada lowongan aktif saat ini.<br><br><a href="kapal.html" style="color:#0B87B8;font-weight:800">Lihat halaman lowongan →</a></div>';return}
-  grid.innerHTML=rows.map(j=>`<article class="job">
-    <div class="job-photo">${badgeFor(j)}</div>
+  if(!rows.length){grid.innerHTML='<div class="state">Belum ada lowongan aktif saat ini.<br><br><a href="kapal.html" style="color:#0B87B8;font-weight:800">Lihat halaman lowongan</a></div>';return}
+  grid.innerHTML=rows.map(j=>`<a class="job" href="detail.html?id=${encodeURIComponent(j.id)}">
+    <div class="job-photo">${badgeFor(j)}<span class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     <div class="job-body">
       <h3>${esc(j.title||"Posisi Maritim")}</h3>
       <div class="company">${esc(j.company_name||"Perusahaan Maritim")}</div>
       <div class="loc"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>${esc(j.location||"Indonesia")}</div>
       <div class="salary">${esc(j.salary||"Hubungi perusahaan")}</div>
-      <div class="job-foot"><span>${dateText(j.created_at)}</span><a href="detail.html?id=${encodeURIComponent(j.id)}">Detail <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="job-foot">${dateText(j.created_at)}</div>
     </div>
-  </article>`).join("")
+  </a>`).join("")
 }
 
 async function loadJobs(){
