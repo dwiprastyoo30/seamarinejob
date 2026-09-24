@@ -1918,6 +1918,16 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
                       </div>
                     </div>
 
+                    <div class="info-item">
+                      <div class="info-label">
+                        KONTAK RECRUITMENT
+                      </div>
+
+                      <div class="info-value">
+                        ${candidatePhone !== "-" ? escapeHtml(candidatePhone) : escapeHtml(candidateEmail)}
+                      </div>
+                    </div>
+
                   </div>
 
                   <div class="application-grid">
@@ -2048,7 +2058,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
                       </div>
 
                       <div class="actions">
-
+                        ${candidatePhone && candidatePhone !== "-" ? `<a class="btn btn-secondary" href="https://wa.me/${String(candidatePhone).replace(/[^0-9]/g,"")}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ""}
                         <button
                           class="btn btn-primary"
                           type="button"
