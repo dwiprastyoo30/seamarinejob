@@ -644,7 +644,7 @@
       }
     }
 
-    .candidate-toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) 190px 240px;gap:12px;margin:0 0 18px;padding:14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px}.candidate-toolbar label{display:block;font-size:11px;font-weight:800;color:#60738d;margin-bottom:6px}.candidate-toolbar input,.candidate-toolbar select{margin:0}.candidate-filter-summary{font-size:11px;color:#64748b;margin:-7px 0 12px}.candidate-filter-summary strong{color:#0d5ea6}.application-card.is-hidden{display:none}@media(max-width:900px){.candidate-toolbar{grid-template-columns:1fr 1fr}.candidate-search{grid-column:1/-1}}@media(max-width:600px){.candidate-toolbar{grid-template-columns:1fr}.candidate-search{grid-column:auto}}
+    .candidate-toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) 190px 240px;gap:12px;margin:0 0 18px;padding:14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px}.candidate-toolbar label{display:block;font-size:11px;font-weight:800;color:#60738d;margin-bottom:6px}.candidate-toolbar input,.candidate-toolbar select{margin:0}.candidate-stage-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.stage-chip{border:1px solid #E2E8F0;background:#fff;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;cursor:pointer;color:#475569}.stage-chip span{font-size:10px;font-weight:750}.stage-chip strong{font-size:16px;color:#0F172A}.stage-chip:hover,.stage-chip:focus-visible{border-color:#7DD3FC;outline:none;background:#F8FAFC}@media(max-width:700px){.candidate-stage-summary{grid-template-columns:repeat(2,1fr)}}.candidate-filter-summary{font-size:11px;color:#64748b;margin:-7px 0 12px}.candidate-filter-summary strong{color:#0d5ea6}.application-card.is-hidden{display:none}@media(max-width:900px){.candidate-toolbar{grid-template-columns:1fr 1fr}.candidate-search{grid-column:1/-1}}@media(max-width:600px){.candidate-toolbar{grid-template-columns:1fr}.candidate-search{grid-column:auto}}
     .error-box {
       background: #fff0f0;
       border: 1px solid #f0c4c4;
@@ -869,6 +869,12 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         <div class="candidate-search"><label for="candidateSearch">Cari kandidat</label><input id="candidateSearch" type="search" placeholder="Nama, email, posisi, atau lowongan..."></div>
         <div class="candidate-filter"><label for="candidateStatusFilter">Status</label><select id="candidateStatusFilter"><option value="all">Semua status</option><option value="submitted">Dikirim</option><option value="reviewing">Diproses</option><option value="interview">Interview</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select></div>
         <div class="candidate-filter"><label for="candidateJobFilter">Lowongan</label><select id="candidateJobFilter"><option value="all">Semua lowongan</option></select></div>
+      </div>
+      <div id="candidateStageSummary" class="candidate-stage-summary" aria-label="Ringkasan tahap kandidat">
+        <button type="button" class="stage-chip" data-stage-filter="submitted"><span>Dikirim</span><strong id="stageSubmitted">0</strong></button>
+        <button type="button" class="stage-chip" data-stage-filter="reviewing"><span>Diproses</span><strong id="stageReviewing">0</strong></button>
+        <button type="button" class="stage-chip" data-stage-filter="interview"><span>Interview</span><strong id="stageInterview">0</strong></button>
+        <button type="button" class="stage-chip" data-stage-filter="accepted"><span>Diterima</span><strong id="stageAccepted">0</strong></button>
       </div>
       <div id="candidateFilterSummary" class="candidate-filter-summary"></div>
       <div id="applicationsContainer">
@@ -1755,6 +1761,9 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         const show=(!search||hay.includes(search))&&(status==="all"||normalizeApplicationStatus(app.status)===status)&&(jobId==="all"||String(app.job_id)===String(jobId));
         card.classList.toggle("is-hidden",!show);if(show)visible++;
       });
+      const counts={submitted:0,reviewing:0,interview:0,accepted:0};
+      applications.forEach(app=>{const s=normalizeApplicationStatus(app.status);if(counts[s]!==undefined)counts[s]++;});
+      Object.keys(counts).forEach(s=>{const el=document.getElementById("stage"+s.charAt(0).toUpperCase()+s.slice(1));if(el)el.textContent=counts[s];});
       const summary=document.getElementById("candidateFilterSummary"); if(summary)summary.innerHTML='<strong>'+visible+'</strong> kandidat ditampilkan dari '+applications.length+' total lamaran.';
       const empty=applicationsContainer.querySelector(".candidate-filter-empty"); if(!visible&&applications.length&&!empty)applicationsContainer.insertAdjacentHTML("beforeend",'<div class="empty candidate-filter-empty">Tidak ada kandidat yang cocok dengan filter saat ini.</div>'); else if(visible&&empty)empty.remove();
     }
@@ -2122,6 +2131,12 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       const noteValue =
         noteElement.value.trim();
 
+      if (newStatus === "interview" && !interviewValue) {
+        showError("Tetapkan tanggal dan waktu interview sebelum menyimpan status Interview.");
+        interviewElement.focus();
+        return;
+      }
+
       let interviewDate = null;
 
       if (interviewValue) {
@@ -2237,6 +2252,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
     document.getElementById("saveCompanyProfileBtn").addEventListener("click", saveCompanyProfile);
     ["candidateSearch","candidateStatusFilter","candidateJobFilter"].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener("input",filterApplications);el.addEventListener("change",filterApplications)}});
+    document.querySelectorAll("[data-stage-filter]").forEach(button=>button.addEventListener("click",()=>{const stage=button.getAttribute("data-stage-filter");const select=document.getElementById("candidateStatusFilter");if(select){select.value=stage;filterApplications();select.scrollIntoView({behavior:"smooth",block:"center"});}}));
 
     addJobBtn.addEventListener(
       "click",
