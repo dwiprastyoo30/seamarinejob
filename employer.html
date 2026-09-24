@@ -730,7 +730,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,255,255,.08);padding:0 4%;}
 .logo{display:flex;align-items:center;gap:11px;font-size:17px;color:#fff;letter-spacing:.2px}.logo:before{content:"⚓";display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--ocean),var(--blue));font-size:20px}.logo span{color:#fff}.nav-right{gap:7px}.nav-right a{color:rgba(255,255,255,.82);font-size:13px;padding:10px 12px;border-radius:9px}.nav-right a:hover{background:rgba(255,255,255,.08);color:#fff}.logout-btn{border:0;background:#fff;color:var(--navy);padding:10px 15px;border-radius:9px;font-size:12px}.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#10243A,#075985 58%,#0284C7);padding:46px 4% 68px}.hero:after{content:"";position:absolute;width:330px;height:330px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-70px;top:-170px}.hero-inner{position:relative;z-index:1;max-width:1180px}.hero small{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#BAE6FD;font-weight:850}.hero h1{font-size:clamp(30px,4vw,43px);line-height:1.12;margin:10px 0}.hero p{font-size:14px;color:#E0F2FE;line-height:1.6}.container{max-width:1100px;width:92%;margin:-38px auto 60px}.stats{gap:16px}.stat-card,.section{border:1px solid var(--border);box-shadow:0 10px 30px rgba(15,23,42,.06)}.stat-card{border-radius:16px;padding:20px}.stat-label{font-size:11px;font-weight:800}.stat-number{font-size:30px;color:var(--text)}.section{border-radius:18px;padding:24px}.section h2{font-size:20px}.section-description{font-size:12px;color:var(--muted)}.job-card,.application-card{border-color:var(--border);border-radius:15px}.job-card{padding:20px}.job-title{font-size:19px}.company{font-size:13px;color:var(--blue)}.tag{background:#EFF6FF;color:#24547D;border-radius:8px;font-size:10px;padding:7px 9px}.btn{border-radius:10px;font-size:11px;padding:10px 14px}.btn-primary{background:var(--ocean)}.btn-primary:hover{background:#0369A1}.btn-secondary{background:#EAF2F7;color:var(--blue)}.application-header{background:#F8FAFC}.info-item,.cover-letter{background:#F8FAFC}.modal{border-radius:18px}.error-box,.success-box{border-radius:12px}
 @media(max-width:600px){nav{height:64px;padding:0 4%}.logo{font-size:15px}.logo:before{width:38px;height:38px}.hero{padding:38px 5% 62px}.container{width:94%;margin-top:-30px}.section{padding:18px}}
-</style>
+    .posting-quality{margin:18px 0 0;padding:14px 16px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}.posting-quality-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}.posting-quality-title{font-size:12px;font-weight:800;color:#203a5a}.posting-quality-score{font-size:11px;font-weight:800;color:#64748b}.quality-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px}.quality-item{font-size:11px;color:#64748b}.quality-item.ok{color:#15803d;font-weight:700}.quality-item::before{content:"○";display:inline-block;width:18px;color:#94a3b8}.quality-item.ok::before{content:"✓";color:#15803d}.publish-note{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff7df;color:#805b00;font-size:11px;line-height:1.5}@media(max-width:700px){.quality-list{grid-template-columns:1fr}}</style>
 </head>
 
 <body>
@@ -976,6 +976,21 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
         </div>
 
+        <div class="posting-quality">
+          <div class="posting-quality-head">
+            <div class="posting-quality-title">Kesiapan lowongan</div>
+            <div class="posting-quality-score" id="postingQualityScore">0/5 lengkap</div>
+          </div>
+          <div class="quality-list">
+            <div class="quality-item" id="qualityTitle">Judul posisi jelas</div>
+            <div class="quality-item" id="qualityLocation">Lokasi kerja terisi</div>
+            <div class="quality-item" id="qualityEmployment">Tipe pekerjaan dipilih</div>
+            <div class="quality-item" id="qualityDescription">Deskripsi cukup informatif</div>
+            <div class="quality-item" id="qualityRequirements">Persyaratan tersedia</div>
+          </div>
+          <div class="publish-note">Draft dapat disimpan kapan saja. Saat dipublikasikan, lowongan akan tampil kepada pencari kerja.</div>
+        </div>
+
         <div class="modal-actions">
           <button
             class="btn btn-secondary"
@@ -1164,9 +1179,28 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       return classes[status] || "status-submitted";
     }
 
+    function updatePostingQuality() {
+      const checks = {
+        title: document.getElementById("jobTitle").value.trim().length >= 4,
+        location: document.getElementById("jobLocation").value.trim().length >= 2,
+        employment: !!document.getElementById("jobEmploymentType").value,
+        description: document.getElementById("jobDescription").value.trim().length >= 80,
+        requirements: document.getElementById("jobRequirements").value.trim().length >= 30
+      };
+      let complete = 0;
+      Object.entries(checks).forEach(([key, ok]) => {
+        const id = "quality" + key.charAt(0).toUpperCase() + key.slice(1);
+        document.getElementById(id).classList.toggle("ok", ok);
+        if (ok) complete++;
+      });
+      document.getElementById("postingQualityScore").textContent = complete + "/5 lengkap";
+      return checks;
+    }
+
     function openJobModal() {
       hideMessages();
       jobForm.reset();
+      updatePostingQuality();
       jobModal.classList.add("show");
       document.getElementById("jobTitle").focus();
     }
@@ -1255,11 +1289,21 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       const requirements =
         document.getElementById("jobRequirements").value.trim();
 
-      if (!title || !location || !employmentType ||
-          !description || !requirements) {
-        showError(
-          "Mohon lengkapi semua field yang wajib diisi."
-        );
+      if (!title || !location || !employmentType || !description || !requirements) {
+        showError("Mohon lengkapi semua field yang wajib diisi.");
+        updatePostingQuality();
+        return;
+      }
+
+      if (description.length < 80) {
+        showError("Deskripsi pekerjaan terlalu singkat. Tambahkan tanggung jawab utama.");
+        document.getElementById("jobDescription").focus();
+        return;
+      }
+
+      if (requirements.length < 30) {
+        showError("Persyaratan terlalu singkat. Tambahkan sertifikat, pengalaman, atau kompetensi penting.");
+        document.getElementById("jobRequirements").focus();
         return;
       }
 
@@ -1360,6 +1404,18 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
       if (job.status === "published" || job.status === "active") {
         showSuccess("Lowongan ini sudah dipublikasikan.");
+        return;
+      }
+
+      const missing = [];
+      if (!String(job.title || "").trim()) missing.push("judul posisi");
+      if (!String(job.location || "").trim()) missing.push("lokasi");
+      if (!String(job.employment_type || "").trim()) missing.push("tipe pekerjaan");
+      if (String(job.description || "").trim().length < 80) missing.push("deskripsi minimal 80 karakter");
+      if (String(job.requirements || "").trim().length < 30) missing.push("persyaratan minimal 30 karakter");
+
+      if (missing.length) {
+        showError("Lowongan belum siap dipublikasikan. Lengkapi: " + missing.join(", ") + ".");
         return;
       }
 
@@ -2152,6 +2208,11 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       "submit",
       createJob
     );
+
+    ["jobTitle","jobLocation","jobEmploymentType","jobDescription","jobRequirements"].forEach(id => {
+      document.getElementById(id).addEventListener("input", updatePostingQuality);
+      document.getElementById(id).addEventListener("change", updatePostingQuality);
+    });
 
     jobModal.addEventListener(
       "click",
