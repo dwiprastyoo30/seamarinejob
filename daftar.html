@@ -3854,23 +3854,40 @@ input, select, textarea, button { max-width: 100%; }
       }
 
 
+      /*
+        Refresh profil sebelum submit agar CV terbaru
+        yang tersimpan di Profil langsung digunakan.
+      */
+      const {data:latestProfile,error:latestProfileError} =
+        await supabaseClient
+          .from("profiles")
+          .select("user_id,full_name,phone,email,account_type,cv_path")
+          .eq("user_id",currentUser.id)
+          .maybeSingle();
+
+      if(latestProfileError) throw latestProfileError;
+      if(!latestProfile) throw new Error("Profil kandidat belum tersedia.");
+
+      currentProfile=latestProfile;
+
       const fullName =
         currentProfile.full_name
           ? currentProfile.full_name.trim()
           : "";
-
 
       const phone =
         currentProfile.phone
           ? currentProfile.phone.trim()
           : "";
 
-
       const cvPath =
         currentProfile.cv_path
           ? currentProfile.cv_path.trim()
           : "";
 
+      if(cvPath && !cvPath.startsWith(currentUser.id+"/")){
+        throw new Error("CV profil tidak valid. Silakan upload ulang melalui Profil.");
+      }
 
       const coverLetter =
         get("coverLetter")
