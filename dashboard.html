@@ -298,16 +298,11 @@ input, select, textarea, button { max-width: 100%; }
       const container=document.getElementById("applicationsContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
       try{
-        const result=await queryWithRetry(
-          signal=>supabaseClient.from("applications")
-            .select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note")
-            .eq("user_id",currentUser.id)
-            .order("created_at",{ascending:false})
-            .abortSignal(signal),
-          10000,
-          "Data lamaran"
-        );
-        if(result.error)throw new Error("Supabase "+(result.error.code||"error")+": "+(result.error.message||"Query applications gagal."));
+        const data=await restTable("applications",{
+          select:"id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note",
+          user_id:"eq."+currentUser.id,
+          order:"created_at.desc"
+        },8000,"Data lamaran");
         applications=data||[];
         renderApplicationStats();
         renderApplications();
@@ -329,13 +324,11 @@ input, select, textarea, button { max-width: 100%; }
       const ids=[...new Set(applications.map(a=>a.job_id).filter(Boolean))];
       if(!ids.length)return;
       try{
-        const result=await queryWithRetry(
-          signal=>supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,status").in("id",ids).abortSignal(signal),
-          8000,
-          "Detail lowongan lamaran"
-        );
-        if(result.error)throw new Error("Supabase "+(result.error.code||"error")+": "+(result.error.message||"Query jobs gagal."));
-        (result.data||[]).forEach(job=>applicationJobs[job.id]=job);
+        const data=await restTable("jobs",{
+          select:"id,title,company_name,location,vessel_type,employment_type,salary,status",
+          id:"in.("+ids.join(",")+")"
+        },8000,"Detail lowongan lamaran");
+        (data||[]).forEach(job=>applicationJobs[job.id]=job);
       }catch(error){
         console.error("Job lookup error:",error);
         showMessage("error","Lamaran berhasil dimuat, tetapi detail lowongan belum merespons. Silakan coba lagi nanti.");
