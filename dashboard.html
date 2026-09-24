@@ -191,11 +191,26 @@
 
     async function loadProfile(){
       const {data,error}=await supabaseClient.from("profiles").select("user_id,full_name,phone,email,account_type,photo_url,address,city,education,position,experience,cv_path").eq("user_id",currentUser.id).maybeSingle();
-      if(error){console.error("Profile error:",error);currentProfile=null;return}
-      currentProfile=data||null;
-      const type=String(currentProfile?.account_type||"jobseeker").toLowerCase();
-      if(type==="employer"||type==="company"){window.location.href="employer.html";return}
-      const name=currentProfile?.full_name||currentUser.user_metadata?.full_name||"Pelaut";
+      if(error){
+        console.error("Profile error:",error);
+        currentProfile=null;
+        showMessage("error","Profil akun tidak dapat diverifikasi. Dashboard dihentikan untuk menjaga keamanan akun.");
+        return false;
+      }
+      if(!data){
+        currentProfile=null;
+        showMessage("error","Profil akun belum terdaftar. Silakan lengkapi proses pendaftaran terlebih dahulu.");
+        setTimeout(()=>{window.location.href="daftar.html"},1600);
+        return false;
+      }
+      currentProfile=data;
+      const type=String(currentProfile.account_type||"").toLowerCase();
+      if(type==="employer"||type==="company"){window.location.href="employer.html";return false}
+      if(type!=="jobseeker"){
+        showMessage("error","Tipe akun tidak dikenali. Akses dashboard dihentikan.");
+        return false;
+      }
+      const name=currentProfile.full_name||currentUser.user_metadata?.full_name||"Pelaut";
       document.getElementById("welcomeName").textContent=name;
       document.getElementById("profileName").textContent=name;
       document.getElementById("profileEmail").textContent=currentUser.email||"-";
@@ -373,8 +388,7 @@
 
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
-      await loadProfile();
-      if(["employer","company"].includes(String(currentProfile?.account_type||"").toLowerCase()))return;
+      if(!await loadProfile())return;
       await loadApplications();
       await loadRecommendations();
     }
