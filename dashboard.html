@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.13</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.14</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -72,7 +72,7 @@ input, select, textarea, button { max-width: 100%; }
   <main>
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.12</div>
+        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.14</div>
         <h1>Selamat datang, <span id="welcomeName">Pelaut</span>.</h1>
         <p>Pantau proses lamaran, cek jadwal interview, dan temukan lowongan maritim terbaru dari satu tempat.</p>
       </div>
@@ -313,32 +313,51 @@ input, select, textarea, button { max-width: 100%; }
       ]);
     }
 
-    function createDataClient(accessToken){
-      return supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
-        auth:{autoRefreshToken:false,persistSession:false,detectSessionInUrl:false},
-        global:{headers:{Authorization:"Bearer "+accessToken}}
-      });
-    }
-
-    async function dataQuery(queryFactory,label,timeoutMs=7000){
-      if(!dataClient)throw new Error("Koneksi data dashboard belum siap.");
-      const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error(label+" timeout setelah "+Math.round(timeoutMs/1000)+" detik.")),timeoutMs));
-      return await Promise.race([queryFactory(),timeout]);
+    async function nativeRest(table,params={},accessToken="",timeoutMs=6000){
+      const url=new URL(SUPABASE_URL+"/rest/v1/"+table);
+      Object.entries(params).forEach(([key,value])=>url.searchParams.set(key,String(value)));
+      const controller=new AbortController();
+      const timer=setTimeout(()=>controller.abort(),timeoutMs);
+      try{
+        const headers={
+          apikey:SUPABASE_KEY,
+          Accept:"application/json"
+        };
+        if(accessToken)headers.Authorization="Bearer "+accessToken;
+        const response=await fetch(url.toString(),{
+          method:"GET",
+          headers,
+          cache:"no-store",
+          signal:controller.signal
+        });
+        const raw=await response.text();
+        let body=null;
+        try{body=raw?JSON.parse(raw):null}catch(_){}
+        if(!response.ok){
+          const detail=body?.message||body?.hint||body?.details||raw||("HTTP "+response.status);
+          throw new Error("Supabase "+response.status+": "+detail);
+        }
+        return Array.isArray(body)?body:[];
+      }catch(error){
+        if(error?.name==="AbortError")throw new Error(table+" timeout setelah "+Math.round(timeoutMs/1000)+" detik.");
+        throw error;
+      }finally{
+        clearTimeout(timer);
+      }
     }
 
     async function loadApplications(){
       const container=document.getElementById("applicationsContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
       try{
-        const result=await dataQuery(
-          ()=>dataClient.from("applications")
-            .select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note")
-            .eq("user_id",currentUser.id)
-            .order("created_at",{ascending:false}),
-          "Data lamaran"
-        );
-        if(result.error)throw result.error;
-        applications=result.data||[];
+        const token=dashboardAccessToken||getStoredAccessToken();
+        if(!token)throw new Error("Token sesi login tidak ditemukan di browser. Silakan login ulang.");
+        const data=await nativeRest("applications",{
+          select:"id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note",
+          user_id:"eq."+currentUser.id,
+          order:"created_at.desc"
+        },token,6000);
+        applications=data||[];
         renderApplicationStats();
         renderApplications();
         renderApplicationUpdates();
@@ -350,7 +369,7 @@ input, select, textarea, button { max-width: 100%; }
         applications=[];
         renderApplicationStats();
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lamaran belum merespons.")+'</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
-        showMessage("error","Data lamaran belum dapat dimuat. Cek pesan detail pada bagian Lamaran Saya.");
+        showMessage("error","Data lamaran belum dapat dimuat: "+(requestError.message||"koneksi belum merespons."));
       }
     }
 
@@ -359,17 +378,14 @@ input, select, textarea, button { max-width: 100%; }
       const ids=[...new Set(applications.map(a=>a.job_id).filter(Boolean))];
       if(!ids.length)return;
       try{
-        const result=await dataQuery(
-          ()=>dataClient.from("jobs")
-            .select("id,title,company_name,location,vessel_type,employment_type,salary,status")
-            .in("id",ids),
-          "Detail lowongan lamaran"
-        );
-        if(result.error)throw result.error;
-        (result.data||[]).forEach(job=>applicationJobs[job.id]=job);
+        const data=await nativeRest("jobs",{
+          select:"id,title,company_name,location,vessel_type,employment_type,salary,status",
+          id:"in.("+ids.join(",")+")"
+        },SUPABASE_KEY,6000);
+        (data||[]).forEach(job=>applicationJobs[job.id]=job);
       }catch(error){
         console.error("Job lookup error:",error);
-        showMessage("error","Lamaran berhasil dimuat, tetapi detail lowongan belum merespons. Silakan coba lagi nanti.");
+        showMessage("error","Lamaran sudah dimuat, tetapi detail lowongan belum merespons: "+(error.message||"koneksi gagal."));
       }
     }
 
@@ -473,20 +489,16 @@ input, select, textarea, button { max-width: 100%; }
       const container=document.getElementById("recommendationContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lowongan...</div>';
       try{
-        const result=await dataQuery(
-          ()=>dataClient.from("jobs")
-            .select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status")
-            .in("status",["published","active"])
-            .order("created_at",{ascending:false})
-            .limit(8),
-          "Lowongan terbaru"
-        );
-        if(result.error)throw result.error;
-        const data=result.data||[];
+        const data=await nativeRest("jobs",{
+          select:"id,title,company_name,location,vessel_type,employment_type,salary,created_at,status",
+          status:"in.(published,active)",
+          order:"created_at.desc",
+          limit:"8"
+        },SUPABASE_KEY,6000);
         const applied=new Set(applications.map(a=>a.job_id));
-        const recommendations=data.filter(job=>!applied.has(job.id)).slice(0,4);
+        const recommendations=(data||[]).filter(job=>!applied.has(job.id)).slice(0,4);
         if(!recommendations.length){
-          container.innerHTML='<div class="empty"><div class="empty-mark">✓</div><p>Semua lowongan terbaru sudah Anda lamar atau belum ada lowongan baru.</p><a class="primary" href="kapal.html">Lihat Semua Lowongan</a></div>';
+          container.innerHTML='<div class="empty"><div class="empty-mark">✓</div><p>Belum ada lowongan baru yang tersedia untuk Anda.</p><a class="primary" href="kapal.html">Lihat Semua Lowongan</a></div>';
           return;
         }
         container.innerHTML=recommendations.map(job=>`<article class="recommendation-item">
@@ -498,7 +510,7 @@ input, select, textarea, button { max-width: 100%; }
       }catch(requestError){
         console.error("Recommendation request error:",requestError);
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lowongan belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lowongan belum merespons.")+'</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
-        showMessage("error","Data lowongan belum dapat dimuat. Cek pesan detail pada bagian Lowongan Terbaru.");
+        showMessage("error","Data lowongan belum dapat dimuat: "+(requestError.message||"koneksi belum merespons."));
       }
     }
 
