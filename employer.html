@@ -658,6 +658,34 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
   <main class="container">
 
+    <section class="section" id="companyProfileSection">
+      <div class="add-job-header">
+        <div>
+          <h2>Profil Perusahaan</h2>
+          <p class="section-description" style="margin-bottom:0">Informasi ini digunakan sebagai identitas recruiter dan nama perusahaan pada lowongan baru.</p>
+        </div>
+        <span class="job-status job-status-active">Profil Employer</span>
+      </div>
+      <div class="form-grid">
+        <div class="field-box">
+          <label for="companyName">Nama Perusahaan</label>
+          <input id="companyName" type="text" placeholder="Nama perusahaan">
+        </div>
+        <div class="field-box">
+          <label for="companyEmail">Email Recruitment</label>
+          <input id="companyEmail" type="email" readonly>
+        </div>
+        <div class="field-box form-full">
+          <label for="companyPhone">WhatsApp Recruitment</label>
+          <input id="companyPhone" type="tel" placeholder="Nomor WhatsApp perusahaan/recruiter">
+          <div class="form-help">Gunakan nomor yang aktif untuk komunikasi kandidat.</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="saveCompanyProfileBtn">Simpan Profil Perusahaan</button>
+      </div>
+    </section>
+
     <div id="errorBox" class="error-box"></div>
     <div id="successBox" class="success-box"></div>
 
@@ -1256,6 +1284,48 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       }
     }
 
+    async function saveCompanyProfile() {
+      hideMessages();
+      if (!currentUser || !employerProfile) {
+        showError("Sesi employer belum siap. Silakan login kembali.");
+        return;
+      }
+      const name = document.getElementById("companyName").value.trim();
+      const phone = document.getElementById("companyPhone").value.trim();
+      const button = document.getElementById("saveCompanyProfileBtn");
+      if (!name) {
+        showError("Nama perusahaan wajib diisi.");
+        return;
+      }
+      button.disabled = true;
+      button.textContent = "Menyimpan...";
+      try {
+        const { data, error } = await supabaseClient
+          .from("profiles")
+          .update({ full_name: name, phone: phone || null })
+          .eq("user_id", currentUser.id)
+          .select("user_id,full_name,email,phone,account_type")
+          .single();
+        if (error) throw error;
+        employerProfile = data;
+        document.getElementById("welcomeTitle").textContent = "Dashboard " + (data.full_name || "Employer");
+        showSuccess("Profil perusahaan berhasil diperbarui.");
+        await loadJobs();
+      } catch (error) {
+        console.error("Save company profile error:", error);
+        showError("Profil perusahaan belum dapat disimpan: " + error.message);
+      } finally {
+        button.disabled = false;
+        button.textContent = "Simpan Profil Perusahaan";
+      }
+    }
+
+    function renderCompanyProfile() {
+      document.getElementById("companyName").value = employerProfile?.full_name || "";
+      document.getElementById("companyEmail").value = employerProfile?.email || currentUser?.email || "";
+      document.getElementById("companyPhone").value = employerProfile?.phone || "";
+    }
+
     async function loadEmployer() {
       hideMessages();
 
@@ -1282,6 +1352,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
           user_id,
           full_name,
           email,
+          phone,
           account_type
         `)
         .eq("user_id", currentUser.id)
@@ -1307,6 +1378,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       }
 
       employerProfile = profile;
+      renderCompanyProfile();
 
       document.getElementById("welcomeTitle").textContent =
         "Dashboard " +
@@ -1904,6 +1976,8 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         "click",
         logout
       );
+
+    document.getElementById("saveCompanyProfileBtn").addEventListener("click", saveCompanyProfile);
 
     addJobBtn.addEventListener(
       "click",
