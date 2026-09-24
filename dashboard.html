@@ -149,7 +149,7 @@ input, select, textarea, button { max-width: 100%; }
   <script>
     const SUPABASE_URL="https://pnyqdhcaabpxbatpubcb.supabase.co";
     const SUPABASE_KEY="sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
-    const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{\n      db:{retry:false},\n      auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}\n    });
 
     let currentUser=null,currentProfile=null,applications=[],applicationJobs={};
 
@@ -251,14 +251,43 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileProgressText").textContent=text;
     }
 
-    async function queryWithTimeout(queryPromise, timeoutMs=10000, label="Permintaan data"){
-      let timer;
-      try{
-        return await Promise.race([
-          queryPromise,
-          new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(label+" timeout setelah "+Math.round(timeoutMs/1000)+" detik.")),timeoutMs)})
-        ]);
-      }finally{clearTimeout(timer)}
+    async function queryWithRetry(queryFactory, timeoutMs=10000, label="Permintaan data", maxAttempts=2){
+      let lastError=null;
+      for(let attempt=1;attempt<=maxAttempts;attempt++){
+        const controller=new AbortController();
+        let timer=null;
+        try{
+          const query=queryFactory(controller.signal);
+          const timeoutPromise=new Promise((_,reject)=>{
+            timer=setTimeout(()=>{
+              controller.abort();
+              reject(new Error(label+" timeout setelah "+Math.round(timeoutMs/1000)+" detik."));
+            },timeoutMs);
+          });
+          const result=await Promise.race([query,timeoutPromise]);
+          if(result?.error){
+            const e=result.error;
+            const detail=[e.code,e.message,e.details,e.hint].filter(Boolean).join(" · ");
+            throw new Error("Supabase "+(detail||"query gagal."));
+          }
+          return result;
+        }catch(error){
+          lastError=error;
+          const message=String(error?.message||error||"");
+          const retryable=attempt<maxAttempts && (
+            message.toLowerCase().includes("timeout") ||
+            message.toLowerCase().includes("aborted") ||
+            message.toLowerCase().includes("failed to fetch") ||
+            message.toLowerCase().includes("network") ||
+            message.toLowerCase().includes("load failed")
+          );
+          if(!retryable)break;
+          await new Promise(resolve=>setTimeout(resolve,700));
+        }finally{
+          if(timer)clearTimeout(timer);
+        }
+      }
+      throw lastError||new Error(label+" gagal.");
     }
 
     function withTimeout(promise, ms, label){
@@ -272,11 +301,12 @@ input, select, textarea, button { max-width: 100%; }
       const container=document.getElementById("applicationsContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
       try{
-        const result=await queryWithTimeout(
-          supabaseClient.from("applications")
+        const result=await queryWithRetry(
+          signal=>supabaseClient.from("applications")
             .select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note")
             .eq("user_id",currentUser.id)
-            .order("created_at",{ascending:false}),
+            .order("created_at",{ascending:false})
+            .abortSignal(signal),
           10000,
           "Data lamaran"
         );
@@ -302,8 +332,8 @@ input, select, textarea, button { max-width: 100%; }
       const ids=[...new Set(applications.map(a=>a.job_id).filter(Boolean))];
       if(!ids.length)return;
       try{
-        const result=await queryWithTimeout(
-          supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,status").in("id",ids),
+        const result=await queryWithRetry(
+          signal=>supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,status").in("id",ids).abortSignal(signal),
           8000,
           "Detail lowongan lamaran"
         );
@@ -415,12 +445,13 @@ input, select, textarea, button { max-width: 100%; }
       const container=document.getElementById("recommendationContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lowongan...</div>';
       try{
-        const result=await queryWithTimeout(
-          supabaseClient.from("jobs")
+        const result=await queryWithRetry(
+          signal=>supabaseClient.from("jobs")
             .select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status")
             .in("status",["published","active"])
             .order("created_at",{ascending:false})
-            .limit(8),
+            .limit(8)
+            .abortSignal(signal),
           10000,
           "Lowongan terbaru"
         );
