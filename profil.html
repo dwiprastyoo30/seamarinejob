@@ -355,10 +355,10 @@ input, select, textarea, button { max-width: 100%; }
       const extension=extensionMap[file.type];
       if(!extension)throw new Error("Format foto tidak didukung.");
       const photoPath=currentUser.id+"/profile."+extension;
-      const {error}=await supabaseClient.storage.from("profile-photos").upload(photoPath,file,{cacheControl:"3600",upsert:true,contentType:file.type});
-      if(error)throw new Error("Gagal upload foto: "+error.message);
-      const {data,error}=await supabaseClient.storage.from("profile-photos").createSignedUrl(photoPath,60*60);
-      if(error||!data?.signedUrl)throw new Error("Foto profil tidak dapat dibuka.");
+      const {error:uploadError}=await supabaseClient.storage.from("profile-photos").upload(photoPath,file,{cacheControl:"3600",upsert:true,contentType:file.type});
+      if(uploadError)throw new Error("Gagal upload foto: "+uploadError.message);
+      const {data,error:signedError}=await supabaseClient.storage.from("profile-photos").createSignedUrl(photoPath,60*60);
+      if(signedError||!data?.signedUrl)throw new Error("Foto profil tidak dapat dibuka.");
       return data.signedUrl;
     }
 
