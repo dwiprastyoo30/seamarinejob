@@ -2056,6 +2056,15 @@ input, select, textarea, button { max-width: 100%; }
 
         }
 
+        // Halaman detail bersifat publik. Draft/nonaktif tidak boleh
+        // ditampilkan ke pencari kerja melalui URL langsung.
+        if (data.status !== "active" && data.status !== "published") {
+          showError(
+            "Lowongan ini sedang tidak tersedia untuk publik."
+          );
+          return;
+        }
+
 
         currentJob = data;
 
