@@ -1183,7 +1183,7 @@
         padding: 21px 18px;
       }
     }
-  </style>
+      .recruiter-badge{display:inline-flex;align-items:center;gap:6px;margin:0 0 12px;padding:6px 9px;border-radius:999px;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;font-size:10px;font-weight:800}.recruiter-meta{margin-top:10px;color:#64748b;font-size:11px;line-height:1.6}.report-link{display:block;margin-top:12px;text-align:center;color:#64748b;font-size:10px}.report-link:hover{color:#075985}</style>
 </head>
 
 <body>
@@ -1688,6 +1688,8 @@
               Tentang Perusahaan
             </h3>
 
+            <div id="recruiterBadge" class="recruiter-badge" style="display:none;">✓ Recruiter terverifikasi</div>
+
             <div
               id="companyCardName"
               class="company-card-name"
@@ -1701,6 +1703,8 @@
             >
               Informasi perusahaan sedang dimuat.
             </p>
+
+            <div id="recruiterMeta" class="recruiter-meta" style="display:none;"></div>
 
             <div
               id="recruiterContact"
@@ -1736,6 +1740,10 @@
 
 
           <!-- BACK -->
+
+          <a class="report-link" href="mailto:seamarinejob@gmail.com?subject=Laporan%20Lowongan%20SeaMarineJob">
+            Laporkan lowongan bermasalah
+          </a>
 
           <button
             type="button"
@@ -2186,6 +2194,9 @@
       whatsapp.style.display =
         "none";
 
+      document.getElementById("recruiterBadge").style.display = "none";
+      document.getElementById("recruiterMeta").style.display = "none";
+
       if (!profile) {
         contact.style.display =
           "none";
@@ -2196,6 +2207,11 @@
         profile.full_name ||
         companyName ||
         "Tim Recruitment";
+
+      document.getElementById("recruiterBadge").style.display = "inline-flex";
+      const meta = document.getElementById("recruiterMeta");
+      meta.textContent = "Recruiter: " + recruiterName + " · Akun employer SeaMarineJob";
+      meta.style.display = "block";
 
       description.textContent =
         "Recruitment oleh " +
@@ -2559,6 +2575,10 @@
         return;
       }
 
+      if (currentJob.status !== "active" && currentJob.status !== "published") {
+        alert("Lowongan ini sedang tidak tersedia untuk lamaran.");
+        return;
+      }
 
       const jobId =
         currentJob.id;
