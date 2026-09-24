@@ -2866,7 +2866,6 @@ input, select, textarea, button { max-width: 100%; }
 
       event.preventDefault();
 
-
       const email =
         get("loginEmail")
           .value
@@ -2883,16 +2882,13 @@ input, select, textarea, button { max-width: 100%; }
       const button =
         get("loginButton");
 
-
       hideMessage(messageId);
-
 
       button.disabled =
         true;
 
       button.textContent =
         "Memproses...";
-
 
       try {
 
@@ -2911,22 +2907,18 @@ input, select, textarea, button { max-width: 100%; }
 
             });
 
-
         if (error) {
           throw error;
         }
 
-
         currentUser =
           data.user;
-
 
         showMessage(
           messageId,
           "success",
           "Login berhasil. Mengarahkan..."
         );
-
 
         setTimeout(
           async function() {
@@ -2957,33 +2949,102 @@ input, select, textarea, button { max-width: 100%; }
           400
         );
 
-
       } catch (error) {
+
+        /*
+          Supabase Auth menyediakan error.code dan status.
+          Gunakan code agar pengguna mendapat petunjuk yang
+          relevan, tanpa membocorkan detail sensitif akun.
+        */
 
         console.error(
           "Login error:",
-          error
+          {
+            code: error?.code || null,
+            status: error?.status || null,
+            name: error?.name || null,
+            message: error?.message || null
+          }
         );
 
+        const code =
+          String(
+            error?.code || ""
+          )
+            .trim()
+            .toLowerCase();
+
+        const errorMessage =
+          String(
+            error?.message || ""
+          )
+            .trim()
+            .toLowerCase();
 
         let message =
-          "Email atau password salah.";
-
+          "Login gagal. Silakan periksa email dan password Anda, lalu coba lagi.";
 
         if (
-          error.message &&
-          error.message
-            .toLowerCase()
-            .includes(
-              "email not confirmed"
-            )
+          code ===
+          "email_not_confirmed" ||
+          errorMessage.includes(
+            "email not confirmed"
+          )
         ) {
 
           message =
-            "Email Anda belum diverifikasi. Silakan cek inbox email Anda.";
+            "Email Anda belum diverifikasi. Silakan cek inbox email untuk menyelesaikan verifikasi.";
+
+        } else if (
+          code ===
+          "invalid_credentials" ||
+          errorMessage.includes(
+            "invalid login credentials"
+          )
+        ) {
+
+          message =
+            "Email atau password tidak cocok. Jika Anda merasa password yang tersimpan di browser masih benar, gunakan “Lupa password?” untuk membuat password baru.";
+
+        } else if (
+          code ===
+          "over_request_rate_limit" ||
+          code ===
+          "over_email_send_rate_limit" ||
+          error?.status ===
+          429
+        ) {
+
+          message =
+            "Terlalu banyak percobaan login. Tunggu beberapa menit sebelum mencoba lagi.";
+
+        } else if (
+          code ===
+          "user_banned"
+        ) {
+
+          message =
+            "Akun ini sedang dibatasi sehingga belum dapat digunakan untuk login.";
+
+        } else if (
+          code ===
+          "request_timeout" ||
+          errorMessage.includes(
+            "timeout"
+          )
+        ) {
+
+          message =
+            "Server login membutuhkan waktu terlalu lama. Periksa koneksi internet lalu coba lagi.";
+
+        } else if (
+          error?.status >= 500
+        ) {
+
+          message =
+            "Layanan login sedang mengalami gangguan. Silakan coba lagi beberapa saat lagi.";
 
         }
-
 
         showMessage(
           messageId,
