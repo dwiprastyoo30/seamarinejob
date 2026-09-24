@@ -644,6 +644,7 @@
       }
     }
 
+    .candidate-toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) 190px 240px;gap:12px;margin:0 0 18px;padding:14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px}.candidate-toolbar label{display:block;font-size:11px;font-weight:800;color:#60738d;margin-bottom:6px}.candidate-toolbar input,.candidate-toolbar select{margin:0}.candidate-filter-summary{font-size:11px;color:#64748b;margin:-7px 0 12px}.candidate-filter-summary strong{color:#0d5ea6}.application-card.is-hidden{display:none}@media(max-width:900px){.candidate-toolbar{grid-template-columns:1fr 1fr}.candidate-search{grid-column:1/-1}}@media(max-width:600px){.candidate-toolbar{grid-template-columns:1fr}.candidate-search{grid-column:auto}}
     .error-box {
       background: #fff0f0;
       border: 1px solid #f0c4c4;
@@ -860,6 +861,12 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         Kandidat yang melamar lowongan milik perusahaan Anda.
       </div>
 
+      <div class="candidate-toolbar">
+        <div class="candidate-search"><label for="candidateSearch">Cari kandidat</label><input id="candidateSearch" type="search" placeholder="Nama, email, posisi, atau lowongan..."></div>
+        <div class="candidate-filter"><label for="candidateStatusFilter">Status</label><select id="candidateStatusFilter"><option value="all">Semua status</option><option value="submitted">Dikirim</option><option value="reviewing">Diproses</option><option value="interview">Interview</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select></div>
+        <div class="candidate-filter"><label for="candidateJobFilter">Lowongan</label><select id="candidateJobFilter"><option value="all">Semua lowongan</option></select></div>
+      </div>
+      <div id="candidateFilterSummary" class="candidate-filter-summary"></div>
       <div id="applicationsContainer">
         <div class="loading">Memuat lamaran...</div>
       </div>
@@ -1669,6 +1676,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       }
 
       applications = data || [];
+      populateCandidateJobFilter();
 
       totalApplicationsEl.textContent =
         applications.length;
@@ -1724,6 +1732,25 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       if (action === "deactivate") updateJobStatus(jobId, "inactive");
       if (action === "activate") updateJobStatus(jobId, "published");
     });
+
+    function normalizeApplicationStatus(status){const s=String(status||"submitted").toLowerCase();return s==="review"?"reviewing":s}
+    function populateCandidateJobFilter(){
+      const select=document.getElementById("candidateJobFilter"); if(!select)return;
+      select.innerHTML='<option value="all">Semua lowongan</option>'+employerJobs.map(job=>'<option value="'+escapeHtml(job.id)+'">'+escapeHtml(job.title||"Lowongan")+'</option>').join("");
+    }
+    function filterApplications(){
+      const search=(document.getElementById("candidateSearch")?.value||"").trim().toLowerCase();
+      const status=document.getElementById("candidateStatusFilter")?.value||"all";
+      const jobId=document.getElementById("candidateJobFilter")?.value||"all";
+      const cards=[...applicationsContainer.querySelectorAll(".application-card")]; let visible=0;
+      cards.forEach(card=>{const app=applications.find(item=>String(item.application_id)===String(card.dataset.applicationId));if(!app)return;
+        const hay=[app.candidate_name,app.candidate_email,app.candidate_phone,app.candidate_position,app.job_title].join(" ").toLowerCase();
+        const show=(!search||hay.includes(search))&&(status==="all"||normalizeApplicationStatus(app.status)===status)&&(jobId==="all"||String(app.job_id)===String(jobId));
+        card.classList.toggle("is-hidden",!show);if(show)visible++;
+      });
+      const summary=document.getElementById("candidateFilterSummary"); if(summary)summary.innerHTML='<strong>'+visible+'</strong> kandidat ditampilkan dari '+applications.length+' total lamaran.';
+      const empty=applicationsContainer.querySelector(".candidate-filter-empty"); if(!visible&&applications.length&&!empty)applicationsContainer.insertAdjacentHTML("beforeend",'<div class="empty candidate-filter-empty">Tidak ada kandidat yang cocok dengan filter saat ini.</div>'); else if(visible&&empty)empty.remove();
+    }
 
     function renderApplications() {
       if (!applications.length) {
@@ -2026,6 +2053,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
             `;
           })
           .join("");
+      filterApplications();
     }
 
     async function saveApplication(applicationId) {
@@ -2188,6 +2216,7 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
       );
 
     document.getElementById("saveCompanyProfileBtn").addEventListener("click", saveCompanyProfile);
+    ["candidateSearch","candidateStatusFilter","candidateJobFilter"].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener("input",filterApplications);el.addEventListener("change",filterApplications)}});
 
     addJobBtn.addEventListener(
       "click",
