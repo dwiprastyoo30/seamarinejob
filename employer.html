@@ -2196,37 +2196,29 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
     async function openCv(cvPath) {
       if (!cvPath) {
-        showError(
-          "CV tidak tersedia."
-        );
-
+        showError("CV tidak tersedia.");
         return;
       }
 
-      const {
-        data,
-        error
-      } = await supabaseClient
+      // Path CV harus berbentuk <candidate-user-id>/cv.pdf.
+      // Kepemilikan lamaran sudah diverifikasi sebelum tombol ini dirender.
+      const normalizedPath=String(cvPath).trim();
+      if (!/^[0-9a-fA-F-]{20,}\/cv\.pdf$/.test(normalizedPath)) {
+        showError("Path CV tidak valid.");
+        return;
+      }
+
+      const {data,error}=await supabaseClient
         .storage
         .from("cv-files")
-        .createSignedUrl(
-          cvPath,
-          3600
-        );
+        .createSignedUrl(normalizedPath,3600);
 
       if (error || !data?.signedUrl) {
-        showError(
-          "CV tidak dapat dibuka."
-        );
-
+        showError("CV tidak dapat dibuka atau akses tidak diizinkan.");
         return;
       }
 
-      window.open(
-        data.signedUrl,
-        "_blank",
-        "noopener,noreferrer"
-      );
+      window.open(data.signedUrl,"_blank","noopener,noreferrer");
     }
 
     async function logout() {
