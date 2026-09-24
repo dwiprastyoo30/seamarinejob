@@ -723,7 +723,12 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+  
+/* Responsive safety */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video, iframe, svg, canvas { max-width: 100%; }
+input, select, textarea, button { max-width: 100%; }
+</style>
 
 <style>
 :root{--navy:#0F172A;--blue:#075985;--ocean:#0284C7;--sky:#38BDF8;--gold:#F59E0B;--bg:#F5F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--success:#15803D;--danger:#B91C1C}
