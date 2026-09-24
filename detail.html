@@ -748,6 +748,50 @@
       line-height: 1.7;
     }
 
+    .company-description {
+      margin-bottom: 16px;
+    }
+
+    .recruiter-contact {
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .recruiter-contact-title {
+      margin-bottom: 9px;
+
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.55px;
+    }
+
+    .contact-link {
+      display: block;
+
+      padding: 9px 10px;
+      margin-top: 7px;
+
+      border: 1px solid var(--border);
+      border-radius: 9px;
+
+      color: var(--blue-dark);
+      background: #f8fafc;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .contact-link:hover {
+      border-color: #bae6fd;
+      background: #f0f9ff;
+    }
+
+    .contact-link.whatsapp {
+      color: var(--success);
+    }
+
     .btn-back {
       width: 100%;
 
@@ -1651,10 +1695,42 @@
               -
             </div>
 
-            <p id="companyDescription">
-              Informasi perusahaan akan tersedia
-              pada tahap berikutnya.
+            <p
+              id="companyDescription"
+              class="company-description"
+            >
+              Informasi perusahaan sedang dimuat.
             </p>
+
+            <div
+              id="recruiterContact"
+              class="recruiter-contact"
+              style="display: none;"
+            >
+              <div class="recruiter-contact-title">
+                Kontak Rekrutmen
+              </div>
+
+              <a
+                id="recruiterEmail"
+                class="contact-link"
+                href="#"
+                style="display: none;"
+              >
+                ✉ Email
+              </a>
+
+              <a
+                id="recruiterWhatsApp"
+                class="contact-link whatsapp"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display: none;"
+              >
+                ☎ WhatsApp
+              </a>
+            </div>
 
           </div>
 
@@ -1970,7 +2046,14 @@
 
         currentJob = data;
 
-        renderJob(data);
+        if (data.posted_by) {
+          currentJob.companyProfile =
+            await loadCompanyProfile(
+              data.posted_by
+            );
+        }
+
+        renderJob(currentJob);
 
       } catch (error) {
 
@@ -1984,6 +2067,185 @@
         );
 
       }
+
+    }
+
+
+    /* =========================================================
+       COMPANY PROFILE
+    ========================================================= */
+
+    async function loadCompanyProfile(userId) {
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("profiles")
+            .select(
+              "full_name,email,phone,account_type"
+            )
+            .eq(
+              "user_id",
+              userId
+            )
+            .maybeSingle();
+
+        if (error) {
+          console.warn(
+            "Company profile unavailable:",
+            error
+          );
+          return null;
+        }
+
+        if (
+          !data ||
+          data.account_type !== "employer"
+        ) {
+          return null;
+        }
+
+        return data;
+
+      } catch (error) {
+
+        console.warn(
+          "Company profile load error:",
+          error
+        );
+
+        return null;
+
+      }
+
+    }
+
+
+    function normalizeWhatsAppPhone(phone) {
+
+      if (!phone) {
+        return "";
+      }
+
+      let digits =
+        String(phone)
+          .replace(/\\D/g, "");
+
+      if (!digits) {
+        return "";
+      }
+
+      if (digits.startsWith("0")) {
+        digits = "62" + digits.substring(1);
+      }
+
+      return digits;
+
+    }
+
+
+    function renderCompanyProfile(
+      profile,
+      companyName
+    ) {
+
+      const description =
+        document.getElementById(
+          "companyDescription"
+        );
+
+      const contact =
+        document.getElementById(
+          "recruiterContact"
+        );
+
+      const email =
+        document.getElementById(
+          "recruiterEmail"
+        );
+
+      const whatsapp =
+        document.getElementById(
+          "recruiterWhatsApp"
+        );
+
+      description.textContent =
+        companyName
+          ? "Lowongan ini dipublikasikan oleh " +
+            companyName +
+            "."
+          : "Informasi perusahaan belum tersedia.";
+
+      email.style.display =
+        "none";
+
+      whatsapp.style.display =
+        "none";
+
+      if (!profile) {
+        contact.style.display =
+          "none";
+        return;
+      }
+
+      const recruiterName =
+        profile.full_name ||
+        companyName ||
+        "Tim Recruitment";
+
+      description.textContent =
+        "Recruitment oleh " +
+        recruiterName +
+        ". Pastikan seluruh komunikasi terkait lowongan tetap melalui informasi resmi yang tercantum.";
+
+      let hasContact = false;
+
+      if (profile.email) {
+
+        email.href =
+          "mailto:" +
+          profile.email;
+
+        email.textContent =
+          "✉ " +
+          profile.email;
+
+        email.style.display =
+          "block";
+
+        hasContact = true;
+
+      }
+
+      const whatsappPhone =
+        normalizeWhatsAppPhone(
+          profile.phone
+        );
+
+      if (whatsappPhone) {
+
+        whatsapp.href =
+          "https://wa.me/" +
+          whatsappPhone;
+
+        whatsapp.textContent =
+          "☎ Hubungi via WhatsApp";
+
+        whatsapp.style.display =
+          "block";
+
+        hasContact = true;
+
+      }
+
+      contact.style.display =
+        hasContact
+          ? "block"
+          : "none";
 
     }
 
@@ -2117,15 +2379,10 @@
       ).textContent =
         companyName;
 
-
-      document.getElementById(
-        "companyDescription"
-      ).textContent =
+      renderCompanyProfile(
+        currentJob.companyProfile,
         companyName
-          ? "Lowongan ini dipublikasikan oleh " +
-            companyName +
-            ". Informasi profil perusahaan akan dikembangkan pada tahap berikutnya."
-          : "Informasi perusahaan belum tersedia.";
+      );
 
 
       /* SHOW CONTENT */
