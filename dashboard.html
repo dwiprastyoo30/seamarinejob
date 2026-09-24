@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.25.01</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.25.02</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -72,7 +72,7 @@ input, select, textarea, button { max-width: 100%; }
   <main>
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Dashboard Kandidat · v2026.09.25.01</div>
+        <div class="eyebrow">Dashboard Kandidat · v2026.09.25.02</div>
         <h1>Selamat datang, <span id="welcomeName">Pelaut</span>.</h1>
         <p>Pantau proses lamaran, cek jadwal interview, dan temukan lowongan maritim terbaru dari satu tempat.</p>
       </div>
@@ -555,17 +555,38 @@ input, select, textarea, button { max-width: 100%; }
     }
     setTimeout(showDashboardTimeout,14000);
 
+    async function warmSupabaseConnection(){
+      const controller=new AbortController();
+      const timer=setTimeout(()=>controller.abort(),4500);
+      try{
+        const response=await fetch(SUPABASE_URL+"/auth/v1/settings",{
+          method:"GET",
+          headers:{apikey:SUPABASE_KEY,Accept:"application/json"},
+          cache:"no-store",
+          signal:controller.signal
+        });
+        if(!response.ok)throw new Error("Supabase HTTP "+response.status);
+        return true;
+      }catch(error){
+        console.warn("Supabase warm-up:",error);
+        return false;
+      }finally{
+        clearTimeout(timer);
+      }
+    }
+
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
       try{
-        // Jangan memanggil auth.getSession() pada initial dashboard.
-        // Supabase Auth menggunakan lock internal; pada reload tertentu getSession()
-        // dapat tertahan saat token sedang dipulihkan/di-refresh. getUser() di atas
-        // sudah memvalidasi sesi, sedangkan REST membaca access token yang tersimpan.
         dashboardAccessToken=getStoredAccessToken();
         if(!dashboardAccessToken)throw new Error("Token sesi login tidak ditemukan.");
         dataClient=createDataClient(dashboardAccessToken);
+
+        // Tunggu koneksi HTTPS Supabase siap sebelum request tabel.
+        // Ini menghindari request pertama kalah oleh cold connection/session restore.
+        await warmSupabaseConnection();
+
         await Promise.allSettled([
           loadApplications(),
           loadRecommendations()
