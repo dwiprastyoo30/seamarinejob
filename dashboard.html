@@ -135,7 +135,8 @@ input, select, textarea, button { max-width: 100%; }
             <div><h2>Langkah Berikutnya</h2><p>Gunakan portal secara maksimal.</p></div>
           </div>
           <div class="recommendation-list">
-            <a class="recommendation-item" href="profil.html"><div class="recommendation-title">Lengkapi profil</div><div class="recommendation-company">Pastikan data, foto, dan CV terbaru.</div></a>
+            <a class="recommendation-item" href="profil.html"><div class="recommendation-title">Kelola profil</div><div class="recommendation-company">Pastikan data kontak dan pengalaman Anda tetap terbaru.</div></a>
+            <a class="recommendation-item" href="cv.html"><div class="recommendation-title">Buat / perbarui CV</div><div class="recommendation-company" id="cvDashboardHint">Siapkan CV profesional untuk digunakan saat melamar.</div></a>
             <a class="recommendation-item" href="kapal.html"><div class="recommendation-title">Cari lowongan</div><div class="recommendation-company">Gunakan filter posisi, kapal, lokasi, dan jenis kerja.</div></a>
           </div>
         </section>
@@ -220,6 +221,12 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileName").textContent=name;
       document.getElementById("profileEmail").textContent=currentUser.email||"-";
       updateProfileCompleteness();
+      const cvHint=document.getElementById("cvDashboardHint");
+      if(cvHint){
+        cvHint.textContent=currentProfile.cv_path
+          ? "CV tersimpan dan akan digunakan otomatis saat Anda melamar."
+          : "Belum ada CV tersimpan. Buat atau upload CV sebelum melamar.";
+      }
       loadProfilePhoto();
     }
 
