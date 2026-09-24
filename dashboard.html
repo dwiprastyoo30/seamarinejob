@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.06</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -251,6 +251,30 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileProgressText").textContent=text;
     }
 
+    async function restQuery(table, params, timeoutMs=10000){
+      const controller=new AbortController();
+      const timer=setTimeout(()=>controller.abort(),timeoutMs);
+      try{
+        const {data:{session}={}}=await supabaseClient.auth.getSession();
+        const token=session?.access_token||SUPABASE_KEY;
+        const query=new URLSearchParams(params||{}).toString();
+        const response=await fetch(SUPABASE_URL+"/rest/v1/"+table+(query?"?"+query:""),{
+          method:"GET",
+          headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+token,Accept:"application/json"},
+          cache:"no-store",
+          signal:controller.signal
+        });
+        const raw=await response.text();
+        let body=null;
+        try{body=raw?JSON.parse(raw):null}catch(_){body=raw}
+        if(!response.ok){
+          const detail=body?.message||body?.hint||body?.details||(typeof body==="string"?body:"HTTP "+response.status);
+          throw new Error("Supabase "+response.status+": "+detail);
+        }
+        return body||[];
+      }finally{clearTimeout(timer)}
+    }
+
     function withTimeout(promise, ms, label){
       return Promise.race([
         promise,
@@ -263,11 +287,11 @@ input, select, textarea, button { max-width: 100%; }
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
       let data,error;
       try{
-        ({data,error}=await withTimeout(
-          supabaseClient.from("applications").select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note").eq("user_id",currentUser.id).order("created_at",{ascending:false}),
-          12000,
-          "Permintaan lamaran"
-        ));
+        data=await restQuery("applications",{
+          select:"id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note",
+          user_id:"eq."+currentUser.id,
+          order:"created_at.desc"
+        },10000);
       }catch(requestError){
         console.error("Applications request timeout/error:",requestError);
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lamaran belum merespons.")+'</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
@@ -396,11 +420,12 @@ input, select, textarea, button { max-width: 100%; }
       const container=document.getElementById("recommendationContainer");
       let data,error;
       try{
-        ({data,error}=await withTimeout(
-          supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status").in("status",["published","active"]).order("created_at",{ascending:false}).limit(8),
-          12000,
-          "Permintaan lowongan"
-        ));
+        data=await restQuery("jobs",{
+          select:"id,title,company_name,location,vessel_type,employment_type,salary,created_at,status",
+          status:"in.(published,active)",
+          order:"created_at.desc",
+          limit:"8"
+        },10000);
       }catch(requestError){
         console.error("Recommendation request timeout/error:",requestError);
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><p>'+escapeHTML(requestError.message||"Koneksi ke data lowongan belum merespons.")+'</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
