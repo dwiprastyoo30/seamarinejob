@@ -500,7 +500,6 @@ document.getElementById("searchForm").addEventListener("submit",e=>{
   if(q)p.set("keyword",q);
   if(loc)p.set("location",loc);
   if(t==="shore"){location.href=p.toString()?`darat.html?${p}`:"darat.html";return}
-  if(t==="onboard")p.set("employment","onboard");
   location.href=p.toString()?`kapal.html?${p}`:"kapal.html"
 });
 
