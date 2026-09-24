@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.10</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.11</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -72,7 +72,7 @@ input, select, textarea, button { max-width: 100%; }
   <main>
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.10</div>
+        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.11</div>
         <h1>Selamat datang, <span id="welcomeName">Pelaut</span>.</h1>
         <p>Pantau proses lamaran, cek jadwal interview, dan temukan lowongan maritim terbaru dari satu tempat.</p>
       </div>
@@ -254,12 +254,32 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileProgressText").textContent=text;
     }
 
+    function getStoredAccessToken(){
+      try{
+        const expectedKey="sb-"+new URL(SUPABASE_URL).hostname.split(".")[0]+"-auth-token";
+        const keys=[expectedKey];
+        for(let i=0;i<localStorage.length;i++){
+          const key=localStorage.key(i);
+          if(key && /auth-token$/.test(key) && !keys.includes(key))keys.push(key);
+        }
+        for(const key of keys){
+          const raw=localStorage.getItem(key);
+          if(!raw)continue;
+          const parsed=JSON.parse(raw);
+          const session=parsed?.currentSession||parsed?.session||parsed;
+          const token=session?.access_token;
+          if(token)return token;
+        }
+      }catch(error){console.warn("Stored auth token read failed:",error)}
+      return "";
+    }
+
     async function restTable(table,params={},timeoutMs=8000,label="Permintaan data"){
       const controller=new AbortController();
       const timer=setTimeout(()=>controller.abort(),timeoutMs);
       try{
-        const accessToken=dashboardAccessToken;
-        if(!accessToken)throw new Error("Sesi login tidak tersedia.");
+        const accessToken=dashboardAccessToken||getStoredAccessToken();
+        if(!accessToken)throw new Error("Token sesi login tidak tersedia di browser.");
         const url=new URL(SUPABASE_URL+"/rest/v1/"+table);
         Object.entries(params).forEach(([key,value])=>url.searchParams.set(key,String(value)));
         const response=await fetch(url.toString(),{
@@ -469,17 +489,17 @@ input, select, textarea, button { max-width: 100%; }
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
       try{
-        // Ambil session satu kali sebelum request data agar pemulihan sesi Supabase
-        // tidak dipicu bersamaan oleh dua permintaan dashboard.
-        const sessionResult=await supabaseClient.auth.getSession();
-        dashboardAccessToken=sessionResult?.data?.session?.access_token||"";
-        if(!dashboardAccessToken)throw new Error("Sesi login tidak tersedia.");
-        // Pemuatan dibuat berurutan untuk initial load yang stabil.
+        // Jangan memanggil auth.getSession() pada initial dashboard.
+        // Supabase Auth menggunakan lock internal; pada reload tertentu getSession()
+        // dapat tertahan saat token sedang dipulihkan/di-refresh. getUser() di atas
+        // sudah memvalidasi sesi, sedangkan REST membaca access token yang tersimpan.
+        dashboardAccessToken=getStoredAccessToken();
+        if(!dashboardAccessToken)throw new Error("Token sesi login tidak ditemukan.");
         await loadApplications();
         await loadRecommendations();
       }catch(error){
         console.error("Dashboard initialization error:",error);
-        showMessage("error","Sesi dashboard belum siap. Silakan coba lagi.");
+        showMessage("error","Sesi dashboard belum siap. Silakan login ulang jika data tidak dapat dimuat.");
       }
     }
     initializeDashboard();
