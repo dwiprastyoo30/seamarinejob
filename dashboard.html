@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.09</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.10</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -72,7 +72,7 @@ input, select, textarea, button { max-width: 100%; }
   <main>
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.09</div>
+        <div class="eyebrow">Dashboard Kandidat · v2026.09.24.10</div>
         <h1>Selamat datang, <span id="welcomeName">Pelaut</span>.</h1>
         <p>Pantau proses lamaran, cek jadwal interview, dan temukan lowongan maritim terbaru dari satu tempat.</p>
       </div>
@@ -154,7 +154,7 @@ input, select, textarea, button { max-width: 100%; }
       auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}
     });
 
-    let currentUser=null,currentProfile=null,applications=[],applicationJobs={};
+    let currentUser=null,currentProfile=null,applications=[],applicationJobs={},dashboardAccessToken="";
 
     function escapeHTML(value){
       if(value===null||value===undefined)return "";
@@ -258,8 +258,7 @@ input, select, textarea, button { max-width: 100%; }
       const controller=new AbortController();
       const timer=setTimeout(()=>controller.abort(),timeoutMs);
       try{
-        const sessionResult=await supabaseClient.auth.getSession();
-        const accessToken=sessionResult?.data?.session?.access_token;
+        const accessToken=dashboardAccessToken;
         if(!accessToken)throw new Error("Sesi login tidak tersedia.");
         const url=new URL(SUPABASE_URL+"/rest/v1/"+table);
         Object.entries(params).forEach(([key,value])=>url.searchParams.set(key,String(value)));
@@ -469,23 +468,20 @@ input, select, textarea, button { max-width: 100%; }
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
-      // Jalankan terpisah: jika satu tabel bermasalah, bagian lain tetap selesai.
-      loadApplications();
-      loadRecommendations();
+      try{
+        // Ambil session satu kali sebelum request data agar pemulihan sesi Supabase
+        // tidak dipicu bersamaan oleh dua permintaan dashboard.
+        const sessionResult=await supabaseClient.auth.getSession();
+        dashboardAccessToken=sessionResult?.data?.session?.access_token||"";
+        if(!dashboardAccessToken)throw new Error("Sesi login tidak tersedia.");
+        // Pemuatan dibuat berurutan untuk initial load yang stabil.
+        await loadApplications();
+        await loadRecommendations();
+      }catch(error){
+        console.error("Dashboard initialization error:",error);
+        showMessage("error","Sesi dashboard belum siap. Silakan coba lagi.");
+      }
     }
-    // Watchdog UI: request REST memiliki timeout sendiri; watchdog hanya sebagai fallback.
-    setTimeout(()=>{
-      const app=document.getElementById("applicationsContainer");
-      const rec=document.getElementById("recommendationContainer");
-      const stillLoading=el=>el&&el.querySelector(".loading");
-      if(stillLoading(app)){
-        app.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Koneksi data lamaran belum merespons</h3><p>Dashboard aktif v2026.09.24.09, tetapi permintaan ke tabel lamaran belum selesai. Coba lagi setelah koneksi Supabase merespons.</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
-      }
-      if(stillLoading(rec)){
-        rec.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Data lowongan belum merespons</h3><p>Dashboard aktif v2026.09.24.09, tetapi permintaan ke tabel lowongan belum selesai. Coba lagi setelah koneksi Supabase merespons.</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
-      }
-    },18000);
-
     initializeDashboard();
   </script>
 </body>
