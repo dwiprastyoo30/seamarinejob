@@ -251,10 +251,29 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileProgressText").textContent=text;
     }
 
+    function withTimeout(promise, ms, label){
+      return Promise.race([
+        promise,
+        new Promise((_, reject)=>setTimeout(()=>reject(new Error(label+" timeout setelah "+Math.round(ms/1000)+" detik.")),ms))
+      ]);
+    }
+
     async function loadApplications(){
       const container=document.getElementById("applicationsContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
-      const {data,error}=await supabaseClient.from("applications").select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+      let data,error;
+      try{
+        ({data,error}=await withTimeout(
+          supabaseClient.from("applications").select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note").eq("user_id",currentUser.id).order("created_at",{ascending:false}),
+          12000,
+          "Permintaan lamaran"
+        ));
+      }catch(requestError){
+        console.error("Applications request timeout/error:",requestError);
+        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lamaran belum merespons.")+'</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
+        showMessage("error","Data lamaran belum merespons. Lowongan terbaru tetap akan dimuat.");
+        return;
+      }
       if(error){
         console.error("Applications error:",error);
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>Terjadi masalah saat mengambil data lamaran. Silakan coba lagi.</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
@@ -375,7 +394,18 @@ input, select, textarea, button { max-width: 100%; }
 
     async function loadRecommendations(){
       const container=document.getElementById("recommendationContainer");
-      const {data,error}=await supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status").in("status",["published","active"]).order("created_at",{ascending:false}).limit(8);
+      let data,error;
+      try{
+        ({data,error}=await withTimeout(
+          supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status").in("status",["published","active"]).order("created_at",{ascending:false}).limit(8),
+          12000,
+          "Permintaan lowongan"
+        ));
+      }catch(requestError){
+        console.error("Recommendation request timeout/error:",requestError);
+        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><p>'+escapeHTML(requestError.message||"Koneksi ke data lowongan belum merespons.")+'</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
+        return;
+      }
       if(error){
         console.error("Recommendation error:",error);
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><p>Lowongan belum dapat dimuat.</p></div>';
@@ -404,8 +434,10 @@ input, select, textarea, button { max-width: 100%; }
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
-      await loadApplications();
-      await loadRecommendations();
+      await Promise.allSettled([
+        loadApplications(),
+        loadRecommendations()
+      ]);
     }
     initializeDashboard();
   </script>
