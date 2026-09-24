@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.06</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.07</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -251,27 +251,13 @@ input, select, textarea, button { max-width: 100%; }
       document.getElementById("profileProgressText").textContent=text;
     }
 
-    async function restQuery(table, params, timeoutMs=10000){
-      const controller=new AbortController();
-      const timer=setTimeout(()=>controller.abort(),timeoutMs);
+    async function queryWithTimeout(queryPromise, timeoutMs=10000, label="Permintaan data"){
+      let timer;
       try{
-        const {data:{session}={}}=await supabaseClient.auth.getSession();
-        const token=session?.access_token||SUPABASE_KEY;
-        const query=new URLSearchParams(params||{}).toString();
-        const response=await fetch(SUPABASE_URL+"/rest/v1/"+table+(query?"?"+query:""),{
-          method:"GET",
-          headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+token,Accept:"application/json"},
-          cache:"no-store",
-          signal:controller.signal
-        });
-        const raw=await response.text();
-        let body=null;
-        try{body=raw?JSON.parse(raw):null}catch(_){body=raw}
-        if(!response.ok){
-          const detail=body?.message||body?.hint||body?.details||(typeof body==="string"?body:"HTTP "+response.status);
-          throw new Error("Supabase "+response.status+": "+detail);
-        }
-        return body||[];
+        return await Promise.race([
+          queryPromise,
+          new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(label+" timeout setelah "+Math.round(timeoutMs/1000)+" detik.")),timeoutMs)})
+        ]);
       }finally{clearTimeout(timer)}
     }
 
@@ -285,39 +271,48 @@ input, select, textarea, button { max-width: 100%; }
     async function loadApplications(){
       const container=document.getElementById("applicationsContainer");
       container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lamaran...</div>';
-      let data,error;
       try{
-        data=await restQuery("applications",{
-          select:"id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note",
-          user_id:"eq."+currentUser.id,
-          order:"created_at.desc"
-        },10000);
+        const result=await queryWithTimeout(
+          supabaseClient.from("applications")
+            .select("id,job_id,user_id,cover_letter,cv_path,status,created_at,interview_date,employer_note")
+            .eq("user_id",currentUser.id)
+            .order("created_at",{ascending:false}),
+          10000,
+          "Data lamaran"
+        );
+        if(result.error)throw new Error("Supabase "+(result.error.code||"error")+": "+(result.error.message||"Query applications gagal."));
+        applications=result.data||[];
+        renderApplicationStats();
+        renderApplications();
+        renderApplicationUpdates();
+        await loadApplicationJobs();
+        renderApplicationUpdates();
+        renderApplications();
       }catch(requestError){
-        console.error("Applications request timeout/error:",requestError);
+        console.error("Applications request error:",requestError);
+        applications=[];
+        renderApplicationStats();
         container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lamaran belum merespons.")+'</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
-        showMessage("error","Data lamaran belum merespons. Lowongan terbaru tetap akan dimuat.");
-        return;
+        showMessage("error","Data lamaran belum dapat dimuat. Cek pesan detail pada bagian Lamaran Saya.");
       }
-      if(error){
-        console.error("Applications error:",error);
-        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lamaran belum dapat dimuat</h3><p>Terjadi masalah saat mengambil data lamaran. Silakan coba lagi.</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
-        showMessage("error","Data lamaran tidak dapat dimuat. Silakan coba lagi.");
-        return;
-      }
-      applications=data||[];
-      await loadApplicationJobs();
-      renderApplicationUpdates();
-      renderApplicationStats();
-      renderApplications();
     }
 
     async function loadApplicationJobs(){
       applicationJobs={};
       const ids=[...new Set(applications.map(a=>a.job_id).filter(Boolean))];
       if(!ids.length)return;
-      const {data,error}=await supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,status").in("id",ids);
-      if(error){console.error("Job lookup error:",error);return}
-      (data||[]).forEach(job=>applicationJobs[job.id]=job);
+      try{
+        const result=await queryWithTimeout(
+          supabaseClient.from("jobs").select("id,title,company_name,location,vessel_type,employment_type,salary,status").in("id",ids),
+          8000,
+          "Detail lowongan lamaran"
+        );
+        if(result.error)throw new Error("Supabase "+(result.error.code||"error")+": "+(result.error.message||"Query jobs gagal."));
+        (result.data||[]).forEach(job=>applicationJobs[job.id]=job);
+      }catch(error){
+        console.error("Job lookup error:",error);
+        showMessage("error","Lamaran berhasil dimuat, tetapi detail lowongan belum merespons. Silakan coba lagi nanti.");
+      }
     }
 
     function renderApplicationUpdates(){
@@ -418,36 +413,36 @@ input, select, textarea, button { max-width: 100%; }
 
     async function loadRecommendations(){
       const container=document.getElementById("recommendationContainer");
-      let data,error;
+      container.innerHTML='<div class="loading"><div class="spinner"></div>Memuat lowongan...</div>';
       try{
-        data=await restQuery("jobs",{
-          select:"id,title,company_name,location,vessel_type,employment_type,salary,created_at,status",
-          status:"in.(published,active)",
-          order:"created_at.desc",
-          limit:"8"
-        },10000);
+        const result=await queryWithTimeout(
+          supabaseClient.from("jobs")
+            .select("id,title,company_name,location,vessel_type,employment_type,salary,created_at,status")
+            .in("status",["published","active"])
+            .order("created_at",{ascending:false})
+            .limit(8),
+          10000,
+          "Lowongan terbaru"
+        );
+        if(result.error)throw new Error("Supabase "+(result.error.code||"error")+": "+(result.error.message||"Query jobs gagal."));
+        const data=result.data||[];
+        const applied=new Set(applications.map(a=>a.job_id));
+        const recommendations=data.filter(job=>!applied.has(job.id)).slice(0,4);
+        if(!recommendations.length){
+          container.innerHTML='<div class="empty"><div class="empty-mark">✓</div><p>Semua lowongan terbaru sudah Anda lamar atau belum ada lowongan baru.</p><a class="primary" href="kapal.html">Lihat Semua Lowongan</a></div>';
+          return;
+        }
+        container.innerHTML=recommendations.map(job=>`<article class="recommendation-item">
+          <div class="recommendation-title">${escapeHTML(job.title)}</div>
+          <div class="recommendation-company">${escapeHTML(job.company_name)}</div>
+          <div class="recommendation-meta"><span>${escapeHTML(job.location||"-")}</span><span>${escapeHTML(job.vessel_type||"-")}</span><span>${escapeHTML(job.employment_type||"-")}</span></div>
+          <a class="recommendation-link" href="detail.html?id=${encodeURIComponent(job.id)}">Lihat Lowongan →</a>
+        </article>`).join("");
       }catch(requestError){
-        console.error("Recommendation request timeout/error:",requestError);
-        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><p>'+escapeHTML(requestError.message||"Koneksi ke data lowongan belum merespons.")+'</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
-        return;
+        console.error("Recommendation request error:",requestError);
+        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lowongan belum dapat dimuat</h3><p>'+escapeHTML(requestError.message||"Koneksi ke data lowongan belum merespons.")+'</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
+        showMessage("error","Data lowongan belum dapat dimuat. Cek pesan detail pada bagian Lowongan Terbaru.");
       }
-      if(error){
-        console.error("Recommendation error:",error);
-        container.innerHTML='<div class="empty"><div class="empty-mark">!</div><p>Lowongan belum dapat dimuat.</p></div>';
-        return;
-      }
-      const applied=new Set(applications.map(a=>a.job_id));
-      const recommendations=(data||[]).filter(job=>!applied.has(job.id)).slice(0,4);
-      if(!recommendations.length){
-        container.innerHTML='<div class="empty"><div class="empty-mark">✓</div><p>Semua lowongan terbaru sudah Anda lamar atau belum ada lowongan baru.</p><a class="primary" href="kapal.html">Lihat Semua Lowongan</a></div>';
-        return;
-      }
-      container.innerHTML=recommendations.map(job=>`<article class="recommendation-item">
-        <div class="recommendation-title">${escapeHTML(job.title)}</div>
-        <div class="recommendation-company">${escapeHTML(job.company_name)}</div>
-        <div class="recommendation-meta"><span>${escapeHTML(job.location||"-")}</span><span>${escapeHTML(job.vessel_type||"-")}</span><span>${escapeHTML(job.employment_type||"-")}</span></div>
-        <a class="recommendation-link" href="detail.html?id=${encodeURIComponent(job.id)}">Lihat Lowongan →</a>
-      </article>`).join("");
     }
 
     async function logout(){
@@ -459,10 +454,9 @@ input, select, textarea, button { max-width: 100%; }
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
-      await Promise.allSettled([
-        loadApplications(),
-        loadRecommendations()
-      ]);
+      // Jalankan terpisah: jika satu tabel bermasalah, bagian lain tetap selesai.
+      loadApplications();
+      loadRecommendations();
     }
     initializeDashboard();
   </script>
