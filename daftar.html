@@ -3213,8 +3213,29 @@ input, select, textarea, button { max-width: 100%; }
           !error?.status
         ) {
 
+          const safeName =
+            String(
+              error?.name || "UnknownError"
+            ).slice(0, 80);
+
+          const safeMessage =
+            String(
+              error?.message || "Unknown error"
+            ).slice(0, 180);
+
+          console.error(
+            "Unhandled login diagnostic:",
+            {
+              name: safeName,
+              message: safeMessage
+            }
+          );
+
           message =
-            "Permintaan login tidak dapat diselesaikan oleh browser. Refresh halaman Sea Marine Job lalu coba lagi. Jika tetap gagal, buka Console browser untuk melihat detail error.";
+            "Login belum dapat diproses (diagnostic v2026-09-24-03). " +
+            safeName +
+            ": " +
+            safeMessage;
 
         }
 
