@@ -283,8 +283,8 @@ input, select, textarea, button { max-width: 100%; }
       if(!updates||!container)return;
       const relevant=applications.filter(a=>{
         const s=normalizeStatus(a.status);
-        return ["interview","accepted","rejected"].includes(s)||a.employer_note;
-      }).slice(0,3);
+        return ["reviewing","review","interview","accepted","hired","rejected","withdrawn"].includes(s)||a.employer_note||a.interview_date;
+      }).slice(0,5);
       if(!relevant.length){updates.style.display="none";return}
       container.innerHTML=relevant.map(a=>{
         const job=applicationJobs[a.job_id];
@@ -292,11 +292,14 @@ input, select, textarea, button { max-width: 100%; }
         let title="Pembaruan lamaran";
         let text=statusLabel(s)+".";
         let icon="i";
-        if(s==="interview"){title="Anda masuk tahap interview";text=a.interview_date?"Jadwal interview tersedia. Cek detail pada kartu lamaran Anda.":"Recruiter memindahkan lamaran Anda ke tahap interview.";icon="◷"}
-        else if(s==="accepted"){title="Lamaran Anda diterima";text="Perusahaan telah memperbarui status lamaran ini menjadi diterima.";icon="✓"}
-        else if(s==="rejected"){title="Status lamaran diperbarui";text="Perusahaan telah memperbarui status lamaran ini menjadi ditolak.";icon="!"}
-        else if(a.employer_note){title="Ada catatan dari recruiter";text="Recruiter menambahkan catatan pada lamaran Anda.";icon="✎"}
-        return '<article class="update-item"><div class="update-icon">'+icon+'</div><div class="update-content"><div class="update-title">'+escapeHTML(title)+(job?.title?' · '+escapeHTML(job.title):"")+'</div><div class="update-text">'+escapeHTML(text)+'</div><div class="update-time">Diperbarui pada '+escapeHTML(formatDate(a.created_at))+'</div></div></article>';
+        if(s==="interview"){title="Tahap interview";text=a.interview_date?"Jadwal interview telah ditetapkan.":"Recruiter memindahkan lamaran Anda ke tahap interview.";icon="◷"}
+        else if(["accepted","hired"].includes(s)){title="Lamaran diterima";text="Status lamaran Anda telah diperbarui menjadi diterima.";icon="✓"}
+        else if(s==="rejected"){title="Lamaran tidak dilanjutkan";text="Status lamaran Anda telah diperbarui menjadi ditolak.";icon="!"}
+        else if(["reviewing","review"].includes(s)){title="Lamaran sedang diproses";text="Recruiter sedang meninjau lamaran Anda.";icon="↗"}
+        else if(s==="withdrawn"){title="Lamaran dibatalkan";text="Lamaran ini tercatat sebagai dibatalkan.";icon="—"}
+        else if(a.employer_note){title="Ada catatan recruiter";text="Recruiter menambahkan catatan pada lamaran Anda.";icon="✎"}
+        const date=a.interview_date||a.created_at;
+        return '<article class="update-item"><div class="update-icon">'+icon+'</div><div class="update-content"><div class="update-title">'+escapeHTML(title)+(job?.title?' · '+escapeHTML(job.title):"")+'</div><div class="update-text">'+escapeHTML(text)+'</div><div class="update-time">Terakhir diperbarui: '+escapeHTML(formatDateTime(date))+(a.employer_note?' · Ada catatan recruiter.':"")+'</div></div></article>';
       }).join("");
       updates.style.display="block";
     }
