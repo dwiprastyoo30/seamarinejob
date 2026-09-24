@@ -1675,7 +1675,8 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         return;
       }
 
-      applications = data || [];
+      const ownedJobIds = new Set(employerJobs.map(job => String(job.id)));
+      applications = (data || []).filter(app => ownedJobIds.has(String(app.job_id)));
       populateCandidateJobFilter();
 
       totalApplicationsEl.textContent =
@@ -2059,6 +2060,25 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
     async function saveApplication(applicationId) {
       hideMessages();
 
+      if (!currentUser || !employerProfile) {
+        showError("Sesi employer belum siap. Silakan login kembali.");
+        return;
+      }
+
+      const application = applications.find(
+        app => String(app.application_id) === String(applicationId)
+      );
+      if (!application) {
+        showError("Lamaran tidak ditemukan atau tidak termasuk lowongan perusahaan Anda.");
+        return;
+      }
+
+      const ownedJobIds = new Set(employerJobs.map(job => String(job.id)));
+      if (!ownedJobIds.has(String(application.job_id))) {
+        showError("Anda tidak memiliki akses ke lamaran ini.");
+        return;
+      }
+
       const statusElement =
         document.getElementById(
           "status-" + applicationId
@@ -2086,8 +2106,12 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         return;
       }
 
-      const newStatus =
-        statusElement.value;
+      const allowedStatuses = ["submitted","reviewing","interview","accepted","rejected"];
+      const newStatus = statusElement.value;
+      if (!allowedStatuses.includes(newStatus)) {
+        showError("Status lamaran tidak valid.");
+        return;
+      }
 
       const interviewValue =
         interviewElement.value;
@@ -2122,7 +2146,8 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
           interview_date: interviewDate,
           employer_note: noteValue || null
         })
-        .eq("id", applicationId);
+        .eq("id", applicationId)
+        .eq("job_id", application.job_id);
 
       if (error) {
         showError(
