@@ -2116,7 +2116,7 @@
        STATE
     ===================================================== */
 
-    let selectedAccount = "jobseeker";
+    let selectedAccount = requestedRole || "jobseeker";
 
     let currentUser = null;
 
@@ -2138,6 +2138,9 @@
 
     const applyJobId =
       urlParams.get("apply");
+
+    const requestedRole =
+      normalizeAccountType(urlParams.get("role"));
 
     const resetMode =
       urlParams.get("reset");
@@ -4263,6 +4266,18 @@
 
 
     /* =====================================================
+       APPLY ROLE FROM URL
+    ===================================================== */
+
+    function applyRequestedRole() {
+      if (!requestedRole) return;
+      const option = document.querySelector('[data-account="' + requestedRole + '"]');
+      if (option) selectAccount(requestedRole, option);
+      if (requestedRole === "employer") showForm("register");
+    }
+
+
+    /* =====================================================
        PAGE INITIALIZATION
     ===================================================== */
 
@@ -4299,17 +4314,15 @@
         HASH
       */
 
-      if (
-        window.location.hash ===
-        "#register"
-      ) {
-
+      if (requestedRole === "employer") {
         showForm("register");
-
+      } else if (window.location.hash === "#register") {
+        showForm("register");
       } else {
-
         showForm("login");
       }
+
+      applyRequestedRole();
 
 
       /*
