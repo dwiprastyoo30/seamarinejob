@@ -73,7 +73,7 @@ footer{background:var(--navy);color:#fff;padding:42px 0 18px}.footer{display:fle
 
 <section style="background:#F0F6F9">
   <div class="container">
-    <div class="section-head"><div><h2>Latest & Knowledge</h2><p>Struktur ini sudah siap diisi artikel aktual tanpa mengubah tampilan halaman.</p></div><span class="updated" id="count"></span></div>
+    <div class="section-head"><div><h2>Latest & Knowledge</h2><p>Ringkasan berikut berasal dari publikasi resmi IMO dan ditampilkan dengan tanggal serta sumber agar pembaca dapat memverifikasi informasi.</p></div><span class="updated" id="count"></span></div>
     <div class="grid" id="articles"></div>
   </div>
 </section>
@@ -87,12 +87,12 @@ footer{background:var(--navy);color:#fff;padding:42px 0 18px}.footer{display:fle
 
 <script>
 const articles=[
- {cat:"update",label:"MARITIME UPDATE",title:"Perkembangan industri maritim",text:"Ruang untuk merangkum perkembangan industri yang berdampak pada pekerjaan dan kebutuhan tenaga maritim.",date:"Editorial",icon:"↗"},
- {cat:"regulation",label:"REGULATION",title:"Memahami regulasi sebelum berlayar",text:"Panduan editorial untuk membaca perubahan aturan, circular, dan dokumen resmi tanpa menggantikan sumber aslinya.",date:"Knowledge",icon:"▣"},
- {cat:"safety",label:"SAFETY",title:"Safety awareness untuk seafarer",text:"Materi singkat tentang kebiasaan, kesiapan, dan awareness keselamatan yang dapat dikembangkan menjadi artikel terverifikasi.",date:"Knowledge",icon:"✓"},
- {cat:"career",label:"CAREER",title:"Persiapan karier maritim",text:"Insight tentang CV, sertifikasi, interview, kompetensi, dan langkah persiapan sebelum melamar pekerjaan.",date:"Career",icon:"◉"},
- {cat:"update",label:"MARITIME UPDATE",title:"Company & crew updates",text:"Format untuk menginformasikan pengumuman perusahaan dan crew-related updates dengan sumber yang jelas.",date:"Editorial",icon:"→"},
- {cat:"regulation",label:"REGULATION",title:"Official source tracker",text:"Tempat untuk menghubungkan pembaca ke sumber regulator atau organisasi resmi ketika ada perubahan dokumen.",date:"Editorial",icon:"↗"}
+ {cat:"regulation",label:"REGULATION",title:"Sejumlah aturan pelayaran IMO mulai berlaku 1 Januari 2026",text:"IMO mencatat perubahan pada sejumlah instrumen, termasuk pelaporan kontainer hilang, pelatihan untuk mencegah harassment dan bullying, serta ketentuan keselamatan lifting appliances dan anchor handling winches.",date:"9 Jan 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/pressbriefings/pages/raft-of-shipping-rules-in-force-from-1-january-2026.aspx"},
+ {cat:"regulation",label:"REGULATION",title:"MASS Code diadopsi untuk kapal otonom",text:"Pada Mei 2026, IMO mengadopsi International Code of Safety for Maritime Autonomous Surface Ships (MASS Code). IMO menyatakan kode ini berlaku untuk cargo ships yang tercakup SOLAS Chapter I dan mulai berlaku 1 Juli 2026.",date:"22 May 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-adopts-mass-code.aspx"},
+ {cat:"safety",label:"SAFETY",title:"Keselamatan seafarer menjadi perhatian dalam situasi Teluk dan Selat Hormuz",text:"IMO pada Juni 2026 menekankan pentingnya risk assessment dan perlindungan seafarer ketika kapal menghadapi kondisi keamanan yang berisiko tinggi.",date:"9 Jun 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/pressbriefings/pages/statement-no-safe-passage-strait-of-hormuz.aspx"},
+ {cat:"safety",label:"SAFETY",title:"Pelajaran dari kecelakaan maritim terus dikembangkan",text:"Dalam III 12 pada Juli 2026, IMO melanjutkan analisis laporan kecelakaan dan lessons learned, termasuk perhatian pada enclosed-space accidents dan falls on board ships.",date:"20–24 Jul 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/meetingsummaries/pages/iii-12-meeting-summary.aspx"},
+ {cat:"regulation",label:"REGULATION",title:"IMO menyetujui pedoman transparansi dan due diligence registrasi kapal",text:"Legal Committee IMO menyetujui pedoman untuk memperkuat verifikasi, catatan kepemilikan, dan pengawasan proses registrasi kapal serta membantu mencegah fraudulent registrations dan misuse of flags.",date:"17 Apr 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-approves-new-guidelines-on-ship-registration.aspx"},
+ {cat:"update",label:"MARITIME UPDATE",title:"Fokus IMO 2026: menerjemahkan kebijakan menjadi praktik",text:"Tema World Maritime Day 2026–2027 menekankan implementasi standar keselamatan dan lingkungan menjadi tindakan nyata di kapal maupun di darat.",date:"11 Feb 2026",source:"IMO",url:"https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-launches-global-campaign-policy-to-practice.aspx"}
 ];
 const box=document.getElementById("articles"),search=document.getElementById("search"),count=document.getElementById("count");
 let active="all";
@@ -100,7 +100,7 @@ function render(){
  const q=search.value.trim().toLowerCase();
  const rows=articles.filter(a=>(active==="all"||a.cat===active)&&(!q||(a.title+" "+a.text+" "+a.label).toLowerCase().includes(q)));
  count.textContent=rows.length+" topik";
- box.innerHTML=rows.length?rows.map(a=>'<article class="article-card"><div class="article-top"><span class="tag">'+a.label+'</span><span class="date">'+a.date+'</span></div><h3>'+a.title+'</h3><p>'+a.text+'</p><span class="read">Artikel akan tersedia saat konten dipublikasikan →</span></article>').join(""):'<div class="empty">Tidak ada topik yang cocok dengan pencarian atau kategori ini.</div>';
+ box.innerHTML=rows.length?rows.map(a=>'<article class="article-card"><div class="article-top"><span class="tag">'+a.label+'</span><span class="date">'+a.date+'</span></div><h3>'+a.title+'</h3><p>'+a.text+'</p><a class="read" href="'+a.url+'" target="_blank" rel="noopener noreferrer">Baca sumber resmi · '+a.source+' →</a></article>').join(""):'<div class="empty">Tidak ada topik yang cocok dengan pencarian atau kategori ini.</div>';
 }
 document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{active=btn.dataset.filter;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");render()}));
 search.addEventListener("input",render);render();
