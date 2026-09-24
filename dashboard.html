@@ -149,7 +149,10 @@ input, select, textarea, button { max-width: 100%; }
   <script>
     const SUPABASE_URL="https://pnyqdhcaabpxbatpubcb.supabase.co";
     const SUPABASE_KEY="sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA";
-    const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{\n      db:{retry:false},\n      auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}\n    });
+    const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+      db:{retry:false},
+      auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}
+    });
 
     let currentUser=null,currentProfile=null,applications=[],applicationJobs={};
 
