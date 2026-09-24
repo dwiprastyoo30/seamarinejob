@@ -642,6 +642,8 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
 
     <div class="nav-right">
       <a href="kapal.html">Cari Lowongan</a>
+      <a href="news.html">News</a>
+      <a href="community.html">Community</a>
       <button class="logout-btn" id="logoutBtn">Keluar</button>
     </div>
   </nav>
@@ -1409,8 +1411,8 @@ nav{height:72px;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(255,2
         const status = job.status || "draft";
         let action = "";
         if (status === "draft") action = `<button type="button" class="btn btn-primary" data-job-action="publish" data-job-id="${escapeHtml(job.id)}">Publikasikan Lowongan</button>`;
-        else if (status === "published" || status === "active") action = `<button type="button" class="btn" style="background:#fff;color:#B91C1C;border:1px solid #FECACA" data-job-action="deactivate" data-job-id="${escapeHtml(job.id)}">Nonaktifkan Lowongan</button>`;
-        else if (status === "inactive") action = `<button type="button" class="btn" style="background:#15803D;color:#fff" data-job-action="activate" data-job-id="${escapeHtml(job.id)}">Aktifkan Kembali</button>`;
+        else if (status === "published" || status === "active") action = `<a class="btn btn-secondary" href="detail.html?id=${encodeURIComponent(job.id)}">Lihat Lowongan</a><button type="button" class="btn" style="background:#fff;color:#B91C1C;border:1px solid #FECACA" data-job-action="deactivate" data-job-id="${escapeHtml(job.id)}">Nonaktifkan</button>`;
+        else if (status === "inactive") action = `<a class="btn btn-secondary" href="detail.html?id=${encodeURIComponent(job.id)}">Lihat Arsip</a><button type="button" class="btn" style="background:#15803D;color:#fff" data-job-action="activate" data-job-id="${escapeHtml(job.id)}">Aktifkan Kembali</button>`;
         return `<article class="job-card">
           <div style="display:flex;justify-content:space-between;gap:15px;align-items:flex-start">
             <div><div style="font-size:9px;letter-spacing:1.3px;color:#0284C7;font-weight:850;margin-bottom:5px">LOWONGAN</div><div class="job-title">${escapeHtml(job.title)}</div><div class="company">${escapeHtml(job.company_name || "-")}</div></div>
