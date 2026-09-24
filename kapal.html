@@ -1513,6 +1513,7 @@ const supabaseClient =
         allJobs = data || [];
 
         populateFilters();
+        applyUrlFilters();
 
         applyFilters();
 
@@ -1606,6 +1607,59 @@ const supabaseClient =
 
     }
 
+
+
+    /* =========================
+       URL FILTER SYNC
+       Supports homepage search/category links
+    ========================= */
+
+    function applyUrlFilters() {
+      const params = new URLSearchParams(window.location.search);
+
+      const keyword =
+        params.get("keyword") ||
+        params.get("q") ||
+        "";
+
+      const department =
+        params.get("department") ||
+        params.get("dept") ||
+        "";
+
+      const vessel =
+        params.get("vessel_type") ||
+        params.get("vessel") ||
+        "";
+
+      const location =
+        params.get("location") ||
+        "";
+
+      const employment =
+        params.get("employment") ||
+        "";
+
+      keywordInput.value = keyword;
+
+      if (department) {
+        departmentSearch.value = department;
+        departmentFilter.value = department;
+      }
+
+      if (vessel) {
+        vesselSearch.value = vessel;
+        vesselFilter.value = vessel;
+      }
+
+      if (location) {
+        locationFilter.value = location;
+      }
+
+      if (employment) {
+        employmentFilter.value = employment;
+      }
+    }
 
     /* =========================
        APPLY FILTERS
