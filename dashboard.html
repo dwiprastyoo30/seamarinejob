@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.12</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.24.13</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -507,6 +507,18 @@ input, select, textarea, button { max-width: 100%; }
       if(error){console.error("Logout error:",error);showMessage("error","Gagal keluar. Silakan coba lagi.");return}
       window.location.href="index.html";
     }
+
+    function showDashboardTimeout(){
+      const app=document.getElementById("applicationsContainer");
+      const rec=document.getElementById("recommendationContainer");
+      if(app && app.querySelector(".loading")){
+        app.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Data lamaran belum merespons</h3><p>Dashboard sudah aktif, tetapi koneksi ke tabel lamaran belum selesai dalam 6 detik.</p><button class="primary" type="button" onclick="loadApplications()">Coba Lagi</button></div>';
+      }
+      if(rec && rec.querySelector(".loading")){
+        rec.innerHTML='<div class="empty"><div class="empty-mark">!</div><h3>Lowongan belum merespons</h3><p>Dashboard sudah aktif, tetapi koneksi ke tabel lowongan belum selesai dalam 6 detik.</p><button class="primary" type="button" onclick="loadRecommendations()">Coba Lagi</button></div>';
+      }
+    }
+    setTimeout(showDashboardTimeout,6000);
 
     async function initializeDashboard(){
       if(!await loadCurrentUser())return;
