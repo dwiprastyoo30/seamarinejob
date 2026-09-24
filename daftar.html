@@ -3044,6 +3044,24 @@ input, select, textarea, button { max-width: 100%; }
           message =
             "Layanan login sedang mengalami gangguan. Silakan coba lagi beberapa saat lagi.";
 
+        } else if (
+          error?.name === "TypeError" ||
+          /failed to fetch|network error|load failed|fetch/i.test(
+            errorMessage
+          )
+        ) {
+
+          message =
+            "Browser tidak dapat terhubung ke server login. Periksa koneksi internet, lalu refresh halaman dan coba lagi.";
+
+        } else if (
+          !code &&
+          !error?.status
+        ) {
+
+          message =
+            "Permintaan login tidak dapat diselesaikan oleh browser. Refresh halaman Sea Marine Job lalu coba lagi. Jika tetap gagal, buka Console browser untuk melihat detail error.";
+
         }
 
         showMessage(
