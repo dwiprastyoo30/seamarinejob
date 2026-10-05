@@ -16,7 +16,6 @@
 html, body { max-width: 100%; overflow-x: hidden; }
 img, video, iframe, svg, canvas { max-width: 100%; }
 input, select, textarea, button { max-width: 100%; }
-<style>
 /* CV Builder Pro workspace */
 body{background:#f4f8fc}
 .app-shell{min-height:100vh;display:grid;grid-template-columns:218px 1fr}
@@ -43,7 +42,7 @@ body{background:#f4f8fc}
 .preview-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:900;color:#23435b;padding:0 3px 12px}.paper-wrap{background:#f4f7fa;border-radius:10px;padding:12px}.preview-panel .cv-page{box-shadow:0 8px 22px #0f172a18;border:1px solid #dfe8ee}
 @media(max-width:1100px){.app-shell{grid-template-columns:74px 1fr}.side-brand{justify-content:center;padding:0}.side-brand span:last-child,.side-nav a span:not(.ico),.side-note{display:none}.side-nav a{justify-content:center;padding:12px}.top-links{display:none}.builder-grid{grid-template-columns:1fr}.preview-panel{position:static}}
 @media(max-width:700px){.app-shell{display:block}.side{display:none}.top{padding:0 14px}.page-head{padding:20px 14px 12px;display:block}.head-actions{margin-top:12px}.builder-grid{padding:0 14px 35px}.snapshot{grid-template-columns:1fr}.photo-row{grid-template-columns:78px 1fr}.photo-box{width:78px;height:96px}.form-section{padding:16px}.tabs{padding:0 8px}.preview-panel{padding:9px}.paper-wrap{padding:5px}.preview-panel .cv-page{transform-origin:top left}}
-</style></style></head>
+</style></head>
 <body>
 <div class="app-shell">
 <aside class="side">
@@ -248,7 +247,6 @@ $("cvPhoto").addEventListener("change",async e=>{
 });
 
 $("saveDraftBtn").onclick=()=>saveDraft(true);
-$("clearDraftBtn").onclick=()=>{if(confirm("Reset semua data CV dan draft di browser?"))clearDraft()};
 
 async function loadProfile(){
   try{
@@ -283,7 +281,13 @@ async function buildPdf(){
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF({unit:"mm",format:"a4"});
   const node=$("cv");
+  const oldTransform=node.style.transform;
+  node.style.transform="none";
   await pdf.html(node,{x:10,y:10,width:190,windowWidth:794,autoPaging:"text"});
+  node.style.transform=oldTransform;
+  if(pdf.getNumberOfPages()>1){
+    $("status").textContent="CV lebih dari 1 halaman. Ringkas pengalaman atau kurangi detail agar tetap 1 halaman.";
+  }
   return pdf;
 }
 
@@ -335,7 +339,7 @@ document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>
 document.querySelectorAll(".tab-section").forEach(x=>x.style.display=x.dataset.section==="personal"?"block":"none");
 function syncFormPhoto(){applyPhoto()}
 document.getElementById("saveDraftTop").onclick=()=>document.getElementById("saveDraftBtn").click();
-document.getElementById("clearDraftTop").onclick=()=>document.getElementById("clearDraftBtn").click();
+document.getElementById("clearDraftTop").onclick=()=>{if(confirm("Reset semua data CV dan draft di browser?"))clearDraft();};
 document.getElementById("downloadTop").onclick=()=>document.getElementById("downloadBtn").click();
 document.getElementById("saveProfileCvTop").onclick=()=>document.getElementById("saveProfileCvBtn").click();
 </script></body></html>
