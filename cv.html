@@ -65,7 +65,7 @@ body{background:#f4f8fc}
 </header>
 <section class="page-head">
   <div><div class="crumb">⌂ &nbsp;›&nbsp; Dashboard &nbsp;›&nbsp; CV Builder</div><h1>CV Builder</h1><p>Buat CV profesional untuk meningkatkan peluang diterima di industri maritim.</p></div>
-  <div class="head-actions"><button class="btn secondary" id="saveDraftTop">▣ &nbsp; Simpan Draft</button><button class="btn secondary" id="clearDraftTop">↻ &nbsp; Reset</button><button class="btn secondary" id="saveProfileCvTop">☁ &nbsp; Simpan ke Profil</button><button class="btn primary" id="downloadTop">⇩ &nbsp; Download PDF</button></div>
+  <div class="head-actions"><button class="btn secondary" id="saveDraftTop">▣ &nbsp; Simpan Draft</button><button class="btn secondary" id="clearDraftTop">↻ &nbsp; Reset</button><button class="btn secondary" id="saveProfileCvTop">☁ &nbsp; Simpan ke Profil</button><a class="btn secondary" href="kapal.html">⚓ &nbsp; Cari Lowongan</a><button class="btn primary" id="downloadTop">⇩ &nbsp; Download PDF</button></div>
 </section>
 <main class="builder-grid">
 <section class="builder-panel">
@@ -109,7 +109,7 @@ body{background:#f4f8fc}
 </div>
 <div class="form-section tab-section" data-section="preview">
 <div class="section-title"><span class="section-icon">◉</span>7. Final Check</div><p class="section-copy">Periksa preview di sebelah kanan sebelum mengunduh PDF.</p>
-<div class="actions"><button class="btn secondary" id="loadBtn">Muat Profil</button><button class="btn secondary" id="saveDraftBtn">Simpan Draft</button><button class="btn secondary" id="saveProfileCvBtn">☁ Simpan ke Profil</button><button class="btn primary" id="downloadBtn">Download PDF</button></div><div class="status" id="status"></div>
+<div class="actions"><button class="btn secondary" id="loadBtn">Muat Profil</button><button class="btn secondary" id="saveDraftBtn">Simpan Draft</button><button class="btn secondary" id="saveProfileCvBtn">☁ Simpan ke Profil</button><button class="btn primary" id="downloadBtn">Download PDF</button><a class="btn secondary" href="kapal.html">Cari Lowongan & Lamar</a></div><div class="status" id="status"></div>
 </div>
 </section>
 <section class="preview-panel">
@@ -318,7 +318,7 @@ async function saveCvToProfile(){
     const {error:profileError}=await sb.from("profiles").update({cv_path:path}).eq("user_id",user.id);
     if(profileError)throw profileError;
     saveDraft(false);
-    $("status").textContent="CV berhasil disimpan ke profil. CV ini akan digunakan otomatis saat melamar.";
+    $("status").innerHTML="CV berhasil disimpan ke profil. <strong>CV ini akan digunakan otomatis saat melamar.</strong> Silakan pilih lowongan yang sesuai.";
   }catch(e){
     $("status").textContent="CV belum dapat disimpan ke profil: "+(e?.message||"coba lagi");
   }
