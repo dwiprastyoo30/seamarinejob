@@ -16,33 +16,106 @@
 html, body { max-width: 100%; overflow-x: hidden; }
 img, video, iframe, svg, canvas { max-width: 100%; }
 input, select, textarea, button { max-width: 100%; }
-</style></head>
+<style>
+/* CV Builder Pro workspace */
+body{background:#f4f8fc}
+.app-shell{min-height:100vh;display:grid;grid-template-columns:218px 1fr}
+.side{background:#fff;border-right:1px solid #e4edf4;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:10}
+.side-brand{height:72px;display:flex;align-items:center;gap:10px;padding:0 22px;border-bottom:1px solid #edf2f6;color:#0f2742;font-weight:900}
+.side-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#0284c7,#0ea5e9);display:grid;place-items:center;color:#fff;font-size:19px}
+.side-brand small{display:block;font-size:7px;letter-spacing:1px;color:#7b91a5;margin-top:2px}
+.side-nav{padding:18px 12px;display:grid;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:10px;font-size:11px;font-weight:800;color:#40566b}
+.side-nav a:hover{background:#f0f8fd;color:#036b9f}.side-nav a.active{background:#e5f3fc;color:#0274ad}
+.side-nav .ico{width:18px;text-align:center;font-size:14px}
+.side-note{margin:auto 12px 18px;padding:18px 14px;border-radius:14px;background:linear-gradient(180deg,#f1f9fd,#e8f5fb);color:#0b5277;font-size:10px;line-height:1.5}
+.top{height:72px;background:#fff;border-bottom:1px solid #e4edf4;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:8}
+.top-links{display:flex;gap:25px;font-size:11px;font-weight:800;color:#38536a}.top-links a:hover{color:#0284c7}
+.user-mini{display:flex;align-items:center;gap:9px;font-size:10px;font-weight:900;color:#20384e}.user-avatar{width:34px;height:34px;border-radius:50%;background:#e7f3f9;display:grid;place-items:center;color:#0875a9}
+.workspace{min-width:0}.page-head{padding:25px 28px 13px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}.crumb{font-size:9px;color:#7890a3;margin-bottom:7px}.page-head h1{margin:0;font-size:27px;letter-spacing:-.6px}.page-head p{margin:6px 0 0;font-size:11px;color:#718599}.head-actions{display:flex;gap:8px}.head-actions .btn{white-space:nowrap}
+.builder-grid{display:grid;grid-template-columns:minmax(480px,1.05fr) minmax(430px,.85fr);gap:18px;padding:0 28px 45px;align-items:start}
+.builder-panel,.preview-panel{background:#fff;border:1px solid #e1eaf1;border-radius:14px;box-shadow:0 8px 25px #0f172a09}.builder-panel{padding:0}.preview-panel{padding:15px;position:sticky;top:88px}
+.tabs{display:flex;overflow:auto;border-bottom:1px solid #e8eef3;padding:0 16px;gap:2px}.tab{border:0;background:none;padding:14px 11px 12px;color:#668096;font-size:10px;font-weight:900;white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent}.tab.active{color:#0878b0;border-bottom-color:#0284c7}
+.form-section{padding:18px 20px;border-bottom:1px solid #edf2f6}.form-section:last-child{border-bottom:0}.section-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900;color:#17334b;margin-bottom:4px}.section-title .section-icon{width:28px;height:28px;border-radius:8px;background:#e9f6fc;color:#0878b0;display:grid;place-items:center}.section-copy{font-size:9px;color:#8194a5;margin:0 0 14px 37px}
+.photo-row{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center}.photo-box{width:96px;height:116px;border:1px dashed #9db7c9;border-radius:10px;background:#f5fafc;display:grid;place-items:center;overflow:hidden}.photo-box img{width:100%;height:100%;object-fit:cover;display:none}.photo-box img.show{display:block}.photo-placeholder{font-size:9px;text-align:center;color:#7891a3;padding:10px}.photo-upload{border:1px dashed #a8c3d4;background:#f7fbfd;border-radius:10px;padding:14px;text-align:center;font-size:10px;color:#587287}.photo-upload strong{display:block;color:#0878b0;margin-bottom:4px}
+.snapshot{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.snapshot .field{margin:0}.snapshot .control{background:#fbfdff}
+.form-section .field{margin-bottom:11px}.form-section .grid{gap:0 10px}.form-section .field:last-child{margin-bottom:0}
+.preview-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:900;color:#23435b;padding:0 3px 12px}.paper-wrap{background:#f4f7fa;border-radius:10px;padding:12px}.preview-panel .cv-page{box-shadow:0 8px 22px #0f172a18;border:1px solid #dfe8ee}
+@media(max-width:1100px){.app-shell{grid-template-columns:74px 1fr}.side-brand{justify-content:center;padding:0}.side-brand span:last-child,.side-nav a span:not(.ico),.side-note{display:none}.side-nav a{justify-content:center;padding:12px}.top-links{display:none}.builder-grid{grid-template-columns:1fr}.preview-panel{position:static}}
+@media(max-width:700px){.app-shell{display:block}.side{display:none}.top{padding:0 14px}.page-head{padding:20px 14px 12px;display:block}.head-actions{margin-top:12px}.builder-grid{padding:0 14px 35px}.snapshot{grid-template-columns:1fr}.photo-row{grid-template-columns:78px 1fr}.photo-box{width:78px;height:96px}.form-section{padding:16px}.tabs{padding:0 8px}.preview-panel{padding:9px}.paper-wrap{padding:5px}.preview-panel .cv-page{transform-origin:top left}}
+</style></style></head>
 <body>
-<header class="nav"><a class="brand" href="index.html"><span class="mark">⚓</span><span>SeaMarineJob<small>MARITIME CAREER PLATFORM</small></span></a><nav class="links"><a href="kapal.html">Jobs</a><a href="dashboard.html">Dashboard</a><a href="profil.html">Profil</a></nav><a class="back" href="profil.html">← Profil</a></header>
-<section class="hero"><div class="wrap"><div class="ey">SeaMarineJob · CV Builder</div><h1>Buat CV yang siap dibawa ke perjalanan berikutnya.</h1><p>Isi data di sebelah kiri dan lihat perubahan CV secara langsung. Kamu bisa mengunduhnya sebagai PDF setelah selesai.</p></div></section>
-<main class="layout wrap">
-<section class="card builder-card">
-<h2>Data CV</h2><p class="sub">Data profil akan dimuat otomatis jika tersedia. Untuk pengalaman kerja, pisahkan setiap posisi dengan satu baris kosong agar format CV lebih rapi.</p>
-<div class="grid">
-<div class="field full"><label>Nama Lengkap</label><input class="control" id="name" placeholder="Nama lengkap"></div>
-<div class="field"><label>Posisi / Target Karier</label><input class="control" id="position" placeholder="AB / Oiler / Chief Engineer"></div>
-<div class="field"><label>Lokasi</label><input class="control" id="location" placeholder="Jakarta, Indonesia"></div>
-<div class="field"><label>Email</label><input class="control" id="email" placeholder="email@example.com"></div>
-<div class="field"><label>WhatsApp</label><input class="control" id="phone" placeholder="+62..."></div>
-<div class="field"><label>Jenis Kapal</label><input class="control" id="vesselType" placeholder="Bulk Carrier / Tanker / Container"></div>
-<div class="field"><label>Total Sea Service</label><input class="control" id="seaService" placeholder="24 bulan"></div>
-<div class="field"><label>Ketersediaan</label><input class="control" id="availability" placeholder="Available / Notice 30 days"></div>
-<div class="field"><label>Foto CV</label><input class="control" id="cvPhoto" type="file" accept="image/jpeg,image/png,image/webp"><div class="cert-help">Foto hanya digunakan untuk CV ini dan tidak mengubah foto profil.</div></div>
-<div class="field full"><label>Professional Summary</label><textarea class="control ta" id="summary" placeholder="Ringkasan singkat tentang pengalaman dan tujuan karier..."></textarea></div>
-<div class="field full"><label>Pengalaman Kerja</label><div class="experience-builder" id="experienceBuilder"></div><button type="button" class="add-entry" id="addExperience">+ Tambah pengalaman</button><textarea class="control ta" id="experience" style="display:none" aria-hidden="true"></textarea></div>
-<div class="field full"><label>Pendidikan</label><textarea class="control ta" id="education" placeholder="SMK Pelayaran — Nautika — 2020"></textarea></div>
-<div class="field full"><label>Sertifikat & Kompetensi</label><div class="cert-builder" id="certBuilder"></div><button type="button" class="add-entry" id="addCertificate">+ Tambah sertifikat</button><div class="cert-help">Isi tanggal berlaku jika tercantum pada sertifikat. Status hanya dihitung dari tanggal yang kamu masukkan.</div><textarea class="control ta" id="certificates" style="display:none" aria-hidden="true"></textarea></div>
-<div class="field full"><label>Keahlian</label><textarea class="control ta" id="skills" placeholder="Watchkeeping, Deck Maintenance, Safety, Cargo Operation"></textarea></div>
-</div>
-<div class="actions"><button class="btn secondary" id="loadBtn">Muat Profil</button><button class="btn secondary" id="saveDraftBtn">Simpan Draft</button><button class="btn secondary" id="clearDraftBtn">Reset Draft</button><button class="btn primary" id="downloadBtn">Download PDF</button></div><div class="status" id="status"></div>
+<div class="app-shell">
+<aside class="side">
+  <a class="side-brand" href="index.html"><span class="side-mark">🚢</span><span>SeaMarineJob<small>MARITIME CAREER PARTNER</small></span></a>
+  <nav class="side-nav">
+    <a href="dashboard.html"><span class="ico">▣</span><span>Dashboard</span></a>
+    <a href="profil.html"><span class="ico">♙</span><span>Profil Saya</span></a>
+    <a class="active" href="cv.html"><span class="ico">▤</span><span>CV Builder</span></a>
+    <a href="dashboard.html"><span class="ico">▧</span><span>Lamaran Saya</span></a>
+    <a href="kapal.html"><span class="ico">☆</span><span>Lowongan</span></a>
+    <a href="news.html"><span class="ico">◫</span><span>News</span></a>
+    <a href="community.html"><span class="ico">♧</span><span>Community</span></a>
+  </nav>
+  <div class="side-note">Mimpi berlayar menuju karier yang lebih baik bersama <strong>SeaMarineJob</strong>.</div>
+</aside>
+<div class="workspace">
+<header class="top">
+  <nav class="top-links"><a href="index.html">Beranda</a><a href="kapal.html">Lowongan</a><a href="academy.html">Academy</a><a href="news.html">News</a><a href="community.html">Community</a></nav>
+  <a class="user-mini" href="profil.html"><span class="user-avatar">♙</span><span>Profil Kandidat</span></a>
+</header>
+<section class="page-head">
+  <div><div class="crumb">⌂ &nbsp;›&nbsp; Dashboard &nbsp;›&nbsp; CV Builder</div><h1>CV Builder</h1><p>Buat CV profesional untuk meningkatkan peluang diterima di industri maritim.</p></div>
+  <div class="head-actions"><button class="btn secondary" id="saveDraftTop">▣ &nbsp; Simpan Draft</button><button class="btn secondary" id="clearDraftTop">↻ &nbsp; Reset</button><button class="btn primary" id="downloadTop">⇩ &nbsp; Download PDF</button></div>
 </section>
-<section class="card preview-card"><h2 style="margin-bottom:16px">Preview CV</h2>
-<div class="cv-page" id="cv">
+<main class="builder-grid">
+<section class="builder-panel">
+<div class="tabs">
+<button class="tab active" data-tab="personal">♙ &nbsp; Data Pribadi</button>
+<button class="tab" data-tab="snapshot">▣ &nbsp; Maritime Snapshot</button>
+<button class="tab" data-tab="education">◇ &nbsp; Pendidikan</button>
+<button class="tab" data-tab="certificates">▤ &nbsp; Sertifikat & Lisensi</button>
+<button class="tab" data-tab="experience">♜ &nbsp; Pengalaman Kapal</button>
+<button class="tab" data-tab="skills">♧ &nbsp; Keahlian</button>
+<button class="tab" data-tab="preview">◉ &nbsp; Preview</button>
+</div>
+<div class="form-section tab-section" data-section="personal">
+<div class="section-title"><span class="section-icon">♙</span>1. Data Pribadi</div><p class="section-copy">Informasi dasar yang akan tampil pada bagian atas CV.</p>
+<div class="photo-row"><div class="photo-box"><img id="formPhoto" alt="Foto CV"><div class="photo-placeholder" id="photoPlaceholder">Foto CV</div></div><div><div class="field"><label>Nama Lengkap</label><input class="control" id="name" placeholder="Nama lengkap"></div><div class="photo-upload">▱ <strong>Pilih foto</strong> JPG, PNG, WebP · maksimal 2 MB<br><input id="cvPhoto" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:8px;width:100%"></div></div></div>
+<div class="grid" style="margin-top:14px">
+<div class="field"><label>Posisi / Target Karier</label><input class="control" id="position" placeholder="Deck Officer / Oiler"></div><div class="field"><label>Lokasi</label><input class="control" id="location" placeholder="Jakarta, Indonesia"></div>
+<div class="field"><label>Email</label><input class="control" id="email" placeholder="email@example.com"></div><div class="field"><label>WhatsApp</label><input class="control" id="phone" placeholder="+62..."></div>
+</div>
+</div>
+<div class="form-section tab-section" data-section="snapshot">
+<div class="section-title"><span class="section-icon">▣</span>2. Maritime Snapshot</div><p class="section-copy">Ringkasan singkat pengalaman maritim kamu.</p>
+<div class="snapshot"><div class="field"><label>Jenis Kapal</label><input class="control" id="vesselType" placeholder="Container Ship"></div><div class="field"><label>Total Sea Service</label><input class="control" id="seaService" placeholder="5 Tahun"></div><div class="field"><label>Ketersediaan</label><input class="control" id="availability" placeholder="Immediate"></div></div>
+<div class="field" style="margin-top:12px"><label>Professional Summary</label><textarea class="control ta" id="summary" placeholder="Contoh: Deck Officer dengan pengalaman watchkeeping, cargo operation, safety dan maintenance..."></textarea></div>
+</div>
+<div class="form-section tab-section" data-section="experience">
+<div class="section-title"><span class="section-icon">♜</span>3. Pengalaman Kapal</div><p class="section-copy">Susun pengalaman kapal dari yang terbaru.</p>
+<div class="experience-builder" id="experienceBuilder"></div><button type="button" class="add-entry" id="addExperience">+ Tambah pengalaman kapal</button><textarea class="control ta" id="experience" style="display:none" aria-hidden="true"></textarea>
+</div>
+<div class="form-section tab-section" data-section="education">
+<div class="section-title"><span class="section-icon">◇</span>4. Pendidikan</div><p class="section-copy">Riwayat pendidikan formal dan pelatihan utama.</p>
+<div class="field"><textarea class="control ta" id="education" placeholder="SMK Pelayaran — Nautika — 2020"></textarea></div>
+</div>
+<div class="form-section tab-section" data-section="certificates">
+<div class="section-title"><span class="section-icon">▤</span>5. Sertifikat & Lisensi</div><p class="section-copy">Tambahkan BST, AFF, SAT, COC/COP dan sertifikat lain beserta masa berlaku.</p>
+<div class="cert-builder" id="certBuilder"></div><button type="button" class="add-entry" id="addCertificate">+ Tambah sertifikat</button><div class="cert-help">Status dihitung dari tanggal expiry yang kamu masukkan.</div><textarea class="control ta" id="certificates" style="display:none" aria-hidden="true"></textarea>
+</div>
+<div class="form-section tab-section" data-section="skills">
+<div class="section-title"><span class="section-icon">♧</span>6. Keahlian</div><p class="section-copy">Gunakan satu skill per baris agar mudah dibaca recruiter.</p>
+<div class="field"><textarea class="control ta" id="skills" placeholder="Navigation & Chart Work&#10;Watchkeeping&#10;Cargo Operation&#10;Safety & Emergency Response&#10;English"></textarea></div>
+</div>
+<div class="form-section tab-section" data-section="preview">
+<div class="section-title"><span class="section-icon">◉</span>7. Final Check</div><p class="section-copy">Periksa preview di sebelah kanan sebelum mengunduh PDF.</p>
+<div class="actions"><button class="btn secondary" id="loadBtn">Muat Profil</button><button class="btn secondary" id="saveDraftBtn">Simpan Draft</button><button class="btn primary" id="downloadBtn">Download PDF</button></div><div class="status" id="status"></div>
+</div>
+</section>
+<section class="preview-panel">
+<div class="preview-label"><span>▣ &nbsp; Preview CV</span><span>A4 · 1 Page</span></div>
+<div class="paper-wrap"><div class="cv-page" id="cv">
 <div class="cv-head"><div class="cv-head-main"><img class="cv-photo" id="vPhoto" alt="Foto kandidat"><div><div class="cv-kicker">SeaMarineJob · Maritime CV</div><div class="cv-name" id="vName">Nama Lengkap</div><div class="cv-position" id="vPosition">MARITIME PROFESSIONAL</div></div></div><div class="cv-badge">READY FOR CREWING</div></div>
 <div class="cv-contact"><span id="vEmail">email@example.com</span><span id="vPhone">WhatsApp</span><span id="vLocation">Indonesia</span><span id="vVesselType">Vessel Type</span><span id="vSeaService">Sea Service</span><span id="vAvailability">Availability</span></div>
 <div class="cv-section"><h3>Profile</h3><p id="vSummary" class="empty">Tambahkan professional summary.</p></div>
@@ -51,8 +124,11 @@ input, select, textarea, button { max-width: 100%; }
 <div class="cv-section"><h3>Certificates & Competencies</h3><div id="vCertificates"><p class="empty">Tambahkan sertifikat.</p></div></div>
 <div class="cv-section"><h3>Skills</h3><div id="vSkills"><p class="empty">Tambahkan keahlian.</p></div></div>
 <div class="cv-foot">CV dibuat dengan SeaMarineJob · Maritime Career Platform</div>
-</div></section>
+</div></div>
+</section>
 </main>
+</div>
+</div>
 <script>
 const SUPABASE_URL="https://pnyqdhcaabpxbatpubcb.supabase.co",SUPABASE_KEY="sb_publishable_O4NAGkMZpJIk8fGfHkAxjQ_ZpegzAfA",sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const ids=["name","position","location","email","phone","vesselType","seaService","availability","summary","experience","education","certificates","skills"];
@@ -85,4 +161,22 @@ async function loadProfile(){try{const {data:{user}}=await sb.auth.getUser();if(
 $("loadBtn").onclick=loadProfile;
 $("downloadBtn").onclick=async()=>{render();const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:"mm",format:"a4"});const node=$("cv");await pdf.html(node,{x:10,y:10,width:190,windowWidth:794,autoPaging:"text",callback:d=>d.save("CV-SeaMarineJob.pdf")});$("status").textContent="CV PDF berhasil dibuat. Cek folder download browser kamu."};
 loadDraft();loadProfile();renderExperienceBuilder();render();
+</script>
+<script>
+document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>{
+ const target=tab.dataset.tab;
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===tab));
+ document.querySelectorAll(".tab-section").forEach(x=>x.style.display=(target==="preview"||x.dataset.section===target)?"block":"none");
+ if(target==="preview")document.querySelector(".preview-panel")?.scrollIntoView({behavior:"smooth",block:"start"});
+}));
+document.querySelectorAll(".tab-section").forEach(x=>x.style.display=x.dataset.section==="personal"?"block":"none");
+function syncFormPhoto(){
+ const source=document.getElementById("vPhoto"), target=document.getElementById("formPhoto"), placeholder=document.getElementById("photoPlaceholder");
+ if(source&&source.src&&source.classList.contains("show")){target.src=source.src;target.classList.add("show");placeholder.style.display="none"}else{target.classList.remove("show");placeholder.style.display="block"}
+}
+const oldRender=window.render;
+window.render=function(){oldRender();syncFormPhoto()};
+document.getElementById("saveDraftTop").onclick=()=>document.getElementById("saveDraftBtn").click();
+document.getElementById("clearDraftTop").onclick=()=>document.getElementById("clearDraftBtn").click();
+document.getElementById("downloadTop").onclick=()=>document.getElementById("downloadBtn").click();
 </script></body></html>
