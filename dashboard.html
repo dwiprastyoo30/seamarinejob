@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dashboard kandidat Sea Marine Job untuk memantau lamaran dan menemukan lowongan maritim terbaru.">
-  <title>Dashboard Kandidat | Sea Marine Job · v2026.09.25.02</title>
+  <title>Dashboard Kandidat | Sea Marine Job · v2026.10.05.01</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
@@ -72,7 +72,7 @@ input, select, textarea, button { max-width: 100%; }
   <main>
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Dashboard Kandidat · v2026.09.25.02</div>
+        <div class="eyebrow">Dashboard Kandidat · v2026.10.05.01</div>
         <h1>Selamat datang, <span id="welcomeName">Pelaut</span>.</h1>
         <p>Pantau proses lamaran, cek jadwal interview, dan temukan lowongan maritim terbaru dari satu tempat.</p>
       </div>
@@ -154,7 +154,13 @@ input, select, textarea, button { max-width: 100%; }
       auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}
     });
 
-    let currentUser=null,currentProfile=null,applications=[],applicationJobs={},dashboardAccessToken="",dataClient=null;
+    let currentUser=null,currentProfile=null,applications=[],applicationJobs={},dashboardAccessToken="",dataClient=null,authAccessToken="";
+    let authReadyResolve;
+    const authReady=new Promise(resolve=>{authReadyResolve=resolve});
+    supabaseClient.auth.onAuthStateChange((event,session)=>{
+      if(session?.access_token)authAccessToken=session.access_token;
+      if(event==="INITIAL_SESSION"||event==="SIGNED_IN"||event==="TOKEN_REFRESHED"||event==="SIGNED_OUT")authReadyResolve();
+    });
 
     function escapeHTML(value){
       if(value===null||value===undefined)return "";
@@ -576,17 +582,19 @@ input, select, textarea, button { max-width: 100%; }
     }
 
     async function initializeDashboard(){
+      // Pastikan Supabase Auth selesai memulihkan session sebelum membaca token.
+      // INITIAL_SESSION/TOKEN_REFRESHED memberi token yang sama dengan yang dipakai
+      // Auth client, sehingga request pertama tidak lagi memakai token lama dari localStorage.
+      await Promise.race([
+        authReady,
+        new Promise(resolve=>setTimeout(resolve,3500))
+      ]);
       if(!await loadCurrentUser())return;
       if(!await loadProfile())return;
       try{
-        dashboardAccessToken=getStoredAccessToken();
+        dashboardAccessToken=authAccessToken||getStoredAccessToken();
         if(!dashboardAccessToken)throw new Error("Token sesi login tidak ditemukan.");
         dataClient=createDataClient(dashboardAccessToken);
-
-        // Tunggu koneksi HTTPS Supabase siap sebelum request tabel.
-        // Ini menghindari request pertama kalah oleh cold connection/session restore.
-        await warmSupabaseConnection();
-
         await Promise.allSettled([
           loadApplications(),
           loadRecommendations()
